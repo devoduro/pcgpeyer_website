@@ -1,0 +1,256 @@
+@extends('dashboard.layouts.app')
+
+@section('title', 'Dashboard')
+@section('page-title', 'Dashboard Home')
+
+@section('content')
+<!-- Welcome Section -->
+<div class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl p-8 mb-8 text-white">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+        <div>
+            <h1 class="text-3xl font-bold mb-2">
+                <i class="fas fa-hand-wave mr-2"></i> Welcome Back, {{ auth()->user()->name }}!
+            </h1>
+            <p class="text-blue-100 text-lg">
+                <i class="fas fa-shield-alt mr-2"></i> {{ ucfirst(auth()->user()->role) }} Dashboard
+            </p>
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
+            <p class="text-sm text-blue-100 mb-1">Today's Date</p>
+            <p class="text-2xl font-bold">{{ now()->format('M d, Y') }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Content Management Section -->
+<div class="mb-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <i class="fas fa-edit text-blue-600"></i> Content Management
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Blog Posts Card -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600 hover:shadow-xl transition-shadow">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm font-semibold">Blog Posts</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['posts'] }}</p>
+                </div>
+                <div class="text-blue-600 text-4xl opacity-20">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+            </div>
+            <a href="{{ route('dashboard.blog.index') }}" class="text-blue-600 text-sm mt-4 inline-block hover:underline">
+                View all <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Sermons Card -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-600 hover:shadow-xl transition-shadow">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">Sermons</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['sermons'] }}</p>
+            </div>
+            <div class="text-purple-600 text-4xl opacity-20">
+                <i class="fas fa-microphone"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.sermons.index') }}" class="text-purple-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+
+    <!-- Events Card -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">Events</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['events'] }}</p>
+            </div>
+            <div class="text-green-600 text-4xl opacity-20">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.events.index') }}" class="text-green-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+
+    <!-- Ministries Card -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">Ministries</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['ministries'] }}</p>
+            </div>
+            <div class="text-red-600 text-4xl opacity-20">
+                <i class="fas fa-hands-praying"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.ministries.index') }}" class="text-red-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+
+    <!-- Leadership Card -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-cyan-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">Leadership</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['leadership'] }}</p>
+            </div>
+            <div class="text-cyan-600 text-4xl opacity-20">
+                <i class="fas fa-user-tie"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.leadership.index') }}" class="text-cyan-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+
+    <!-- Gallery Card -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">Gallery Items</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['gallery_items'] }}</p>
+            </div>
+            <div class="text-yellow-600 text-4xl opacity-20">
+                <i class="fas fa-images"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.galleries.index') }}" class="text-yellow-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+    
+    <!-- Videos Card -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-indigo-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">Videos</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['videos'] ?? 0 }}</p>
+            </div>
+            <div class="text-indigo-600 text-4xl opacity-20">
+                <i class="fas fa-video"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.videos.index') }}" class="text-indigo-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+
+    <!-- Prayer Requests Card -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-pink-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">Unanswered Prayers</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['prayer_requests'] }}</p>
+            </div>
+            <div class="text-pink-600 text-4xl opacity-20">
+                <i class="fas fa-hands"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.prayer-requests.index') }}" class="text-pink-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+
+    <!-- Contact Messages Card -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-indigo-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">New Messages</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['contact_messages'] }}</p>
+            </div>
+            <div class="text-indigo-600 text-4xl opacity-20">
+                <i class="fas fa-envelope"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.contact.index') }}" class="text-indigo-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+
+    <!-- Active Users Card -->
+    @if(auth()->user()->isAdmin())
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-cyan-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm font-semibold">Active Users</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['active_users'] }}</p>
+            </div>
+            <div class="text-cyan-600 text-4xl opacity-20">
+                <i class="fas fa-users"></i>
+            </div>
+        </div>
+        <a href="{{ route('dashboard.users.index') }}" class="text-cyan-600 text-sm mt-4 inline-block hover:underline">
+            View all <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+    @endif
+</div>
+
+<!-- Quick Actions -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <i class="fas fa-bolt text-yellow-500"></i> Quick Actions
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <a href="{{ route('dashboard.blog.create') }}" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-center">
+                    <i class="fas fa-plus text-blue-600 text-2xl mb-2"></i>
+                    <p class="text-sm font-semibold text-gray-700">New Blog Post</p>
+                </a>
+
+                <a href="{{ route('dashboard.sermons.create') }}" class="p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition text-center">
+                    <i class="fas fa-plus text-purple-600 text-2xl mb-2"></i>
+                    <p class="text-sm font-semibold text-gray-700">New Sermon</p>
+                </a>
+
+                <a href="{{ route('dashboard.events.create') }}" class="p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition text-center">
+                    <i class="fas fa-plus text-green-600 text-2xl mb-2"></i>
+                    <p class="text-sm font-semibold text-gray-700">New Event</p>
+                </a>
+
+                <a href="{{ route('dashboard.ministries.create') }}" class="p-4 border border-gray-200 rounded-lg hover:border-red-500 hover:bg-red-50 transition text-center">
+                    <i class="fas fa-plus text-red-600 text-2xl mb-2"></i>
+                    <p class="text-sm font-semibold text-gray-700">New Ministry</p>
+                </a>
+
+                <a href="{{ route('dashboard.leadership.create') }}" class="p-4 border border-gray-200 rounded-lg hover:border-cyan-500 hover:bg-cyan-50 transition text-center">
+                    <i class="fas fa-plus text-cyan-600 text-2xl mb-2"></i>
+                    <p class="text-sm font-semibold text-gray-700">New Leader</p>
+                </a>
+
+                <a href="{{ route('dashboard.galleries.create') }}" class="p-4 border border-gray-200 rounded-lg hover:border-yellow-500 hover:bg-yellow-50 transition text-center">
+                    <i class="fas fa-plus text-yellow-600 text-2xl mb-2"></i>
+                    <p class="text-sm font-semibold text-gray-700">Create Gallery</p>
+                </a>
+
+                @if(auth()->user()->isAdmin())
+                <a href="{{ route('dashboard.users.create') }}" class="p-4 border border-gray-200 rounded-lg hover:border-cyan-500 hover:bg-cyan-50 transition text-center">
+                    <i class="fas fa-plus text-cyan-600 text-2xl mb-2"></i>
+                    <p class="text-sm font-semibold text-gray-700">New User</p>
+                </a>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Card -->
+    <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-md p-6 text-white">
+        <h3 class="text-xl font-bold mb-4">
+            <i class="fas fa-hand-wave mr-2"></i> Welcome Back!
+        </h3>
+        <p class="mb-4 text-blue-100">
+            You're logged in as <strong>{{ auth()->user()->name }}</strong> with <strong>{{ ucfirst(auth()->user()->role) }}</strong> privileges.
+        </p>
+        <div class="bg-blue-500 bg-opacity-50 rounded p-3 text-sm">
+            <p class="mb-2"><i class="fas fa-info-circle mr-2"></i> Need help?</p>
+            <p class="text-blue-100">All your content management tools are available in the left sidebar.</p>
+        </div>
+    </div>
+</div>
+@endsection

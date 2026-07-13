@@ -1,0 +1,24 @@
+LOGO PLACEMENT INSTRUCTIONS
+===========================
+
+Please save the PCG Monninger Congregation logo as:
+logo.png
+
+in this directory (public/images/)
+
+The logo should be:
+- PNG format with transparent background
+- Recommended size: 200x200 pixels or larger
+- High resolution for crisp display
+
+The logo will appear in:
+1. Navigation bar (top of every page)
+2. Footer
+3. Various sections throughout the site
+
+Current logo from the uploaded image shows:
+- PCG shield with cross design
+- Red and white colors
+- "That They All May Be" motto at bottom
+
+Make sure to save it as: logo.png
