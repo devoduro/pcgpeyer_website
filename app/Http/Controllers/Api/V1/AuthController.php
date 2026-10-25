@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppUser;
+use App\Support\AppAccountDeleter;
 use App\Support\FirebaseTokenVerifier;
 use App\Support\Phone;
 use Illuminate\Http\JsonResponse;
@@ -219,8 +220,8 @@ class AuthController extends Controller
         return response()->json(['message' => 'Password reset. Please log in.']);
     }
 
-    /** Deactivates the account now and flags it for data deletion by an administrator. */
-    public function requestDeletion(Request $request): JsonResponse
+    /** Permanently deletes the account and its personal data (Google Play account deletion policy). */
+    public function requestDeletion(Request $request, AppAccountDeleter $deleter): JsonResponse
     {
         $request->validate(['password' => ['required', 'string']]);
         $user = $request->user();
@@ -229,10 +230,9 @@ class AuthController extends Controller
             throw ValidationException::withMessages(['password' => ['Password is incorrect.']]);
         }
 
-        $user->forceFill(['status' => 'deactivated', 'deletion_requested_at' => now()])->save();
-        $user->tokens()->delete();
+        $deleter->delete($user);
 
-        return response()->json(['message' => 'Your account has been deactivated and queued for deletion.']);
+        return response()->json(['message' => 'Your account and its data have been permanently deleted.']);
     }
 
     private function sendCode(string $email, string $type): void

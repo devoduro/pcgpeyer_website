@@ -9,8 +9,16 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GroupLeadershipController;
+use App\Http\Controllers\LegalController;
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Mobile app legal pages (Google Play: privacy policy, terms, account deletion without the app)
+Route::get('/privacy-policy', [LegalController::class, 'privacy'])->name('legal.privacy');
+Route::get('/terms', [LegalController::class, 'terms'])->name('legal.terms');
+Route::get('/account/delete', [LegalController::class, 'deleteAccountForm'])->name('legal.delete-account');
+Route::post('/account/delete', [LegalController::class, 'deleteAccount'])
+    ->middleware('throttle:5,1')->name('legal.delete-account.submit');
 
 // About Us
 Route::prefix('about')->name('about.')->group(function () {

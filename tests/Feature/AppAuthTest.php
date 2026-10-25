@@ -144,14 +144,16 @@ class AppAuthTest extends TestCase
         $this->assertSame('M-1', $existing->fresh()->member_number);
     }
 
-    public function test_account_deletion_request_deactivates_and_revokes_tokens(): void
+    public function test_account_deletion_needs_the_password_and_removes_the_account(): void
     {
         $token = $this->postJson('/api/v1/auth/register', $this->payload())->json('token');
 
         $this->withToken($token)->postJson('/api/v1/me/delete', ['password' => 'wrong'])->assertStatus(422);
+        $this->assertSame(1, AppUser::count());
+
         $this->withToken($token)->postJson('/api/v1/me/delete', ['password' => 'secret-pass-1'])->assertOk();
 
-        $this->assertSame('deactivated', AppUser::first()->status);
+        $this->assertSame(0, AppUser::count());
         $this->assertSame(0, DB::table('personal_access_tokens')->count());
     }
 }
