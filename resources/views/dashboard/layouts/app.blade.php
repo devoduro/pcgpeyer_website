@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - PCG Monninger Dashboard</title>
+    <title>@yield('title') - PCG Peyer Memorial Dashboard</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/loader.png') }}">
@@ -91,6 +91,21 @@
                 <a href="{{ route('dashboard.events.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.events.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
                     <i class="fas fa-calendar-days w-5"></i>
                     <span>Events</span>
+                </a>
+
+                <a href="{{ route('dashboard.devotionals.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.devotionals.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                    <i class="fas fa-book-bible w-5"></i>
+                    <span>Devotionals</span>
+                </a>
+
+                <a href="{{ route('dashboard.hymns.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.hymns.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                    <i class="fas fa-music w-5"></i>
+                    <span>Hymns</span>
+                </a>
+
+                <a href="{{ route('dashboard.announcements.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.announcements.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                    <i class="fas fa-bullhorn w-5"></i>
+                    <span>Announcements</span>
                 </a>
 
                 <a href="{{ route('dashboard.galleries.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.galleries.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
@@ -350,7 +365,7 @@
             <footer class="py-4 px-6 border-t border-gray-200">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <p class="text-sm text-gray-500">
-                        &copy; {{ date('Y') }} PCG Monninger Congregation. All rights reserved.
+                        &copy; {{ date('Y') }} PCG Peyer Memorial Congregation. All rights reserved.
                     </p>
                     <div class="mt-2 md:mt-0">
                         <a href="{{ route('home') }}" class="text-sm text-gray-500 hover:text-primary-600">View Public Site</a>

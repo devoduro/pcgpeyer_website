@@ -25,7 +25,7 @@
                     <div class="p-6">
                         <p class="text-sm text-pcg-red-600 font-semibold mb-2">Special Event</p>
                         <h3 class="text-xl font-bold text-pcg-blue-900 mb-2">60th Anniversary Celebration</h3>
-                        <p class="text-gray-600 text-sm mb-4">Monninger Congregation</p>
+                        <p class="text-gray-600 text-sm mb-4">Peyer Memorial Congregation</p>
                         <p class="text-gray-700 mb-4">Join us as we celebrate 60 years of God's faithfulness to our congregation.</p>
                         <a href="https://www.youtube.com/watch?v=3GotPlhAT3o" target="_blank" class="text-pcg-red-600 font-semibold hover:text-pcg-red-700">Watch Now →</a>
                     </div>

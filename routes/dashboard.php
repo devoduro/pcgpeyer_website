@@ -9,6 +9,9 @@ use App\Http\Controllers\Dashboard\MinistryController;
 use App\Http\Controllers\Dashboard\GalleryController;
 use App\Http\Controllers\Dashboard\VideoController;
 use App\Http\Controllers\Dashboard\EventController;
+use App\Http\Controllers\Dashboard\AnnouncementController;
+use App\Http\Controllers\Dashboard\DevotionalController;
+use App\Http\Controllers\Dashboard\HymnController;
 use App\Http\Controllers\Dashboard\PrayerRequestController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -62,6 +65,22 @@ Route::middleware('dashboard.auth')->group(function () {
         // Events Management
         Route::resource('events', EventController::class);
         Route::post('events/{event}/toggle-featured', [EventController::class, 'toggleFeatured'])->name('events.toggle-featured');
+
+        // Announcements Management
+        Route::resource('announcements', AnnouncementController::class);
+        Route::post('announcements/{announcement}/toggle-publish', [AnnouncementController::class, 'togglePublish'])->name('announcements.toggle-publish');
+
+        // Devotionals Management
+        Route::resource('devotionals', DevotionalController::class)->except('show');
+        Route::post('devotionals/{devotional}/toggle-publish', [DevotionalController::class, 'togglePublish'])->name('devotionals.toggle-publish');
+
+        // Hymn review (imported drafts)
+        Route::get('hymns', [HymnController::class, 'index'])->name('hymns.index');
+        Route::get('hymns/{hymn}/edit', [HymnController::class, 'edit'])->name('hymns.edit');
+        Route::get('hymns/{hymn}/source', [HymnController::class, 'source'])->name('hymns.source');
+        Route::put('hymns/{hymn}', [HymnController::class, 'update'])->name('hymns.update');
+        Route::post('hymns/{hymn}/toggle-publish', [HymnController::class, 'togglePublish'])->name('hymns.toggle-publish');
+        Route::delete('hymns/{hymn}', [HymnController::class, 'destroy'])->name('hymns.destroy');
     });
 
     // Prayer Requests Management

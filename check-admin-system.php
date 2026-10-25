@@ -2,14 +2,14 @@
 <?php
 
 /**
- * PCG Monninger Admin System Health Check
+ * PCG Peyer Memorial Admin System Health Check
  * 
  * This script checks if the admin system is properly configured
  */
 
 echo "\n";
 echo "╔════════════════════════════════════════════════════════════╗\n";
-echo "║   PCG Monninger - Admin System Health Check               ║\n";
+echo "║   PCG Peyer Memorial - Admin System Health Check               ║\n";
 echo "╚════════════════════════════════════════════════════════════╝\n";
 echo "\n";
 
@@ -131,7 +131,7 @@ echo "\n";
 if (empty($errors)) {
     echo "Your admin system is ready! To access it:\n\n";
     echo "1. Start your web server (XAMPP, php artisan serve, etc.)\n";
-    echo "2. Navigate to: http://localhost/pcgmonninger/dashboard/login\n";
+    echo "2. Navigate to: http://localhost/pcgpeyer_website/dashboard/login\n";
     echo "3. Login with:\n";
     echo "   Email: admin@example.com\n";
     echo "   Password: (check database or create new user)\n\n";

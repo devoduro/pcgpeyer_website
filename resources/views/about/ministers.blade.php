@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Roll of Ministers - PCG Monninger Congregation')
+@section('title', 'Past Leaders - PCG Peyer Memorial Congregation')
 
 @section('content')
 <!-- Hero -->
@@ -10,9 +10,9 @@
         <div class="absolute bottom-10 right-10 w-96 h-96 bg-pcg-red-500 rounded-full filter blur-3xl"></div>
     </div>
     <div class="relative z-10 text-center text-white px-4" data-aos="fade-up">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Roll of Ministers</h1>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Past Leaders</h1>
         <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-            Honoring those who have faithfully served the Monninger Congregation
+            Honoring those who have faithfully served Peyer Memorial Congregation
             @if($stats['earliest_year']) since {{ $stats['earliest_year'] }} @endif
         </p>
     </div>
@@ -25,7 +25,7 @@
             <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Leadership Legacy</h2>
             <div class="w-20 h-0.5 bg-pcg-blue-600 mx-auto mb-6"></div>
             <p class="text-lg text-gray-600 max-w-4xl mx-auto mb-8">
-                Since our establishment, the Monninger Congregation has been blessed with faithful shepherds who have guided us with wisdom, dedication, and love for God's people. Their service has shaped our Presbyterian identity and mission in Akosombo.
+                Since our establishment in 1958, Peyer Memorial Congregation has been blessed with dedicated ministers, catechists, and presbyters who have guided our church through seasons of growth. From a Morning Devotion group to being renamed in honour of Rev. Ernst Peyer in 1990, their faithful service has shaped our Presbyterian identity and mission in Bantama, Kumasi.
             </p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
                 <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -33,46 +33,44 @@
                     <div class="text-gray-700">Years of History</div>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <div class="text-3xl font-bold text-pcg-blue-600 mb-2">{{ $stats['total_ministers'] }}</div>
-                    <div class="text-gray-700">Total Ministers</div>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
                     <div class="text-3xl font-bold text-pcg-blue-600 mb-2">{{ $stats['ministers_in_charge'] }}</div>
                     <div class="text-gray-700">Ministers-in-Charge</div>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <div class="text-3xl font-bold text-pcg-blue-600 mb-2">{{ $stats['associate_ministers'] }}</div>
-                    <div class="text-gray-700">Associate Ministers</div>
+                    <div class="text-3xl font-bold text-pcg-blue-600 mb-2">{{ $stats['catechists'] }}</div>
+                    <div class="text-gray-700">Catechists</div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-3xl font-bold text-pcg-blue-600 mb-2">{{ $stats['session_terms'] }}</div>
+                    <div class="text-gray-700">Session Terms</div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Past Ministers -->
+<!-- Past Leaders -->
 <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10" data-aos="fade-up">
-            <h2 class="text-3xl font-bold text-gray-900 mb-2">Past Ministers</h2>
-            <p class="text-gray-600 max-w-3xl mx-auto">Each minister brought unique gifts and vision to the spiritual growth and development of our congregation.</p>
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">{{ $activeCategory ?: 'All Past Leaders' }}</h2>
+            <p class="text-gray-600 max-w-3xl mx-auto">Each leader brought unique gifts and vision to the spiritual growth and development of Peyer Memorial Congregation.</p>
         </div>
 
-        @if($categories->count() > 1)
-            <div class="flex justify-center mb-10" data-aos="fade-up">
-                <div class="inline-flex flex-wrap justify-center rounded-lg bg-gray-100 p-1 gap-1">
-                    <a href="{{ route('about.ministers') }}"
-                       class="px-4 py-2 md:px-6 md:py-3 rounded-md font-medium transition-all duration-200 text-sm md:text-base whitespace-nowrap {{ !$activeCategory ? 'bg-white text-pcg-blue-700 shadow-sm' : 'text-gray-600 hover:text-gray-900' }}">
-                        All
+        <div class="flex justify-center mb-10" data-aos="fade-up">
+            <div class="inline-flex flex-wrap justify-center rounded-lg bg-gray-100 p-1 gap-1">
+                <a href="{{ route('about.ministers') }}"
+                   class="px-4 py-2 md:px-6 md:py-3 rounded-md font-medium transition-all duration-200 text-sm md:text-base whitespace-nowrap {{ !$activeCategory ? 'bg-white text-pcg-blue-700 shadow-sm' : 'text-gray-600 hover:text-gray-900' }}">
+                    All
+                </a>
+                @foreach($categories as $category)
+                    <a href="{{ route('about.ministers', ['category' => $category]) }}"
+                       class="px-4 py-2 md:px-6 md:py-3 rounded-md font-medium transition-all duration-200 text-sm md:text-base whitespace-nowrap {{ $activeCategory === $category ? 'bg-white text-pcg-blue-700 shadow-sm' : 'text-gray-600 hover:text-gray-900' }}">
+                        {{ $category }}
                     </a>
-                    @foreach($categories as $category)
-                        <a href="{{ route('about.ministers', ['category' => $category]) }}"
-                           class="px-4 py-2 md:px-6 md:py-3 rounded-md font-medium transition-all duration-200 text-sm md:text-base whitespace-nowrap {{ $activeCategory === $category ? 'bg-white text-pcg-blue-700 shadow-sm' : 'text-gray-600 hover:text-gray-900' }}">
-                            {{ $category }}
-                        </a>
-                    @endforeach
-                </div>
+                @endforeach
             </div>
-        @endif
+        </div>
 
         @if($filteredMinisters->count())
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -113,9 +111,9 @@
                 </svg>
                 <p class="text-gray-600 text-lg">
                     @if($activeCategory)
-                        No ministers found for "{{ $activeCategory }}".
+                        No past leaders recorded yet under "{{ $activeCategory }}".
                     @else
-                        Past minister records will appear here once added from the dashboard.
+                        Past leader records will appear here once added from the dashboard.
                     @endif
                 </p>
             </div>

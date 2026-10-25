@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $post->title . ' - PCG Monninger Congregation')
+@section('title', $post->title . ' - PCG Peyer Memorial Congregation')
 
 @section('content')
 <section class="pt-32 pb-16 bg-gradient-to-r from-pcg-blue-900 to-pcg-red-700 text-white">

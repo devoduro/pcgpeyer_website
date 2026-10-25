@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Presbyterian Church of Ghana - Rev. Friedrich Monninger Congregation, Akosombo">
-    <title>@yield('title', 'PCG Monninger Congregation')</title>
+    <meta name="description" content="Presbyterian Church of Ghana - Peyer Memorial Congregation, Bantama - Kumasi">
+    <title>@yield('title', 'PCG Peyer Memorial Congregation')</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/pcg_logo.png') }}">
@@ -24,7 +24,7 @@
     <div id="page-loader" class="fixed inset-0 z-[9999] bg-gradient-to-br from-pcg-blue-900 to-pcg-red-900 flex items-center justify-center transition-opacity duration-500">
         <div class="flex flex-col items-center">
             <img src="{{ asset('images/loader.png') }}" alt="PCG Logo" class="w-24 h-24 animate-pulse">
-            <div class="mt-6 text-white text-sm tracking-widest uppercase">Rev. Friedrich Monninger Congregation</div>
+            <div class="mt-6 text-white text-sm tracking-widest uppercase">Peyer Memorial Congregation</div>
         </div>
     </div>
     @include('partials.navigation')

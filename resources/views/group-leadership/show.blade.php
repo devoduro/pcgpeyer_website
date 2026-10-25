@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $groupLeadership->name . ' - PCG Monninger Congregation')
+@section('title', $groupLeadership->name . ' - PCG Peyer Memorial Congregation')
 
 @section('content')
 <!-- Hero Header -->

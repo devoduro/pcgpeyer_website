@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Our Leaders - PCG Monninger Congregation')
+@section('title', 'Our Leaders - PCG Peyer Memorial Congregation')
 
 @section('content')
 @php
@@ -26,7 +26,7 @@
             <h2 class="text-3xl font-bold text-gray-900 mb-4">Presbyterian Leadership Structure</h2>
             <div class="w-20 h-0.5 bg-pcg-blue-600 mx-auto mb-6"></div>
             <p class="text-lg text-gray-600 max-w-4xl mx-auto">
-                The Monninger Congregation follows the Presbyterian form of governance, with spiritual and administrative leadership provided by ordained ministers and elected elders serving on the Session.
+                Peyer Memorial Congregation follows the Presbyterian form of governance, with spiritual and administrative leadership provided by ordained ministers and elected elders serving on the Session.
             </p>
         </div>
 

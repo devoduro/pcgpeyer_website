@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $ministry->name . ' - PCG Monninger')
+@section('title', $ministry->name . ' - PCG Peyer Memorial')
 
 @section('content')
 <!-- Hero Section -->

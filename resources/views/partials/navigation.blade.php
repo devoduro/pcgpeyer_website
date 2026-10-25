@@ -4,8 +4,8 @@
             <!-- Logo -->
             <div class="flex items-center">
                 <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                    <img id="logo-default" src="{{ asset('images/logo.png') }}" alt="PCG Monninger Logo" class="h-14 w-auto">
-                    <img id="logo-white" src="{{ asset('images/logo-white.png') }}" alt="PCG Monninger Logo" class="h-14 w-auto hidden">
+                    <img id="logo-default" src="{{ asset('images/logo.png') }}" alt="PCG Peyer Memorial Logo" class="h-14 w-auto">
+                    <img id="logo-white" src="{{ asset('images/logo-white.png') }}" alt="PCG Peyer Memorial Logo" class="h-14 w-auto hidden">
                 </a>
             </div>
 
@@ -29,7 +29,7 @@
                            <!--  <a href="{{ route('about.staff') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pcg-blue-50 hover:text-pcg-red-600">Administrative Staff</a>-->
                             <a href="{{ route('about.leadership') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pcg-blue-50 hover:text-pcg-red-600">Church Leadership</a>
                             <a href="{{ route('group-leadership.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pcg-blue-50 hover:text-pcg-red-600">Group Leaders</a>
-                            <a href="{{ route('about.ministers') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pcg-blue-50 hover:text-pcg-red-600">Roll of Ministers</a>
+                            <a href="{{ route('about.ministers') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pcg-blue-50 hover:text-pcg-red-600">Past Leaders</a>
                         </div>
                     </div>
                 </div>
@@ -74,9 +74,6 @@
                     News Update
                 </a>
                 
-                   <a href="https://www.app.pcgmonninger.org/" class="nav-link {{ request()->routeIs('news-update*') ? 'text-pcg-red-600' : '' }}">
-                  Membership
-                </a>
             </div>
 
             <!-- Mobile menu button -->
@@ -107,7 +104,7 @@
                     <a href="{{ route('about.history') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-pcg-red-600">Brief History</a>
                    <!--  <a href="{{ route('about.staff') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-pcg-red-600">Administrative Staff</a> -->
                     <a href="{{ route('about.leadership') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-pcg-red-600">Leadership</a>
-                    <a href="{{ route('about.ministers') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-pcg-red-600">Roll of Ministers</a>
+                    <a href="{{ route('about.ministers') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-pcg-red-600">Past Leaders</a>
                 </div>
             </div>
 
@@ -141,7 +138,6 @@
 
             <a href="{{ route('contact') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pcg-red-600 hover:bg-gray-50 rounded-md">Contact</a>
             <a href="{{ route('news-update') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pcg-red-600 hover:bg-gray-50 rounded-md">News Update</a>
-               <a href="https://www.app.pcgmonninger.org/" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pcg-red-600 hover:bg-gray-50 rounded-md">Membership</a>
 
         </div>
     </div>

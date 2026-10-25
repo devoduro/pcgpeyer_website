@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\BlogPost;
 use App\Models\Event;
 use App\Models\Sermon;
@@ -14,6 +15,8 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $announcements = Announcement::active()->take(5)->get();
+
         // Get latest 4 posts for carousel display
         $latestPosts = BlogPost::where('published', true)
             ->latest('published_at')
@@ -46,6 +49,6 @@ class HomeController extends Controller
             ->take(6)
             ->get();
         
-        return view('home', compact('latestPosts', 'upcomingEvents', 'latestSermons', 'featuredMinistries', 'latestGalleries', 'latestVideos'));
+        return view('home', compact('announcements', 'latestPosts', 'upcomingEvents', 'latestSermons', 'featuredMinistries', 'latestGalleries', 'latestVideos'));
     }
 }

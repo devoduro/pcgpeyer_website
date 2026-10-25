@@ -75,32 +75,48 @@ class AboutController extends Controller
 
     public function ministers(Request $request)
     {
-        // All active leadership members whose role is a "minister" role
-        $ministers = Leadership::where('active', true)
+        // Fixed categories shown as tabs, matching each leader to a bucket by their title
+        $categoryMap = [
+            'Ministers-in-Charge' => fn ($title) => str_contains($title, 'minister') && !str_contains($title, 'associate'),
+            'Associate Ministers' => fn ($title) => str_contains($title, 'associate'),
+            'Catechists' => fn ($title) => str_contains($title, 'catechist'),
+            'Presbyter Sessions' => fn ($title) => str_contains($title, 'session') || str_contains($title, 'presbyter') || str_contains($title, 'treasurer') || str_contains($title, 'youth rep'),
+        ];
+        $categories = array_keys($categoryMap);
+
+        $allLeaders = Leadership::where('active', true)
             ->with(['titleRelation', 'yearRelation'])
             ->get()
-            ->filter(fn ($leader) => str_contains(strtolower($leader->displayTitle ?? ''), 'minister'))
             ->sortByDesc('year');
 
-        $currentMinister = $ministers->firstWhere('is_current', true);
+        $bucketOf = function ($leader) use ($categoryMap) {
+            $title = strtolower($leader->displayTitle ?? '');
+            foreach ($categoryMap as $label => $matcher) {
+                if ($matcher($title)) {
+                    return $label;
+                }
+            }
+            return null;
+        };
 
-        $pastMinisters = $ministers->reject(fn ($m) => $currentMinister && $m->id === $currentMinister->id)
-            ->sortByDesc('year');
+        // Current minister-in-charge, shown in the "Current Leadership" callout
+        $currentMinister = $allLeaders->first(fn ($l) => $l->is_current && $bucketOf($l) === 'Ministers-in-Charge');
 
-        // Category tabs are derived from the distinct minister titles actually in the database
-        $categories = $pastMinisters->pluck('displayTitle')->unique()->values();
+        // Past leaders = anyone not marked as currently serving
+        $pastMinisters = $allLeaders->reject(fn ($l) => $l->is_current)->sortByDesc('year');
+
         $activeCategory = $request->get('category');
 
         $filteredMinisters = $activeCategory
-            ? $pastMinisters->filter(fn ($m) => $m->displayTitle === $activeCategory)
+            ? $pastMinisters->filter(fn ($m) => $bucketOf($m) === $activeCategory)
             : $pastMinisters;
 
         $stats = [
-            'earliest_year' => $ministers->count() ? $ministers->min('year') : null,
-            'years_of_history' => $ministers->count() ? (now()->year - $ministers->min('year')) : 0,
-            'total_ministers' => $ministers->count(),
-            'ministers_in_charge' => $ministers->filter(fn ($m) => !str_contains(strtolower($m->displayTitle ?? ''), 'associate'))->count(),
-            'associate_ministers' => $ministers->filter(fn ($m) => str_contains(strtolower($m->displayTitle ?? ''), 'associate'))->count(),
+            'earliest_year' => $pastMinisters->count() ? $pastMinisters->min('year') : null,
+            'years_of_history' => $pastMinisters->count() ? (now()->year - $pastMinisters->min('year')) : 0,
+            'ministers_in_charge' => $pastMinisters->filter(fn ($m) => $bucketOf($m) === 'Ministers-in-Charge')->count(),
+            'catechists' => $pastMinisters->filter(fn ($m) => $bucketOf($m) === 'Catechists')->count(),
+            'session_terms' => $pastMinisters->pluck('year')->unique()->count(),
         ];
 
         return view('about.ministers', compact(

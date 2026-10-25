@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Generational Groups - PCG Monninger Congregation')
+@section('title', 'Generational Groups - PCG Peyer Memorial Congregation')
 
 @section('content')
 <!-- Hero Header with Background Image -->

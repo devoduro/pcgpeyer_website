@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Home - PCG Monninger Congregation')
+@section('title', 'Home - PCG Peyer Memorial Congregation')
 
 @section('content')
 <!-- Hero Slider Section -->
@@ -16,11 +16,11 @@
                     <div class="animate-fadeInUp">
                         <p class="text-xl md:text-2xl mb-4 text-pcg-red-300 font-semibold tracking-wide uppercase">Welcome to</p>
                         <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-tight text-shadow-lg">
-                            Monninger<br>
+                            Peyer Memorial<br>
                             <span class="text-pcg-red-400">Congregation</span>
                         </h1>
                         <p class="text-xl md:text-3xl mb-8 text-gray-100 font-light max-w-3xl mx-auto">
-                            Presbyterian Church of Ghana - Rev. Friedrich Monninger Congregation
+                            Presbyterian Church of Ghana - Bantama, Kumasi
                         </p>
                         <div class="w-24 h-1 bg-pcg-red-400 mx-auto mb-8"></div>
                         <p class="text-2xl md:text-3xl mb-10 italic text-white/90 font-serif">
@@ -123,8 +123,8 @@
     </div>
 </section>
 
- 
- 
+<!-- Announcements -->
+@include('sections.announcements')
 
 <!-- Welcome Section -->
 <section class="py-20 bg-white">
@@ -144,8 +144,8 @@
                     a church to call home, we invite you to join us and experience the love and fellowship of our congregation.
                 </p>
                 <p class="text-gray-700 text-lg mb-8 leading-relaxed">
-                    The Monninger Congregation is named after Rev. Friedrich Monninger, a missionary who dedicated his 
-                    life to spreading the Gospel in Ghana. We continue his legacy of faith, service, and community building.
+                    Peyer Memorial Congregation was established in 1958 and is named after Rev. Ernst Peyer, a Basel Mission 
+                    representative who supported the building of our chapel. We continue that legacy of faith, service, and community building.
                 </p>
                 <a href="{{ route('about.history') }}" class="btn-secondary">
                     Our History
@@ -448,7 +448,7 @@
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                         </svg>
-                        <span>Church Auditorium, Akosombo</span>
+                        <span>Church Auditorium, Bantama - Kumasi</span>
                     </div>
                 </div>
             </div>
@@ -468,49 +468,41 @@
                             </svg>
                         </div>
                     </div>
-                    <h3 class="text-3xl font-bold text-white text-center mb-6">Weekly Activities</h3>
-                    
+                    <h3 class="text-3xl font-bold text-white text-center mb-6">Group Meetings</h3>
+
                     <!-- Activities List -->
                     <div class="space-y-3 text-white/90 text-sm">
                         <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Sundays (2nd of Month):</span>
-                            <span class="text-right">Session Meeting (12:00pm - 4:30pm)</span>
+                            <span class="font-semibold text-white">YPG:</span>
+                            <span class="text-right">Sundays, 5:30pm</span>
                         </div>
                         <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Sundays:</span>
-                            <span class="text-right">B.S.P.G Meeting (6:30pm - 8:00pm)</span>
+                            <span class="font-semibold text-white">YAF:</span>
+                            <span class="text-right">Sundays, after 2nd Service</span>
                         </div>
                         <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Monday:</span>
-                            <span class="text-right">Prayer Team (7:00pm - 9:00pm)</span>
+                            <span class="font-semibold text-white">Singing Band:</span>
+                            <span class="text-right">Sundays, after 2nd Service</span>
                         </div>
                         <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Tuesdays:</span>
-                            <span class="text-right">Church Bible Study (7:00pm - 8:30pm)</span>
+                            <span class="font-semibold text-white">Men's Fellowship:</span>
+                            <span class="text-right">Tuesdays, 7:00pm</span>
                         </div>
                         <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Wednesdays:</span>
-                            <span class="text-right">Women Fellowship (5:00pm - 7:00pm)</span>
+                            <span class="font-semibold text-white">Women's Fellowship:</span>
+                            <span class="text-right">Tuesdays, 4:30pm</span>
                         </div>
                         <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Wednesdays:</span>
-                            <span class="text-right">Y.A.F. M/F & YPG (7:00pm - 8:30pm)</span>
+                            <span class="font-semibold text-white">Church Choir:</span>
+                            <span class="text-right">Tuesdays & Thursdays, 7:00pm</span>
                         </div>
                         <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Thursdays:</span>
-                            <span class="text-right">Church Choir, MCS, Singing Band (7:00pm - 8:30pm)</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Fridays:</span>
-                            <span class="text-right">Prayer Meeting (7:00pm - 8:30pm)</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Saturdays:</span>
-                            <span class="text-right">Church Choir (7:00pm - 8:30pm)</span>
+                            <span class="font-semibold text-white">BSPG:</span>
+                            <span class="text-right">Wednesdays, 7:00pm</span>
                         </div>
                         <div class="flex justify-between items-start">
-                            <span class="font-semibold text-white">Saturdays:</span>
-                            <span class="text-right">Praises Team (4:30pm - 6:30pm)</span>
+                            <span class="font-semibold text-white">Youth Choir:</span>
+                            <span class="text-right">Wednesdays 7:00pm & Saturdays 5:00pm</span>
                         </div>
                     </div>
                     
@@ -703,7 +695,7 @@
                     <svg class="w-6 h-6 mr-2 text-pcg-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                     </svg>
-                    <span class="font-semibold">Akosombo, Ghana</span>
+                    <span class="font-semibold">Bantama, Kumasi, Ghana</span>
                 </div>
             </div>
          

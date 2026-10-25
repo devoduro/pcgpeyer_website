@@ -12,3 +12,12 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+# Runtime files: never commit (sessions, compiled views, caches, logs with codes and stack traces)
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/cache/*
+/storage/framework/testing/*
+/storage/logs/*
+/bootstrap/cache/*.php
+/database/database.sqlite

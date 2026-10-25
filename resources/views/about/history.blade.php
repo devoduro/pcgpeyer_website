@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Brief History - PCG Monninger Congregation')
+@section('title', 'Brief History - PCG Peyer Memorial Congregation')
 
 @section('content')
 <!-- Hero Header with Background Image -->
@@ -10,9 +10,9 @@
         <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 via-pcg-blue-900/90 to-pcg-red-900/95"></div>
     </div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-     
+
         <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow-lg">Our Rich History</h1>
-        <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto">The Legacy of Rev. Friedrich Monninger</p>
+        <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto">Peyer Memorial Congregation, Bantama - Kumasi</p>
         <div class="w-24 h-1 bg-pcg-red-400 mx-auto"></div>
     </div>
 </section>
@@ -26,19 +26,21 @@
                 <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-6">Our Foundation Story</h2>
                 <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
                     <p>
-                        The Presbyterian Church of Ghana, Monninger Congregation, stands as a testament to the dedication 
-                        and vision of Rev. Friedrich Monninger, a German missionary who devoted his life to spreading the 
-                        Gospel in Ghana.
+                        Peyer Memorial Congregation of the Presbyterian Church of Ghana was established at Bantama, Kumasi
+                        in 1958. It began as a Morning Devotion group during the time of the Very Rev. E. M. L. Odjidja,
+                        Pastor in charge of the Ramseyer Memorial Presbyterian Church at Adum. Members grouped at three
+                        locations for regular morning devotion, and the passion for souls was so great that within four
+                        months, adult membership grew from fifteen to two hundred.
                     </p>
                     <p>
-                        Our congregation was established in Akosombo, a town known for its hydroelectric dam 
-                        and beautiful landscapes along the Volta River. The church became a spiritual home for workers 
-                        and residents of this growing community.
+                        On 24th August 1958, five members were elected to manage the affairs of the young congregation:
+                        Charles Paul Amponsah, Ernest E. Asare, Samuel Koranteng, E. A. Mensah, and Ben O. Afful.
+                        Mr Charles Paul Amponsah offered his home as a meeting place, with Mr J. W. Amoah, who later
+                        became a minister, serving as the first Catechist.
                     </p>
                     <p>
-                        Rev. Monninger arrived in Ghana during the early missionary period, bringing with him not just the 
-                        message of salvation, but also a heart for community development and education. His work laid the 
-                        foundation for what would become one of the most vibrant Presbyterian congregations in the Eastern Region.
+                        Over the years, the church has grown and expanded in ministry, and today counts over five
+                        thousand members.
                     </p>
                 </div>
             </div>
@@ -47,7 +49,7 @@
                     <img src="{{ asset('storage/images/auditorious.jpg') }}" alt="Church Foundation" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/80 to-transparent"></div>
                     <div class="absolute bottom-8 left-8 right-8 text-white">
-    
+
                     </div>
                 </div>
             </div>
@@ -55,23 +57,23 @@
     </div>
 </section>
 
-<!-- Rev. Monninger's Legacy Section -->
+<!-- Rev. Ernst Peyer Section -->
 <section class="py-20 bg-gradient-to-br from-pcg-blue-50 to-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <div class="decorative-line"></div>
-            <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-6">Rev. Friedrich Monninger</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">A Pioneer of Faith and Service</p>
+            <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-6">Rev. Ernst Peyer</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">The Namesake of Our Congregation</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1">
                 <div class="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
-                    <img src="{{ asset('storage/images/revmonninger.jpeg') }}" alt="Rev. Monninger Legacy" class="w-full h-full object-cover">
+                    <img src="{{ asset('images/church_building.png') }}" alt="Peyer Memorial Congregation Chapel" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                     <div class="absolute bottom-8 left-8 right-8 text-white">
-                        <p class="text-3xl font-bold text-shadow-lg">Rev. Friedrich Monninger Wilhelm</p>
-                        <p class="text-xl text-shadow">(1870–1895)</p>
+                        <p class="text-3xl font-bold text-shadow-lg">Peyer Memorial Chapel</p>
+                        <p class="text-xl text-shadow">Bantama, Kumasi</p>
                     </div>
                 </div>
             </div>
@@ -79,24 +81,25 @@
                 <div class="bg-white p-10 rounded-3xl shadow-xl">
                     <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
                         <p>
-                            Rev. Friedrich Monninger was more than a missionary; he was a builder of communities and a shepherd 
-                            of souls. His approach to ministry was holistic, addressing both spiritual and physical needs of the people.
+                            Rev. Ernst Peyer was a Basel Mission Representative in Ghana who lived much of his life in
+                            Kumasi. He was closely involved in the planning of the Bantama chapel, personally carrying
+                            the building plan to Accra for discussion at the Presbyterian Headquarters, and he laid the
+                            Foundation Stone of the chapel on 8th November 1970.
                         </p>
                         <p>
-                            He established schools, health centers, and agricultural programs alongside the church, 
-                            demonstrating that the Gospel transforms every aspect of life. His legacy continues to inspire 
-                            our congregation's commitment to comprehensive ministry.
+                            Rev. Peyer, together with his wife, was also among the most prominent financial supporters
+                            of the chapel's construction, alongside friends of the mission in Switzerland.
                         </p>
                         <blockquote class="border-l-4 border-pcg-red-600 pl-6 py-4 my-8 bg-pcg-red-50 rounded-r-lg">
                             <p class="italic text-xl text-gray-800 mb-2">
-                                "The work of the Gospel is not complete until it touches every part of human existence - 
-                                spiritual, physical, educational, and social."
+                                "Except the Lord build the house, they labour in vain that build it."
                             </p>
-                            <footer class="text-base text-gray-600">- Rev. Friedrich Monninger</footer>
+                            <footer class="text-base text-gray-600">- Psalm 127:1</footer>
                         </blockquote>
                         <p>
-                            His dedication to the people of Ghana and his unwavering faith in God's calling left an indelible 
-                            mark on our community that continues to shape our ministry today.
+                            On 3rd June 1990, in recognition of his devotion and support, the Bantama Presbyterian
+                            Church was dedicated and named the Peyer Memorial Congregation in his honour - a legacy
+                            that continues to shape our identity today.
                         </p>
                     </div>
                 </div>
@@ -114,31 +117,32 @@
                 <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-6">Growth & Development</h2>
                 <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
                     <p>
-                        Over the decades, the Monninger Congregation has grown from a small gathering of believers to a 
-                        thriving church community. The congregation has been blessed with faithful leaders, dedicated members, 
-                        and a clear vision for ministry.
+                        From its earliest days worshipping in classrooms at the Bantama Presbyterian Block 'B' School,
+                        the congregation moved to a temporary auditorium as the permanent chapel took shape. The sod
+                        for the chapel was cut on 1st October 1967, and by 1978 - under the ministry of Rev. M. O. Amoh -
+                        the building was roofed, plastered, and membership had grown to seven hundred.
                     </p>
                     <p>
-                        We have expanded our facilities, increased our programs, and deepened 
-                        our impact in Akosombo and surrounding areas. From humble beginnings, we have become a beacon 
-                        of hope and transformation in the Eastern Region.
+                        Bantama was elevated to District status on 12th March 1978, and continued to extend its
+                        reach, planting outstations across Kumasi and beyond. Manses and an administrative office
+                        were subsequently built to support the growing work of ministry.
                     </p>
                     <p>
-                        Today, we continue to honor Rev. Monninger's legacy by maintaining his commitment to holistic ministry. 
-                        Our church is actively involved in education, healthcare, youth development, and community service, 
-                        always seeking to be the hands and feet of Christ in our community.
+                        Today, we continue to honour the legacy of our founders and of Rev. Ernst Peyer by maintaining
+                        a commitment to holistic ministry - education, discipleship, evangelism, and community service -
+                        always seeking to be the hands and feet of Christ in Bantama, Kumasi, and beyond.
                     </p>
                 </div>
 
                 <!-- Statistics -->
                 <div class="grid grid-cols-2 gap-6 mt-10">
                     <div class="bg-gradient-to-br from-pcg-red-500 to-pcg-red-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2">60+</p>
+                        <p class="text-4xl font-bold mb-2">65+</p>
                         <p class="font-semibold">Years of Service</p>
                     </div>
                     <div class="bg-gradient-to-br from-pcg-blue-500 to-pcg-blue-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2">500+</p>
-                        <p class="font-semibold">Active Members</p>
+                        <p class="text-4xl font-bold mb-2">5,000+</p>
+                        <p class="font-semibold">Members</p>
                     </div>
                     <div class="bg-gradient-to-br from-pcg-red-500 to-pcg-red-700 p-6 rounded-2xl shadow-lg text-center text-white">
                         <p class="text-4xl font-bold mb-2">15+</p>
@@ -155,7 +159,7 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/70 to-transparent"></div>
                 <div class="absolute bottom-8 left-8 right-8 text-white">
                     <p class="text-3xl font-bold text-shadow-lg">Church Manse</p>
- 
+
                 </div>
             </div>
         </div>
@@ -169,17 +173,17 @@
         <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 to-pcg-red-900/95"></div>
     </div>
     <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-   
+
         <h2 class="text-4xl md:text-6xl font-bold mb-6 text-shadow-lg">Our Motto</h2>
         <p class="text-3xl md:text-4xl font-bold mb-8 text-pcg-red-300 italic">"That They All May Be"</p>
         <div class="w-24 h-1 bg-white mx-auto mb-8"></div>
         <p class="text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-12">
-            Drawn from Jesus' prayer in John 17:21, our motto reflects our commitment to unity, 
-            inclusivity, and working together for God's kingdom. We believe in breaking down barriers 
+            Drawn from Jesus' prayer in John 17:21, our motto reflects our commitment to unity,
+            inclusivity, and working together for God's kingdom. We believe in breaking down barriers
             and demonstrating Christ's love to all people.
         </p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 text-left">
-            
+
     </div>
 </section>
 
@@ -193,17 +197,17 @@
                     <h2 class="text-4xl md:text-5xl font-bold mb-6">Looking to the Future</h2>
                     <div class="space-y-6 text-lg leading-relaxed">
                         <p>
-                            As we look to the future, we remain committed to the vision that Rev. Monninger planted in this 
-                            community. We continue to be a beacon of hope, a center of worship, and a force for positive change 
-                            in Akosombo and beyond.
+                            As we look to the future, we remain committed to the vision that our founding fathers and
+                            Rev. Ernst Peyer planted in this community. We continue to be a beacon of hope, a center
+                            of worship, and a force for positive change in Bantama, Kumasi, and beyond.
                         </p>
                         <p>
-                            Our history inspires us, but our future excites us as we trust God to do 
-                            even greater things through this congregation. We are expanding our ministries, reaching new 
+                            Our history inspires us, but our future excites us as we trust God to do
+                            even greater things through this congregation. We are expanding our ministries, reaching new
                             generations, and deepening our impact in the community.
                         </p>
                         <p>
-                            We invite you to become part of our ongoing story. Together, we can continue to build on the strong 
+                            We invite you to become part of our ongoing story. Together, we can continue to build on the strong
                             foundation laid by our forebears and create a legacy of faith for future generations.
                         </p>
                     </div>
@@ -220,67 +224,4 @@
     </div>
 </section>
 
-<!-- Timeline Section 
-<section class="py-20 bg-gray-100">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl font-bold text-center text-pcg-blue-900 mb-16">Our Journey Through Time</h2>
-        
-        <div class="space-y-12">
-            <div class="flex items-start">
-                <div class="flex-shrink-0 w-32 text-right pr-8">
-                    <span class="text-2xl font-bold text-pcg-red-600">Early 1900s</span>
-                </div>
-                <div class="flex-shrink-0 w-4 h-4 rounded-full bg-pcg-blue-600 mt-2"></div>
-                <div class="flex-grow pl-8">
-                    <h3 class="text-xl font-bold text-pcg-blue-900 mb-2">Foundation</h3>
-                    <p class="text-gray-700">Rev. Friedrich Monninger arrives in Ghana and begins missionary work.</p>
-                </div>
-            </div>
-
-            <div class="flex items-start">
-                <div class="flex-shrink-0 w-32 text-right pr-8">
-                    <span class="text-2xl font-bold text-pcg-red-600">1950s</span>
-                </div>
-                <div class="flex-shrink-0 w-4 h-4 rounded-full bg-pcg-blue-600 mt-2"></div>
-                <div class="flex-grow pl-8">
-                    <h3 class="text-xl font-bold text-pcg-blue-900 mb-2">Establishment</h3>
-                    <p class="text-gray-700">Formal establishment of the Monninger Congregation in Akosombo.</p>
-                </div>
-            </div>
-
-            <div class="flex items-start">
-                <div class="flex-shrink-0 w-32 text-right pr-8">
-                    <span class="text-2xl font-bold text-pcg-red-600">1970s-1980s</span>
-                </div>
-                <div class="flex-shrink-0 w-4 h-4 rounded-full bg-pcg-blue-600 mt-2"></div>
-                <div class="flex-grow pl-8">
-                    <h3 class="text-xl font-bold text-pcg-blue-900 mb-2">Growth Period</h3>
-                    <p class="text-gray-700">Significant growth in membership and expansion of church facilities.</p>
-                </div>
-            </div>
-
-            <div class="flex items-start">
-                <div class="flex-shrink-0 w-32 text-right pr-8">
-                    <span class="text-2xl font-bold text-pcg-red-600">2000s</span>
-                </div>
-                <div class="flex-shrink-0 w-4 h-4 rounded-full bg-pcg-blue-600 mt-2"></div>
-                <div class="flex-grow pl-8">
-                    <h3 class="text-xl font-bold text-pcg-blue-900 mb-2">Modernization</h3>
-                    <p class="text-gray-700">Introduction of modern programs and technology in ministry.</p>
-                </div>
-            </div>
-
-            <div class="flex items-start">
-                <div class="flex-shrink-0 w-32 text-right pr-8">
-                    <span class="text-2xl font-bold text-pcg-red-600">Present</span>
-                </div>
-                <div class="flex-shrink-0 w-4 h-4 rounded-full bg-pcg-red-600 mt-2"></div>
-                <div class="flex-grow pl-8">
-                    <h3 class="text-xl font-bold text-pcg-blue-900 mb-2">Continued Impact</h3>
-                    <p class="text-gray-700">Thriving congregation serving Akosombo and beyond with excellence.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
 @endsection

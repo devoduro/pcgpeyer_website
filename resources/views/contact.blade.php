@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - PCG Monninger Congregation')
+@section('title', 'Contact Us - PCG Peyer Memorial Congregation')
 
 @section('content')
 <!-- Hero Header with Background Image -->
@@ -88,19 +88,7 @@
                         </div>
                         <div>
                             <h3 class="font-bold text-pcg-blue-900 mb-1">Address</h3>
-                            <p class="text-gray-600">Akosombo, Eastern Region<br>Ghana</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start">
-                        <div class="w-12 h-12 bg-pcg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                            <svg class="w-6 h-6 text-pcg-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-pcg-blue-900 mb-1">Phone</h3>
-                            <p class="text-gray-600">055 793 6254</p>
+                            <p class="text-gray-600">P.O. Box 1755, Bantama - Kumasi<br>Ghana</p>
                         </div>
                     </div>
 
@@ -112,7 +100,7 @@
                         </div>
                         <div>
                             <h3 class="font-bold text-pcg-blue-900 mb-1">Email</h3>
-                            <p class="text-gray-600">presbymonninger@gmail.com</p>
+                            <p class="text-gray-600">info@pcgpeyer.org</p>
                         </div>
                     </div>
                 </div>
