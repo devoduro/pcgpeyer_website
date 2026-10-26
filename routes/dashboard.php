@@ -73,6 +73,7 @@ Route::middleware('dashboard.auth')->group(function () {
         // Devotionals Management
         Route::resource('devotionals', DevotionalController::class)->except('show');
         Route::post('devotionals/{devotional}/toggle-publish', [DevotionalController::class, 'togglePublish'])->name('devotionals.toggle-publish');
+        Route::post('devotionals/{devotional}/notify', [DevotionalController::class, 'sendNotification'])->name('devotionals.notify');
 
         // Hymn review (imported drafts)
         Route::get('hymns', [HymnController::class, 'index'])->name('hymns.index');

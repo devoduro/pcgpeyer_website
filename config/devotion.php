@@ -13,4 +13,8 @@ return [
 
     // Modules the app should lock until today's devotional is completed.
     'locked_modules' => ['radio', 'hymns', 'sermons', 'videos', 'bible', 'events'],
+
+    // Morning push window (church timezone). The first scheduler run at or after notify_from sends it.
+    'notify_from' => env('DEVOTION_NOTIFY_FROM', '05:30'),
+    'notify_until' => env('DEVOTION_NOTIFY_UNTIL', '11:00'),
 ];

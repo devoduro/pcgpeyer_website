@@ -21,3 +21,6 @@ yarn-error.log
 /storage/logs/*
 /bootstrap/cache/*.php
 /database/database.sqlite
+
+# Firebase service-account key for push notifications: a secret, never commit
+/storage/app/firebase/

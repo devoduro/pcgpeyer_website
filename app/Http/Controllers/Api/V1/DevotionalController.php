@@ -101,6 +101,7 @@ class DevotionalController extends Controller
                 'question' => $devotional->question,
                 'author' => $devotional->author,
                 'thumbnail' => $devotional->thumbnail,
+                'thumbnail_url' => $devotional->thumbnail ? asset('storage/' . $devotional->thumbnail) : null,
                 'is_today' => $devotional->publish_date->toDateString() === $this->devotions->today(),
             ],
             'completed' => $signedIn && $this->devotions->hasCompleted($user, $devotional),
