@@ -10,7 +10,7 @@ use Tests\TestCase;
 /** Signs test tokens with a locally generated key that stands in for Google's. */
 class FirebaseVerificationTest extends TestCase
 {
-    private const PROJECT = 'bantama-presby';
+    private const PROJECT = 'pcg-peyer-app-4a8d4';
 
     private \OpenSSLAsymmetricKey $key;
     private string $cert;
