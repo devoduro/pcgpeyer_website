@@ -194,9 +194,11 @@ class DevotionTest extends TestCase
         $this->withToken($this->token)->postJson('/api/v1/me/devotion-first', ['enabled' => false])->assertStatus(409);
     }
 
-    public function test_devotion_routes_require_authentication(): void
+    public function test_guests_can_read_but_completing_needs_an_account(): void
     {
-        $this->getJson('/api/v1/devotionals/today')->assertUnauthorized();
-        $this->getJson('/api/v1/devotionals/status')->assertUnauthorized();
+        $d = $this->devotional();
+        $this->getJson('/api/v1/devotionals/status')->assertOk()->assertJsonPath('guest', true)->assertJsonPath('locked', false);
+        $this->getJson('/api/v1/devotionals/today')->assertOk()->assertJsonPath('devotional.id', $d->id);
+        $this->postJson("/api/v1/devotionals/{$d->id}/complete")->assertUnauthorized();
     }
 }

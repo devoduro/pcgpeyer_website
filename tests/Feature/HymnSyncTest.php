@@ -68,9 +68,10 @@ class HymnSyncTest extends TestCase
         $this->sync()->assertForbidden()->assertJsonPath('code', 'offline_disabled');
     }
 
-    public function test_requires_login(): void
+    public function test_guests_can_download_hymns_for_offline_use(): void
     {
-        $this->getJson('/api/v1/hymns/sync')->assertUnauthorized();
+        $this->hymn(1);
+        $this->getJson('/api/v1/hymns/sync')->assertOk()->assertJsonPath('hymns.0.number', 1);
     }
 
     public function test_full_sync_returns_published_hymns_with_all_languages_and_approved_verses_only(): void

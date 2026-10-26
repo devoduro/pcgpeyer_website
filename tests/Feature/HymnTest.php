@@ -236,14 +236,14 @@ class HymnTest extends TestCase
         $this->assertStringNotContainsString('raw_text', $this->withToken($token)->getJson('/api/v1/hymns/300?language=en')->getContent());
     }
 
-    public function test_hymns_are_locked_by_devotion_first_and_require_login(): void
+    public function test_hymns_are_locked_by_devotion_first_for_signed_in_users(): void
     {
         config(['devotion.policy' => 'required']);
         $this->travelTo(Carbon::parse('2026-03-10 08:00:00', 'UTC'));
         $token = $this->appToken();
         $this->publish($this->importOne());
 
-        $this->getJson('/api/v1/hymns')->assertUnauthorized();
+        $this->getJson('/api/v1/hymns?language=en')->assertOk(); // guests can read hymns
         $this->withToken($token)->getJson('/api/v1/hymns?language=en')->assertOk(); // no devotional today: no lock
 
         \App\Models\Devotional::create(['publish_date' => '2026-03-10', 'title' => 'T', 'scripture_reference' => 'J 1:1',

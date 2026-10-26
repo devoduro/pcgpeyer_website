@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppUser;
 use App\Models\Devotional;
 use App\Models\DevotionalCompletion;
 use App\Support\DevotionService;
@@ -23,7 +24,24 @@ class DevotionalController extends Controller
         $user = $request->user();
         $today = $this->devotions->todaysDevotional();
 
+        // Guests (no account): they can read, but nothing is recorded, so nothing is locked.
+        if (!$user instanceof AppUser) {
+            return response()->json([
+                'date' => $this->devotions->today(),
+                'timezone' => config('devotion.timezone'),
+                'policy' => config('devotion.policy'),
+                'guest' => true,
+                'devotion_first' => false,
+                'has_devotional_today' => (bool) $today,
+                'completed_today' => false,
+                'locked' => false,
+                'locked_modules' => config('devotion.locked_modules'),
+                'streak' => 0,
+            ]);
+        }
+
         return response()->json([
+            'guest' => false,
             'date' => $this->devotions->today(),
             'timezone' => config('devotion.timezone'),
             'policy' => config('devotion.policy'),
@@ -60,12 +78,16 @@ class DevotionalController extends Controller
     private function show(Request $request, Devotional $devotional): JsonResponse
     {
         $user = $request->user();
+        $signedIn = $user instanceof AppUser;
 
-        DB::table('devotional_reads')->insertOrIgnore([
-            'app_user_id' => $user->id,
-            'devotional_id' => $devotional->id,
-            'opened_at' => now(),
-        ]);
+        // Only signed-in readers get a reading record (guests cannot complete devotions).
+        if ($signedIn) {
+            DB::table('devotional_reads')->insertOrIgnore([
+                'app_user_id' => $user->id,
+                'devotional_id' => $devotional->id,
+                'opened_at' => now(),
+            ]);
+        }
 
         return response()->json([
             'devotional' => [
@@ -81,7 +103,8 @@ class DevotionalController extends Controller
                 'thumbnail' => $devotional->thumbnail,
                 'is_today' => $devotional->publish_date->toDateString() === $this->devotions->today(),
             ],
-            'completed' => $this->devotions->hasCompleted($user, $devotional),
+            'completed' => $signedIn && $this->devotions->hasCompleted($user, $devotional),
+            'guest' => !$signedIn,
             'min_read_seconds' => config('devotion.min_read_seconds'),
             'requires_answer' => config('devotion.require_reflection') && filled($devotional->question),
         ]);

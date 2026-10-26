@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
         'dashboard.auth' => \App\Http\Middleware\DashboardAuth::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'app.active' => \App\Http\Middleware\EnsureAppUserActive::class,
+        'auth.optional' => \App\Http\Middleware\OptionalSanctumAuth::class,
         'devotion.done' => \App\Http\Middleware\RequireDevotionDone::class,
         'admin.only' => \App\Http\Middleware\AdminOnly::class,
         'editor.or.admin' => \App\Http\Middleware\EditorOrAdmin::class,

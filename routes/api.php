@@ -29,6 +29,22 @@ Route::prefix('v1')->group(function () {
         Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
     });
 
+    // Readable without an account (guests). With a token, the signed-in user is recognised, so
+    // devotion-first and reading records apply to them.
+    Route::middleware(['auth.optional', 'app.active'])->group(function () {
+        // Devotions: always reachable, even while the rest of the app is locked
+        Route::get('/devotionals/status', [DevotionalController::class, 'status']);
+        Route::get('/devotionals/today', [DevotionalController::class, 'today']);
+        Route::get('/devotionals/{devotional}', [DevotionalController::class, 'showById'])->whereNumber('devotional');
+
+        // Content locked behind devotion-first mode (only ever for signed-in users)
+        Route::middleware('devotion.done')->group(function () {
+            Route::get('/hymns', [HymnController::class, 'index']);
+            Route::get('/hymns/sync', [HymnController::class, 'sync']);
+            Route::get('/hymns/{number}', [HymnController::class, 'show'])->whereNumber('number');
+        });
+    });
+
     // Authenticated app users
     Route::middleware(['auth:sanctum', 'app.active'])->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
@@ -43,20 +59,10 @@ Route::prefix('v1')->group(function () {
             Route::post('/auth/resend-verification', [AuthController::class, 'resendVerification']);
         });
 
-        // Devotions: always reachable, even while the rest of the app is locked
-        Route::get('/devotionals/status', [DevotionalController::class, 'status']);
-        Route::get('/devotionals/today', [DevotionalController::class, 'today']);
+        // Devotion actions that need an account
         Route::get('/devotionals/history', [DevotionalController::class, 'history']);
-        Route::get('/devotionals/{devotional}', [DevotionalController::class, 'showById']);
         Route::post('/devotionals/{devotional}/complete', [DevotionalController::class, 'complete']);
         Route::post('/me/devotion-first', [DevotionalController::class, 'setDevotionFirst']);
-
-        // Content locked behind devotion-first mode
-        Route::middleware('devotion.done')->group(function () {
-            Route::get('/hymns', [HymnController::class, 'index']);
-            Route::get('/hymns/sync', [HymnController::class, 'sync']);
-            Route::get('/hymns/{number}', [HymnController::class, 'show'])->whereNumber('number');
-        });
 
         Route::post('/membership/apply', [MembershipController::class, 'apply']);
         Route::get('/membership/status', [MembershipController::class, 'status']);
