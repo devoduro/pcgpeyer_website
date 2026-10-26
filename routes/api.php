@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\DevotionalController;
 use App\Http\Controllers\Api\V1\HymnController;
 use App\Http\Controllers\Api\V1\LeadershipController;
+use App\Http\Controllers\Api\V1\MediaController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\RadioController;
 use Illuminate\Http\Request;
@@ -37,6 +38,10 @@ Route::prefix('v1')->group(function () {
         // Live church radio station
         Route::get('/radio', [RadioController::class, 'show']);
 
+        // Website photo albums (/media/photos).
+        Route::get('/media/photos', [MediaController::class, 'photos']);
+        Route::get('/media/photos/{gallery}', [MediaController::class, 'show'])->whereNumber('gallery');
+
         // Church leadership (same information as the public website pages)
         Route::get('/leadership', [LeadershipController::class, 'index']);
         Route::get('/leadership/past', [LeadershipController::class, 'past']);
@@ -49,6 +54,7 @@ Route::prefix('v1')->group(function () {
 
         // Content locked behind devotion-first mode (only ever for signed-in users)
         Route::middleware('devotion.done')->group(function () {
+            Route::get('/media/videos', [MediaController::class, 'videos']); // 'videos' is a devotion-locked module
             Route::get('/hymns', [HymnController::class, 'index']);
             Route::get('/hymns/sync', [HymnController::class, 'sync']);
             Route::get('/hymns/{number}', [HymnController::class, 'show'])->whereNumber('number');
