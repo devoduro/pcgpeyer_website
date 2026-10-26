@@ -85,6 +85,29 @@ class Leadership extends Model
     /**
      * Get only active leadership members
      */
+    /** Tabs on the "Past ministers" page and in the app, in display order. */
+    public const MINISTER_CATEGORIES = ['Ministers-in-Charge', 'Associate Ministers', 'Catechists', 'Presbyter Sessions'];
+
+    /** Which past-ministers category a title belongs to (null when it fits none). */
+    public static function ministerCategory(?string $title): ?string
+    {
+        $t = strtolower($title ?? '');
+        if (str_contains($t, 'associate')) {
+            return 'Associate Ministers';
+        }
+        if (str_contains($t, 'minister')) {
+            return 'Ministers-in-Charge';
+        }
+        if (str_contains($t, 'catechist')) {
+            return 'Catechists';
+        }
+        if (str_contains($t, 'session') || str_contains($t, 'presbyter') || str_contains($t, 'treasurer') || str_contains($t, 'youth rep')) {
+            return 'Presbyter Sessions';
+        }
+
+        return null;
+    }
+
     public function scopeActive($query)
     {
         return $query->where('active', true)->orderBy('year', 'desc')->orderBy('display_order', 'asc');

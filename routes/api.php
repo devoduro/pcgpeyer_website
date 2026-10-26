@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\DevotionalController;
 use App\Http\Controllers\Api\V1\HymnController;
+use App\Http\Controllers\Api\V1\LeadershipController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,11 @@ Route::prefix('v1')->group(function () {
     // Readable without an account (guests). With a token, the signed-in user is recognised, so
     // devotion-first and reading records apply to them.
     Route::middleware(['auth.optional', 'app.active'])->group(function () {
+        // Church leadership (same information as the public website pages)
+        Route::get('/leadership', [LeadershipController::class, 'index']);
+        Route::get('/leadership/past', [LeadershipController::class, 'past']);
+        Route::get('/group-leadership', [LeadershipController::class, 'groups']);
+
         // Devotions: always reachable, even while the rest of the app is locked
         Route::get('/devotionals/status', [DevotionalController::class, 'status']);
         Route::get('/devotionals/today', [DevotionalController::class, 'today']);

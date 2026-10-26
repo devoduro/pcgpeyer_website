@@ -75,29 +75,15 @@ class AboutController extends Controller
 
     public function ministers(Request $request)
     {
-        // Fixed categories shown as tabs, matching each leader to a bucket by their title
-        $categoryMap = [
-            'Ministers-in-Charge' => fn ($title) => str_contains($title, 'minister') && !str_contains($title, 'associate'),
-            'Associate Ministers' => fn ($title) => str_contains($title, 'associate'),
-            'Catechists' => fn ($title) => str_contains($title, 'catechist'),
-            'Presbyter Sessions' => fn ($title) => str_contains($title, 'session') || str_contains($title, 'presbyter') || str_contains($title, 'treasurer') || str_contains($title, 'youth rep'),
-        ];
-        $categories = array_keys($categoryMap);
+        // Fixed categories shown as tabs (shared with the mobile app API via the model)
+        $categories = Leadership::MINISTER_CATEGORIES;
 
         $allLeaders = Leadership::where('active', true)
             ->with(['titleRelation', 'yearRelation'])
             ->get()
             ->sortByDesc('year');
 
-        $bucketOf = function ($leader) use ($categoryMap) {
-            $title = strtolower($leader->displayTitle ?? '');
-            foreach ($categoryMap as $label => $matcher) {
-                if ($matcher($title)) {
-                    return $label;
-                }
-            }
-            return null;
-        };
+        $bucketOf = fn ($leader) => Leadership::ministerCategory($leader->displayTitle);
 
         // Current minister-in-charge, shown in the "Current Leadership" callout
         $currentMinister = $allLeaders->first(fn ($l) => $l->is_current && $bucketOf($l) === 'Ministers-in-Charge');
