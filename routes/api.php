@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\ChurchContentController;
 use App\Http\Controllers\Api\V1\DevotionalController;
 use App\Http\Controllers\Api\V1\HymnController;
 use App\Http\Controllers\Api\V1\LeadershipController;
@@ -47,6 +48,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/leadership/past', [LeadershipController::class, 'past']);
         Route::get('/group-leadership', [LeadershipController::class, 'groups']);
 
+        // Church notices (the app's inbox)
+        Route::get('/announcements', [ChurchContentController::class, 'announcements']);
+
         // Devotions: always reachable, even while the rest of the app is locked
         Route::get('/devotionals/status', [DevotionalController::class, 'status']);
         Route::get('/devotionals/today', [DevotionalController::class, 'today']);
@@ -55,6 +59,8 @@ Route::prefix('v1')->group(function () {
         // Content locked behind devotion-first mode (only ever for signed-in users)
         Route::middleware('devotion.done')->group(function () {
             Route::get('/media/videos', [MediaController::class, 'videos']); // 'videos' is a devotion-locked module
+            Route::get('/events', [ChurchContentController::class, 'events']);
+            Route::get('/sermons', [ChurchContentController::class, 'sermons']);
             Route::get('/hymns', [HymnController::class, 'index']);
             Route::get('/hymns/sync', [HymnController::class, 'sync']);
             Route::get('/hymns/{number}', [HymnController::class, 'show'])->whereNumber('number');
