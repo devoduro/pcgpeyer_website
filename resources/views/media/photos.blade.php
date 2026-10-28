@@ -8,7 +8,7 @@
     'title' => 'Photo Gallery',
     'eyebrow' => 'Media',
     'subtitle' => 'Moments from worship, fellowship and church life at Peyer Memorial.',
-    'image' => 'images/bantama/brigade_b.jpg',
+    'image' => 'images/bantama/palm_sunday_children.jpg',
     'crumbs' => [['Media', route('media.photos')], ['Photos']],
 ])
 

@@ -28,7 +28,7 @@
 @endphp
 
 <footer class="relative overflow-hidden bg-navy-900 bg-cover bg-center bg-no-repeat pt-16"
-        style="background-image: url('{{ asset('images/bantama/session.jpg') }}');">
+        style="background-image: url('{{ asset('images/bantama/church_aerial.jpg') }}');">
     <div aria-hidden="true" class="absolute inset-0"
          style="background-image: linear-gradient(160deg, rgba(16,22,63,.93) 0%, rgba(8,11,34,.96) 55%, rgba(29,42,107,.93) 100%);"></div>
     <div aria-hidden="true" class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 via-accent-600 to-navy-500"></div>

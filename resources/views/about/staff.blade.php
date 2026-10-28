@@ -8,7 +8,7 @@
     'title' => 'Administrative Staff',
     'eyebrow' => 'About Us',
     'subtitle' => 'The team that keeps our church running smoothly.',
-    'image' => 'images/bantama/members_group.jpg',
+    'image' => 'images/bantama/covenant_service.jpg',
     'crumbs' => [['About Us', route('about.history')], ['Administrative Staff']],
 ])
 

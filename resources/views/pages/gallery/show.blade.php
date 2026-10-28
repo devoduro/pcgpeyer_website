@@ -8,7 +8,7 @@
     'title' => $gallery->title,
     'eyebrow' => 'Photo Gallery',
     'subtitle' => $gallery->description,
-    'image' => $gallery->thumbnail_path ? asset('storage/' . $gallery->thumbnail_path) : 'images/bantama/womens_fellowship.jpg',
+    'image' => $gallery->thumbnail_path ? asset('storage/' . $gallery->thumbnail_path) : 'images/bantama/palm_sunday_children.jpg',
     'crumbs' => [['Galleries', route('gallery.index')], [Str::limit($gallery->title, 40)]],
     'meta' => [['fas fa-images', $gallery->images->count() . ' ' . Str::plural('photo', $gallery->images->count())], ['far fa-calendar', $gallery->created_at->format('M d, Y')]],
 ])

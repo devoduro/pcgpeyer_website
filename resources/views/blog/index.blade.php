@@ -8,7 +8,7 @@
     'title' => 'News Update',
     'eyebrow' => 'Latest from Bantama',
     'subtitle' => 'News, updates and inspiration from the life of our congregation.',
-    'image' => 'images/bantama/yaf.jpg',
+    'image' => 'images/bantama/harvest.jpg',
     'crumbs' => [['News Update']],
 ])
 
@@ -22,9 +22,9 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
                     <div class="relative h-96 lg:h-auto overflow-hidden">
                         @if($featuredPost->image)
-                            <img src="{{ asset('storage/' . $featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='{{ asset('images/bantama/womens_fellowship.jpg') }}'">
+                            <img src="{{ asset('storage/' . $featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='{{ asset('images/bantama/easter_service.jpg') }}'">
                         @else
-                            <img src="{{ asset('images/bantama/womens_fellowship.jpg') }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="{{ asset('images/bantama/easter_service.jpg') }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         @endif
                         <div class="absolute top-6 left-6">
                             <span class="bg-pcg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">Featured Post</span>
@@ -64,12 +64,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @php
             $blogImages = [
-                asset('images/bantama/womens_fellowship.jpg'),
-                asset('images/bantama/choir.jpg'),
-                asset('images/bantama/yaf.jpg'),
-                asset('images/bantama/ypg.jpg'),
-                asset('images/bantama/mens_fellowship.jpg'),
-                asset('images/bantama/brigade_b.jpg'),
+                asset('images/bantama/easter_service.jpg'),
+                asset('images/bantama/harvest.jpg'),
+                asset('images/bantama/jy_sunday.jpg'),
+                asset('images/bantama/trad_sunday.jpg'),
+                asset('images/bantama/covenant_service.jpg'),
+                asset('images/bantama/childrens_service.jpg'),
             ];
             $imageIndex = 0;
             @endphp

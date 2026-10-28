@@ -10,7 +10,12 @@ class AboutController extends Controller
 {
     public function history()
     {
-        return view('about.history');
+        $shepherds = Leadership::active()
+            ->whereHas('titleRelation', fn ($q) => $q->where('title', 'Minister-in-Charge'))
+            ->reorder('year')
+            ->get();
+
+        return view('about.history', compact('shepherds'));
     }
 
     public function staff()

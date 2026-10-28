@@ -8,7 +8,7 @@
     'title' => 'Past Leaders',
     'eyebrow' => 'Our Leadership Legacy',
     'subtitle' => 'Honouring the ministers, catechists and presbyters who have faithfully served Peyer Memorial Congregation' . ($stats['earliest_year'] ? ' since ' . $stats['earliest_year'] : '') . '.',
-    'image' => 'images/bantama/choir.jpg',
+    'image' => 'images/bantama/sunday_gallery.jpg',
     'crumbs' => [['About Us', route('about.history')], ['Past Leaders']],
 ])
 
@@ -161,7 +161,7 @@
     'text' => 'Join us as we continue building on the foundation laid by these faithful leaders.',
     'primary' => ['Get Involved', route('contact')],
     'secondary' => ['Current Leadership', route('about.leadership')],
-    'image' => 'images/bantama/mens_fellowship.jpg',
+    'image' => 'images/bantama/women_procession.jpg',
 ])
 
 <!-- Continue the Legacy -->

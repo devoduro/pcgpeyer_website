@@ -8,7 +8,7 @@
     'title' => 'Photo Galleries',
     'eyebrow' => 'Media',
     'subtitle' => 'Albums from services, celebrations and the life of the congregation.',
-    'image' => 'images/bantama/womens_fellowship.jpg',
+    'image' => 'images/bantama/palm_sunday_children.jpg',
     'crumbs' => [['Media', route('media.photos')], ['Galleries']],
 ])
 

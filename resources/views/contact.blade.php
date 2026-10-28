@@ -8,7 +8,7 @@
     'title' => 'Contact Us',
     'eyebrow' => "We'd Love to Hear From You",
     'subtitle' => 'Questions, prayer requests or planning a visit? Reach out and we will get back to you.',
-    'image' => 'images/bantama/womens_fellowship.jpg',
+    'image' => 'images/bantama/church_aerial.jpg',
     'crumbs' => [['Contact Us']],
 ])
 

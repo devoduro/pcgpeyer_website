@@ -13,7 +13,7 @@
     ])
 --}}
 @php
-    $image = $image ?? 'images/bantama/womens_fellowship.jpg';
+    $image = $image ?? 'images/bantama/church_aerial.jpg';
     $imageUrl = \Illuminate\Support\Str::startsWith($image, ['http://', 'https://']) ? $image : asset($image);
     $crumbs = $crumbs ?? [[$title]];
 @endphp

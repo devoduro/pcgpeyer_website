@@ -168,7 +168,7 @@
 <style>
     /* Ministry Content Styling */
     .ministry-content {
-        color: #374151;
+        color: #475569;
         line-height: 1.8;
     }
     
@@ -176,7 +176,7 @@
     .ministry-content h2,
     .ministry-content h3,
     .ministry-content h4 {
-        color: #1e3a8a;
+        color: #0F172A;
         font-weight: 700;
         margin-top: 2rem;
         margin-bottom: 1rem;
@@ -211,7 +211,7 @@
     
     .ministry-content strong {
         font-weight: 700;
-        color: #1e3a8a;
+        color: #172554;
     }
     
     .ministry-content em {
@@ -219,21 +219,21 @@
     }
     
     .ministry-content a {
-        color: #dc2626;
+        color: #DC2626;
         text-decoration: underline;
     }
     
     .ministry-content a:hover {
-        color: #991b1b;
+        color: #B91C1C;
     }
     
     .ministry-content blockquote {
-        border-left: 4px solid #3b82f6;
+        border-left: 4px solid #172554;
         padding-left: 1.5rem;
         margin: 1.5rem 0;
         font-style: italic;
-        color: #4b5563;
-        background: #f3f4f6;
+        color: #64748B;
+        background: #F8FAFC;
         padding: 1rem 1.5rem;
         border-radius: 0.5rem;
     }
@@ -248,7 +248,7 @@
     
     .ministry-content hr {
         border: none;
-        border-top: 2px solid #e5e7eb;
+        border-top: 2px solid #E2E8F0;
         margin: 2rem 0;
     }
 </style>

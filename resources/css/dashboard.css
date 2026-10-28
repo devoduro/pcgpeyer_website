@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body.font-poppins {
-    font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   }
 }
 
@@ -14,23 +12,23 @@
   display: none !important;
 }
 
-/* Gradient backgrounds, ported from slce_portal */
+/* Restrained navy treatments for dashboard emphasis. */
 .gradient-bg {
-  background: linear-gradient(135deg, #0ea5e9 0%, #075985 100%);
+  background: linear-gradient(135deg, #172554 0%, #0b1229 100%);
 }
 
 .gradient-bg-light {
-  background: linear-gradient(135deg, #7dd3fc 0%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #E4E9F5 0%, #AAB8D6 100%);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #0ea5e9 0%, #075985 100%);
+  background: linear-gradient(135deg, #172554 0%, #0b1229 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-border {
-  border-image: linear-gradient(135deg, #0ea5e9 0%, #075985 100%) 1;
+  border-image: linear-gradient(135deg, #172554 0%, #0b1229 100%) 1;
 }
 
 @layer components {

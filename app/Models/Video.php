@@ -69,7 +69,8 @@ class Video extends Model
         if ($this->video_type === 'youtube' && $this->video_url) {
             $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i';
             if (preg_match($pattern, $this->video_url, $matches)) {
-                return 'https://img.youtube.com/vi/' . $matches[1] . '/maxresdefault.jpg';
+                // hqdefault exists for every video; maxresdefault is missing on many livestreams.
+                return 'https://img.youtube.com/vi/' . $matches[1] . '/hqdefault.jpg';
             }
         }
         

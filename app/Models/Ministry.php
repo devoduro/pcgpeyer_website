@@ -49,7 +49,7 @@ class Ministry extends Model
     /** Public URL of the ministry photo, or a congregation photo when none has been uploaded. */
     public function getImageUrlAttribute(): string
     {
-        return $this->image ? asset('storage/' . $this->image) : asset('images/bantama/members_group.jpg');
+        return $this->image ? asset('storage/' . $this->image) : asset('images/bantama/covenant_service.jpg');
     }
 
     public function getRouteKeyName()

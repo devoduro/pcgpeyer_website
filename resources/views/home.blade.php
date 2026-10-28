@@ -6,16 +6,16 @@
 @php
     /* [photo, eyebrow, line one, line two, copy, primary link, primary label] */
     $slides = [
-        ['images/bantama/womens_fellowship.jpg', 'WELCOME HOME', 'Welcome to', 'Peyer Memorial Congregation',
+        ['images/bantama/hero_church.jpg', '', 'Welcome to', 'Peyer Memorial Congregation',
          'Presbyterian Church of Ghana, Bantama — Kumasi. A family of believers worshipping together since 1957.',
          route('contact'), 'Plan Your Visit'],
-        ['images/bantama/mens_fellowship.jpg', 'SINCE 1957', 'From a Morning Devotion', 'to Over 5,000 Members',
-         'What began as a small prayer group in Bantama homes became a congregation, a district and a mother of many churches.',
-         route('about.history'), 'Our History'],
-        ['images/bantama/choir.jpg', 'WORSHIP WITH US', 'Sundays at', '7:00 & 9:30 AM',
+        ['images/bantama/hero_palm_sunday.jpg', 'HOSANNA!', 'Rejoice in the Lord', 'Always',
+         'Children and mothers waving palms and singing Hosanna together. At Peyer Memorial, every generation shares the joy of worship.',
+         route('gallery.index'), 'See Church Life'],
+        ['images/bantama/hero_worship.jpg', 'WORSHIP WITH US', 'Sundays at', '7:00 & 9:30 AM',
          'Two services every Sunday, with Children\'s Service running alongside. Come as you are; you will be welcome.',
          route('contact'), 'Plan Your Visit'],
-        ['images/bantama/yaf.jpg', 'GROW IN FELLOWSHIP', 'A Place for', 'Every Generation',
+        ['images/bantama/hero_brigade.jpg', 'GROW IN FELLOWSHIP', 'A Place for', 'Every Generation',
          'From the Boys\' and Girls\' Brigade to the YPG, YAF, Women\'s and Men\'s Fellowships, there is a group for you.',
          route('ministries.generational'), 'Explore Ministries'],
     ];
@@ -28,7 +28,6 @@
         ["Women's Fellowship", 'Tuesdays, 4:30 PM'],
         ['Church Choir', 'Tuesdays & Thursdays, 7:00 PM'],
         ['BSPG', 'Wednesdays, 7:00 PM'],
-        ['Youth Choir', 'Wednesdays 7:00 PM & Saturdays 5:00 PM'],
     ];
 
     $mission = [
@@ -76,7 +75,7 @@
             <div class="hero-body relative z-[2] h-full flex items-center">
                 <div class="site w-full">
                     <div class="hero-copy" :class="i === {{ $index }} && ready && 'is-active'">
-                        <span class="hero-eyebrow">{{ $eyebrow }}</span>
+                        @if ($eyebrow)<span class="hero-eyebrow">{{ $eyebrow }}</span>@endif
                         @if ($index === 0)
                             <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5 leading-[1.1]">{{ $titleA }}<br><span class="text-accent-300">{{ $titleB }}</span></h1>
                         @else
@@ -150,7 +149,7 @@
         <div class="card card-hover p-6 bg-gradient-to-br from-brand-700 to-navy-900 border-0 text-white" data-aos="fade-up" data-aos-delay="240">
             <div class="flex items-center gap-3 mb-4">
                 <span class="w-11 h-11 rounded-[14px] bg-white/15 text-white flex items-center justify-center"><i class="fas fa-book-bible"></i></span>
-                <h3 class="text-lg font-extrabold">Today's Devotion</h3>
+                <h3 class="text-lg font-extrabold text-white">Today's Devotion</h3>
             </div>
             @if ($todaysDevotional)
                 <p class="font-display font-bold leading-snug mb-2">{{ $todaysDevotional->title }}</p>
@@ -171,7 +170,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-14">
             <div class="relative" data-aos="fade-right">
                 <div class="ratio-4x3 rounded-[22px] shadow-lift">
-                    <img src="{{ asset('images/bantama/session.jpg') }}" alt="The Session of Peyer Memorial Congregation" data-reveal loading="lazy">
+                    <img src="{{ asset('images/bantama/church_aerial.jpg') }}" alt="Peyer Memorial Presbyterian Church, Bantama" data-reveal loading="lazy">
                 </div>
                 <div class="hidden md:flex absolute -bottom-8 -right-6 card p-4 items-center gap-3 animate-float" data-aos="zoom-in" data-aos-delay="300">
                     <img src="{{ asset('images/bantama/anniversary.jpg') }}" alt="60th anniversary emblem" class="w-16 h-16 rounded-full object-cover">
@@ -204,7 +203,7 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-            @foreach ([['choir', 'Worship', 'Church Choir'], ['womens_fellowship', 'Fellowship', "Women's Fellowship"], ['ypg', 'Youth', "Young People's Guild"], ['brigade_b', 'Children', "Boys' & Girls' Brigade"]] as [$photo, $label, $caption])
+            @foreach ([['easter_service', 'Worship', 'Easter Sunday service'], ['trad_sunday', 'Fellowship', 'Traditional Sunday'], ['jy_sunday', 'Youth', 'Junior Youth Sunday'], ['childrens_service', 'Children', "Children's Service"]] as [$photo, $label, $caption])
                 <figure class="group relative ratio-4x3 rounded-[18px] shadow-card hover:shadow-lift transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 120 }}">
                     <img src="{{ asset('images/bantama/' . $photo . '.jpg') }}" alt="{{ $caption }}" class="transition-transform duration-700 ease-out group-hover:scale-110" data-reveal loading="lazy">
                     <figcaption class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-transparent">
@@ -242,7 +241,7 @@
 
             <div class="card card-hover overflow-hidden group" data-aos="fade-left" data-aos-delay="100">
                 <div class="ratio-16x9">
-                    <img src="{{ asset('images/bantama/brigade_a.jpg') }}" alt="Boys' and Girls' Brigade colour party" class="transition-transform duration-700 ease-out group-hover:scale-105" data-reveal loading="lazy">
+                    <img src="{{ asset('images/bantama/girls_brigade.jpg') }}" alt="Girls' Brigade enrolment, Powerful 11th Kumasi Company" class="transition-transform duration-700 ease-out group-hover:scale-105" data-reveal loading="lazy">
                 </div>
                 <div class="p-8 md:p-10">
                     <span class="badge badge-brand mb-4">Our Core Values</span>
@@ -259,7 +258,7 @@
 </section>
 
 {{-- ── Worship and group meetings ── --}}
-<section id="group-meetings" class="hero-wash section-padding text-white" style="background-image: linear-gradient(160deg, rgba(16,22,63,.92) 0%, rgba(8,11,34,.95) 55%, rgba(29,42,107,.90) 100%), url('{{ asset('images/bantama/choir.jpg') }}');">
+<section id="group-meetings" class="hero-wash section-padding text-white" style="background-image: linear-gradient(160deg, rgba(16,22,63,.92) 0%, rgba(8,11,34,.95) 55%, rgba(29,42,107,.90) 100%), url('{{ asset('images/bantama/sunday_gallery.jpg') }}');">
     <div class="site">
         <div class="text-center max-w-3xl mx-auto mb-14" data-aos="fade-up">
             <span class="eyebrow !text-accent-300">Join Us</span>
@@ -304,7 +303,7 @@
 @include('sections.ministries-scroll')
 
 {{-- ── Call to action ── --}}
-<section class="hero-wash py-24 text-white" style="background-image: linear-gradient(160deg, rgba(16,22,63,.92) 0%, rgba(8,11,34,.95) 55%, rgba(29,42,107,.90) 100%), url('{{ asset('images/bantama/mens_fellowship.jpg') }}');">
+<section class="hero-wash py-24 text-white" style="background-image: linear-gradient(160deg, rgba(16,22,63,.92) 0%, rgba(8,11,34,.95) 55%, rgba(29,42,107,.90) 100%), url('{{ asset('images/bantama/harvest.jpg') }}');">
     <div class="site text-center max-w-3xl" data-aos="zoom-in-up">
         <span class="eyebrow !text-accent-300">You Are Welcome Here</span>
         <h2 class="text-4xl md:text-5xl font-extrabold mt-2 mb-5">Ready to Join Us?</h2>
@@ -351,7 +350,7 @@
     .hero-count { color: rgba(255,255,255,.85); font-size: .85rem; font-weight: 600; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
     .hero-bar { position: relative; width: 2rem; height: 4px; border-radius: 4px; background: rgba(255,255,255,.35); overflow: hidden; transition: background .3s; }
     .hero-bar:hover { background: rgba(255,255,255,.6); }
-    .hero-bar::after { content: ''; position: absolute; inset: 0; background: #f26b6b; transform: scaleX(0); transform-origin: left; }
+    .hero-bar::after { content: ''; position: absolute; inset: 0; background: #DC2626; transform: scaleX(0); transform-origin: left; }
     .hero-bar.is-active::after { animation: hero-fill 6s linear forwards; }
     @keyframes hero-fill { to { transform: scaleX(1); } }
     @media (prefers-reduced-motion: reduce) {

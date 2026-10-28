@@ -1,11 +1,11 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-c3191614.css",
+    "file": "assets/app-516485d9.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/css/dashboard.css": {
-    "file": "assets/dashboard-8bd4a415.css",
+    "file": "assets/dashboard-f0d8009b.css",
     "isEntry": true,
     "src": "resources/css/dashboard.css"
   },

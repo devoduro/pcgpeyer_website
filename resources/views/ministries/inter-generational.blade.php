@@ -8,7 +8,7 @@
     'title' => 'Inter-Generational Groups',
     'eyebrow' => 'Ministries',
     'subtitle' => 'Bringing all ages together in worship, prayer and service.',
-    'image' => 'images/bantama/choir.jpg',
+    'image' => 'images/bantama/easter_service.jpg',
     'crumbs' => [['Ministries', route('ministries.generational')], ['Inter-Generational Groups']],
 ])
 
@@ -38,7 +38,7 @@
     'text' => "Join one of our inter-generational ministries and experience the joy of serving together with believers of all ages. Everyone has a place in God's family.",
     'primary' => ['Contact Us Today', route('contact')],
     'secondary' => ['Generational Groups', route('ministries.generational')],
-    'image' => 'images/bantama/choir.jpg',
+    'image' => 'images/bantama/covenant_service.jpg',
 ])
 
 <section class="py-24 bg-white" data-aos="fade-up">

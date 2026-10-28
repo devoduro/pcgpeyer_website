@@ -33,7 +33,7 @@
                                  alt="{{ $gallery->title }}" 
                                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out"
                                  loading="lazy"
-                                 onerror="this.src='{{ asset('images/bantama/members_group.jpg') }}'">
+                                 onerror="this.src='{{ asset('images/bantama/covenant_service.jpg') }}'">
                         @else
                             <div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                                 <i class="fas fa-images text-6xl text-gray-400"></i>

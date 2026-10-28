@@ -48,7 +48,7 @@ class HomeController extends Controller
             ->get();
             
         $latestVideos = Video::published()
-            ->latest('created_at')
+            ->orderByDesc('featured')->latest('publish_date')
             ->take(6)
             ->get();
         

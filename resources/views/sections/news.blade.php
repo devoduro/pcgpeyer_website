@@ -19,9 +19,9 @@
                 <div class="news-card bg-white rounded-2xl overflow-hidden group flex flex-col shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100" data-index="{{ $index }}">
                     <div class="relative h-56 overflow-hidden flex-shrink-0">
                         @if($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" onerror="this.src='{{ asset('images/bantama/members_group.jpg') }}'">
+                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" onerror="this.src='{{ asset('images/bantama/covenant_service.jpg') }}'">
                         @else
-                            <img src="{{ asset('images/bantama/members_group.jpg') }}" alt="{{ $post->title }}" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700">
+                            <img src="{{ asset('images/bantama/covenant_service.jpg') }}" alt="{{ $post->title }}" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                         <div class="absolute top-4 right-4">

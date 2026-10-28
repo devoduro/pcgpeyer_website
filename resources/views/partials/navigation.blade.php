@@ -55,12 +55,13 @@
             {{-- Brand lockup in the style of the original logo: crest, a thin rule, then the
                  church name stacked in capitals. Set in type so it stays sharp and can turn white. --}}
             <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0" aria-label="Peyer Memorial Congregation — home">
-                <img src="{{ asset('images/pcg_logo.png') }}" alt="" :class="scrolled ? 'h-11' : 'h-14'" class="w-auto transition-[height] duration-300">
+                <img src="{{ asset('images/pcg_logo.png') }}" alt="" :class="scrolled ? 'h-11' : 'h-[60px]'" class="w-auto transition-[height] duration-300">
                 <span class="brand-rule w-px self-stretch my-1.5 bg-brand-700/40 transition-colors duration-500"></span>
-                <span class="leading-none">
-                    <span class="brand-eyebrow block text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[.06em] text-accent-600 transition-colors duration-500">Presbyterian Church of Ghana</span>
-                    <span class="brand-name block font-display text-[1.35rem] sm:text-[1.6rem] font-extrabold uppercase leading-[1.05] tracking-tight text-brand-800 transition-colors duration-500">Peyer Memorial</span>
-                    <span class="brand-sub block text-[.95rem] sm:text-[1.08rem] font-medium uppercase leading-tight tracking-[.12em] text-brand-800 transition-colors duration-500">Congregation</span>
+                <span class="brand-lockup leading-none">
+                    <span class="brand-eyebrow block text-[10px] font-bold uppercase tracking-[.06em] text-accent-600 transition-colors duration-500">Presbyterian Church of Ghana</span>
+                    <span class="brand-name block mt-[2px] font-display text-[1.3rem] sm:text-[1.375rem] font-extrabold uppercase leading-none tracking-tight text-brand-800 transition-colors duration-500">Peyer Memorial</span>
+                    <span class="brand-sub block mt-[2px] text-[.84rem] sm:text-[.875rem] font-semibold uppercase leading-none tracking-[.17em] text-brand-800 transition-colors duration-500">Congregation</span>
+                    <span x-show="!scrolled" class="brand-location block mt-[4px] text-[9px] font-bold uppercase leading-none tracking-[.24em] text-ink-500 transition-colors duration-500">Bantama &middot; Kumasi</span>
                 </span>
             </a>
 

@@ -8,7 +8,7 @@
     'title' => 'Group Leaders',
     'eyebrow' => 'About Us',
     'subtitle' => 'Meet the leaders of our fellowships, guilds and singing groups.',
-    'image' => 'images/bantama/mens_fellowship.jpg',
+    'image' => 'images/bantama/trad_sunday.jpg',
     'crumbs' => [['About Us', route('about.history')], ['Group Leaders']],
 ])
 

@@ -8,7 +8,7 @@
     'title' => 'Video Gallery',
     'eyebrow' => 'Media',
     'subtitle' => 'Watch sermons, events and testimonies from our congregation.',
-    'image' => 'images/bantama/choir.jpg',
+    'image' => 'images/bantama/sunday_gallery.jpg',
     'crumbs' => [['Media', route('media.photos')], ['Videos']],
 ])
 

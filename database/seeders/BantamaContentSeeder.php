@@ -57,6 +57,7 @@ class BantamaContentSeeder extends Seeder
             $this->seedPastLeaders();
             $this->updateMinistries();
             $this->seedAnniversaryGallery();
+            $this->seedChurchLifeGallery();
         });
     }
 
@@ -196,9 +197,11 @@ class BantamaContentSeeder extends Seeder
 
         $photos = [
             'mens-fellowship' => 'mens_fellowship',
-            'womens-fellowship' => 'womens_fellowship',
+            'womens-fellowship' => 'women_procession',
+            'childrens-service-cs' => 'childrens_service',
+            'junior-youth-jy' => 'jy_group',
             'young-adult-fellowship-yaf' => 'yaf',
-            'young-peoples-guild-ypg' => 'ypg',
+            'young-peoples-guild-ypg' => 'ypg_group',
             'church-choir' => 'choir',
         ];
         foreach ($photos as $slug => $photo) {
@@ -235,6 +238,49 @@ class BantamaContentSeeder extends Seeder
             'session' => 'The Session of Peyer Memorial Congregation',
             'members_group' => 'Members of the congregation',
             'anniversary' => '60th Anniversary emblem, 1957-2017',
+        ];
+
+        GalleryImage::where('gallery_id', $gallery->id)->delete();
+        $order = 0;
+        foreach ($images as $photo => $caption) {
+            GalleryImage::create([
+                'gallery_id' => $gallery->id,
+                'image_path' => $this->publish($photo, 'galleries/bantama'),
+                'caption' => $caption,
+                'display_order' => $order++,
+            ]);
+        }
+        $this->command->info('Galleries: "' . $gallery->title . '" with ' . count($images) . ' photos.');
+    }
+
+    /** Recent photographs of services and church life. */
+    private function seedChurchLifeGallery(): void
+    {
+        $gallery = Gallery::updateOrCreate(
+            ['title' => 'Church Life at Peyer Memorial'],
+            [
+                'description' => 'Sunday worship, festivals, fellowship days and our young people at Peyer Memorial Congregation, Bantama.',
+                'category' => 'Church Events',
+                'thumbnail_path' => $this->publish('easter_service', 'galleries/bantama'),
+                'is_featured' => true,
+                'created_by' => User::where('role', 'admin')->value('id') ?? User::value('id'),
+            ]
+        );
+
+        $images = [
+            'church_aerial' => 'Peyer Memorial Presbyterian Church, Bantama',
+            'easter_service' => 'Easter Sunday service',
+            'palm_sunday_children' => 'Palm Sunday: the children lead the procession',
+            'harvest' => 'Mid-Year Harvest thanksgiving',
+            'covenant_service' => 'Covenant Service',
+            'sunday_gallery' => 'Sunday worship from the gallery',
+            'trad_sunday' => 'Traditional Sunday',
+            'senior_women' => 'Traditional Sunday: our mothers in the faith',
+            'women_procession' => "Women's Fellowship procession",
+            'jy_sunday' => 'Junior Youth Sunday',
+            'girls_brigade' => "Girls' Brigade enrolment, Powerful 11th Kumasi Company",
+            'childrens_service' => "Children's Service",
+            'children_worship' => "Children's Service worship",
         ];
 
         GalleryImage::where('gallery_id', $gallery->id)->delete();

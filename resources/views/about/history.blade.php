@@ -1,221 +1,270 @@
 @extends('layouts.app')
 
-@section('title', 'Brief History - PCG Peyer Memorial Congregation')
+@section('title', 'Our History - PCG Peyer Memorial Congregation')
+
+@php
+    $years = now()->year - 1957;
+
+    $founders = [
+        ['Charles Paul Amponsah', 'Opened his home as a meeting place'],
+        ['Ernest E. Asare', 'Elected 24th August 1958'],
+        ['Samuel Koranteng', 'Elected 24th August 1958'],
+        ['E. A. Mensah', 'Elected 24th August 1958'],
+        ['Ben O. Afful', 'Elected 24th August 1958'],
+    ];
+
+    // [year, date, title, text, icon]
+    $milestones = [
+        ['1957', null, 'A Morning Devotion begins',
+         'Members of Ramseyer Memorial Presbyterian Church, Adum, gather at three places in Bantama for morning devotion. Mr B. R. D. Anane, headteacher of Bantama Presbyterian School, serves as the first catechist.',
+         'fa-sun'],
+        ['1958', '24th August', 'Five members take charge',
+         'Within four months adult membership grows from fifteen to two hundred, and five members are elected to manage the affairs of the young congregation.',
+         'fa-people-group'],
+        ['1961', null, 'Bible Study and Prayer Group',
+         'The BSPG is formed, bringing regular Bible study and house-to-house evangelism to Bantama.',
+         'fa-book-bible'],
+        ['1962', null, 'The Church Choir is founded',
+         'Mr A. B. A. Danso, headteacher of Bantama Presbyterian Primary School, becomes the first choirmaster.',
+         'fa-music'],
+        ['1967', '1st October', 'Sod cutting for the chapel',
+         'Work begins on a permanent chapel, while the congregation worships in classrooms of the Bantama Presbyterian Block "B" School.',
+         'fa-trowel-bricks'],
+        ['1968', '1st April', 'The first resident minister',
+         'The Asante Presbytery appoints Rev. S. R. Essah as the first resident minister of the congregation.',
+         'fa-user-tie'],
+        ['1970', '8th November', 'Foundation stone laid',
+         'Rev. Ernst Peyer of the Basel Mission lays the foundation stone of the Bantama chapel.',
+         'fa-cube'],
+        ['1978', '12th March', 'Bantama becomes a District',
+         'Under Rev. M. O. Amoh the chapel is roofed, panelled and plastered, membership reaches seven hundred, and Bantama is raised to District status.',
+         'fa-sitemap'],
+        ['1990', '3rd June', 'Named Peyer Memorial',
+         'The chapel is dedicated and the congregation named Peyer Memorial Congregation, in honour of Rev. Ernst Peyer.',
+         'fa-church'],
+        ['2017', '19th November', 'Sixty years of grace',
+         'The congregation celebrates its 60th anniversary, giving thanks for all God has done since 1957.',
+         'fa-award'],
+        ['2026', '4th October', 'A new chapter',
+         'Rev. Dr. Kofi Amfo-Akonnor is inducted as Bantama District Minister and Minister in Charge of Peyer Memorial Congregation.',
+         'fa-dove'],
+    ];
+@endphp
 
 @section('content')
-<!-- Hero Header with Background Image -->
 @include('partials.page-hero', [
-    'title' => 'Our Rich History',
+    'title' => 'Our History',
     'eyebrow' => 'Since 1957',
     'subtitle' => 'From a Morning Devotion group in Bantama homes to a congregation of over five thousand members.',
-    'image' => 'images/bantama/mens_fellowship.jpg',
-    'crumbs' => [['About Us', route('about.history')], ['Brief History']],
+    'image' => 'images/bantama/church_aerial.jpg',
+    'crumbs' => [['About Us', route('about.history')], ['Our History']],
+    'meta' => [['fas fa-location-dot', 'Bantama, Kumasi'], ['fas fa-church', 'Peyer Memorial since 1990']],
 ])
 
-<!-- Introduction Section with Image -->
-<section class="py-20 bg-white">
-    <div class="site">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <div class="decorative-line mb-8"></div>
-                <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-6">Our Foundation Story</h2>
-                <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
-                    <p>
-                        Peyer Memorial Congregation of the Presbyterian Church of Ghana was established at Bantama, Kumasi
-                        in 1958. It began as a Morning Devotion group during the time of the Very Rev. E. M. L. Odjidja,
-                        Pastor in charge of the Ramseyer Memorial Presbyterian Church at Adum. Members grouped at three
-                        locations for regular morning devotion, and the passion for souls was so great that within four
-                        months, adult membership grew from fifteen to two hundred.
-                    </p>
-                    <p>
-                        On 24th August 1958, five members were elected to manage the affairs of the young congregation:
-                        Charles Paul Amponsah, Ernest E. Asare, Samuel Koranteng, E. A. Mensah, and Ben O. Afful.
-                        Mr Charles Paul Amponsah offered his home as a meeting place, with Mr J. W. Amoah, who later
-                        became a minister, serving as the first Catechist.
-                    </p>
-                    <p>
-                        Over the years, the church has grown and expanded in ministry, and today counts over five
-                        thousand members.
-                    </p>
-                </div>
+{{-- ── How it began ───────────────────────────────────────────────────── --}}
+<section class="section-padding bg-white overflow-hidden">
+    <div class="site grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+        <div data-aos="fade-right">
+            <span class="eyebrow">How It Began</span>
+            <h2 class="section-title mt-3">From a Morning Devotion to a Mother Church</h2>
+            <div class="space-y-5 text-lg text-ink-600 leading-relaxed">
+                <p>
+                    Peyer Memorial Congregation began as a Morning Devotion group in the time of the
+                    Very Rev. E. M. L. Odjidja, Pastor in charge of Ramseyer Memorial Presbyterian Church, Adum.
+                    Members met at three places in Bantama, and their passion for souls was so great that within
+                    four months adult membership grew from fifteen to two hundred.
+                </p>
+                <p>
+                    On 24th August 1958, five members were elected to manage the affairs of the young congregation.
+                    Mr Charles Paul Amponsah opened his home for worship, and the congregation grew into the
+                    Bantama Presbyterian Church, a District and a mother of many churches across Kumasi.
+                </p>
+                <p class="text-ink-900 font-semibold">
+                    Today, over five thousand members call Peyer Memorial home.
+                </p>
             </div>
-            <div class="relative">
-                <div class="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl group">
-                    <img src="{{ asset('images/bantama/anniversary.jpg') }}" alt="Peyer Memorial Congregation 60th anniversary emblem, 1957-2017" class="w-full h-full object-contain bg-white p-6 transform group-hover:scale-105 transition duration-700">
-                    <div class="absolute bottom-8 left-8 right-8 text-white">
+        </div>
 
-                    </div>
-                </div>
+        <div class="relative pb-10 lg:pb-0" data-aos="fade-left">
+            <div class="ratio-4x3 rounded-[22px] shadow-lift">
+                <img src="{{ asset('images/bantama/trad_sunday.jpg') }}" alt="Traditional Sunday at Peyer Memorial Congregation" loading="lazy">
+            </div>
+            <div class="absolute -bottom-2 left-4 sm:-left-6 lg:-bottom-10 w-44 sm:w-52 card p-4 text-center animate-float">
+                <img src="{{ asset('images/bantama/anniversary.jpg') }}" alt="60th anniversary emblem, 1957 to 2017" class="w-full h-auto" loading="lazy">
+                <p class="mt-2 text-xs font-bold uppercase tracking-wider text-ink-500">60th Anniversary &middot; 2017</p>
+            </div>
+            <div class="absolute -top-5 right-4 sm:-right-5 bg-accent-600 text-white rounded-2xl px-5 py-4 shadow-lift">
+                <p class="text-3xl font-extrabold leading-none tabular-nums" data-count-to="{{ $years }}">{{ $years }}</p>
+                <p class="text-xs font-bold uppercase tracking-wider mt-1 text-white/85">Years of grace</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Rev. Ernst Peyer Section -->
-<section class="py-20 bg-gradient-to-br from-pcg-blue-50 to-gray-50">
-    <div class="site">
-        <div class="text-center mb-16">
-            <div class="decorative-line"></div>
-            <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-6">Rev. Ernst Peyer</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">The Namesake of Our Congregation</p>
-        </div>
+{{-- ── At a glance ────────────────────────────────────────────────────── --}}
+<section class="bg-navy-900 text-white">
+    <div class="site grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-white/10">
+        {{-- Years are shown as they are; quantities count up as they scroll into view. --}}
+        @foreach ([
+            ['1957', null, 'Morning Devotion begins'],
+            ['5,000+', 5000, 'Members today'],
+            ['20+', 20, 'Ministers have served'],
+            ['1978', null, 'Raised to a District'],
+        ] as [$value, $countTo, $label])
+            <div class="py-10 px-4 text-center" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                <p class="text-4xl md:text-5xl font-extrabold tabular-nums"
+                   @if ($countTo) data-count-to="{{ $countTo }}" data-count-suffix="+" @endif>{{ $value }}</p>
+                <p class="mt-2 text-sm font-semibold uppercase tracking-wider text-white/60">{{ $label }}</p>
+            </div>
+        @endforeach
+    </div>
+</section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="order-2 lg:order-1">
-                <div class="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
-                    <img src="{{ asset('images/bantama/choir.jpg') }}" alt="The Church Choir of Peyer Memorial Congregation" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 right-8 text-white">
-                        <p class="text-3xl font-bold text-shadow-lg">The Church Choir</p>
-                        <p class="text-xl text-shadow">Founded 1962, in the 60th anniversary year</p>
+{{-- ── Founders ───────────────────────────────────────────────────────── --}}
+<section class="section-padding bg-page">
+    <div class="site">
+        <div class="text-center max-w-2xl mx-auto mb-14" data-aos="fade-up">
+            <span class="eyebrow">24th August 1958</span>
+            <h2 class="section-title mt-3">The First Five</h2>
+            <p class="text-lg text-ink-500">The members elected to look after the young congregation in its first year.</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-5">
+            @foreach ($founders as [$name, $note])
+                <div class="card card-hover p-5 md:p-6 text-center {{ $loop->first ? 'col-span-2 md:col-span-1' : '' }}" data-aos="fade-up" data-aos-delay="{{ $loop->index * 90 }}">
+                    <div class="mx-auto mb-4 w-14 h-14 rounded-full bg-brand-50 text-brand-700 grid place-items-center text-lg font-extrabold">
+                        {{ $name[0] . strrchr(' ' . $name, ' ')[1] }}
                     </div>
+                    <h3 class="!text-base md:!text-lg font-extrabold text-ink-900 leading-snug">{{ $name }}</h3>
+                    <p class="mt-1.5 text-sm text-ink-500">{{ $note }}</p>
                 </div>
-            </div>
-            <div class="order-1 lg:order-2">
-                <div class="bg-white p-10 rounded-3xl shadow-xl">
-                    <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
-                        <p>
-                            Rev. Ernst Peyer was a Basel Mission Representative in Ghana who lived much of his life in
-                            Kumasi. He was closely involved in the planning of the Bantama chapel, personally carrying
-                            the building plan to Accra for discussion at the Presbyterian Headquarters, and he laid the
-                            Foundation Stone of the chapel on 8th November 1970.
-                        </p>
-                        <p>
-                            Rev. Peyer, together with his wife, was also among the most prominent financial supporters
-                            of the chapel's construction, alongside friends of the mission in Switzerland.
-                        </p>
-                        <blockquote class="border-l-4 border-pcg-red-600 pl-6 py-4 my-8 bg-pcg-red-50 rounded-r-lg">
-                            <p class="italic text-xl text-gray-800 mb-2">
-                                "Except the Lord build the house, they labour in vain that build it."
-                            </p>
-                            <footer class="text-base text-gray-600">- Psalm 127:1</footer>
-                        </blockquote>
-                        <p>
-                            On 3rd June 1990, in recognition of his devotion and support, the Bantama Presbyterian
-                            Church was dedicated and named the Peyer Memorial Congregation in his honour - a legacy
-                            that continues to shape our identity today.
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
 
-<!-- Growth & Development Section -->
-<section class="py-20 bg-white">
+{{-- ── Timeline ───────────────────────────────────────────────────────── --}}
+<section class="section-padding bg-white">
     <div class="site">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <div class="decorative-line mb-8"></div>
-                <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-6">Growth & Development</h2>
-                <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
-                    <p>
-                        From its earliest days worshipping in classrooms at the Bantama Presbyterian Block 'B' School,
-                        the congregation moved to a temporary auditorium as the permanent chapel took shape. The sod
-                        for the chapel was cut on 1st October 1967, and by 1978 - under the ministry of Rev. M. O. Amoh -
-                        the building was roofed, plastered, and membership had grown to seven hundred.
-                    </p>
-                    <p>
-                        Bantama was elevated to District status on 12th March 1978, and continued to extend its
-                        reach, planting outstations across Kumasi and beyond. Manses and an administrative office
-                        were subsequently built to support the growing work of ministry.
-                    </p>
-                    <p>
-                        Today, we continue to honour the legacy of our founders and of Rev. Ernst Peyer by maintaining
-                        a commitment to holistic ministry - education, discipleship, evangelism, and community service -
-                        always seeking to be the hands and feet of Christ in Bantama, Kumasi, and beyond.
-                    </p>
-                </div>
+        <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+            <span class="eyebrow">Milestones</span>
+            <h2 class="section-title mt-3">Our Journey of Faith</h2>
+            <p class="text-lg text-ink-500">"Hitherto hath the Lord helped us." 1 Samuel 7:12</p>
+        </div>
 
-                <!-- Statistics -->
-                <div class="grid grid-cols-2 gap-6 mt-10">
-                    <div class="bg-gradient-to-br from-pcg-red-500 to-pcg-red-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2 tabular-nums" data-count-to="65" data-count-suffix="+">65+</p>
-                        <p class="font-semibold">Years of Service</p>
-                    </div>
-                    <div class="bg-gradient-to-br from-pcg-blue-500 to-pcg-blue-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2 tabular-nums" data-count-to="5000" data-count-suffix="+">5,000+</p>
-                        <p class="font-semibold">Members</p>
-                    </div>
-                    <div class="bg-gradient-to-br from-pcg-red-500 to-pcg-red-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2 tabular-nums" data-count-to="15" data-count-suffix="+">15+</p>
-                        <p class="font-semibold">Ministries</p>
-                    </div>
-                    <div class="bg-gradient-to-br from-pcg-blue-500 to-pcg-blue-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2 tabular-nums" data-count-to="20" data-count-suffix="+">20+</p>
-                        <p class="font-semibold">Pastors Served</p>
-                    </div>
-                </div>
-            </div>
-            <div class="relative h-[420px] lg:h-[560px] rounded-3xl overflow-hidden shadow-2xl group">
-                <img src="{{ asset('images/bantama/session.jpg') }}" alt="The Session of Peyer Memorial Congregation" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/70 to-transparent"></div>
-                <div class="absolute bottom-8 left-8 right-8 text-white">
-                    <p class="text-3xl font-bold text-shadow-lg">The Session</p>
+        {{-- Year on the left (from md), a dot on the line, the story in a card on the right. --}}
+        <ol class="relative max-w-4xl mx-auto">
+            <span class="absolute top-2 bottom-2 left-5 md:left-[9.5rem] w-0.5 -translate-x-1/2 bg-gradient-to-b from-accent-600 via-brand-300 to-brand-600" aria-hidden="true"></span>
 
-                </div>
+            @foreach ($milestones as [$year, $date, $title, $text, $icon])
+                <li class="relative pl-16 md:pl-[12rem] pb-6 last:pb-0" data-aos="fade-up">
+                    <div class="hidden md:block absolute left-0 top-4 w-[7.5rem] text-right">
+                        <p class="text-3xl font-extrabold text-accent-600 tabular-nums leading-none">{{ $year }}</p>
+                        @if ($date)
+                            <p class="mt-1.5 text-sm font-semibold text-ink-400">{{ $date }}</p>
+                        @endif
+                    </div>
+
+                    <span class="absolute left-5 md:left-[9.5rem] top-4 -translate-x-1/2 w-10 h-10 rounded-full bg-white border-2 border-accent-600 text-accent-600 grid place-items-center shadow-card z-10">
+                        <i class="fas {{ $icon }} text-sm"></i>
+                    </span>
+
+                    <div class="card card-hover px-6 py-5">
+                        <p class="md:hidden text-sm font-bold text-accent-600 tabular-nums">{{ $date ? $date . ' ' : '' }}{{ $year }}</p>
+                        <h3 class="!text-lg md:!text-xl font-extrabold text-ink-900">{{ $title }}</h3>
+                        <p class="mt-1.5 text-ink-600 leading-relaxed">{{ $text }}</p>
+                    </div>
+                </li>
+            @endforeach
+        </ol>
+    </div>
+</section>
+
+{{-- ── Rev. Ernst Peyer ───────────────────────────────────────────────── --}}
+<section class="section-padding bg-page overflow-hidden">
+    <div class="site grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+        <div class="relative" data-aos="fade-right">
+            <div class="ratio-4x3 rounded-[22px] shadow-lift">
+                <img src="{{ asset('images/bantama/hero_church.jpg') }}" alt="Peyer Memorial Presbyterian Church, Bantama" loading="lazy">
             </div>
+            <div class="absolute -bottom-6 right-4 sm:-right-6 card px-6 py-5 max-w-[16rem]">
+                <p class="text-xs font-bold uppercase tracking-wider text-ink-400">Foundation stone</p>
+                <p class="mt-1 text-lg font-extrabold text-ink-900">8th November 1970</p>
+                <p class="text-sm text-ink-500">Laid by Rev. Ernst Peyer</p>
+            </div>
+        </div>
+
+        <div data-aos="fade-left">
+            <span class="eyebrow">Our Namesake</span>
+            <h2 class="section-title mt-3">Rev. Ernst Peyer</h2>
+            <div class="space-y-5 text-lg text-ink-600 leading-relaxed">
+                <p>
+                    Rev. Ernst Peyer was a Basel Mission Representative in Ghana who lived much of his life in Kumasi.
+                    He was closely involved in planning the Bantama chapel, personally carrying the building plan to
+                    the Presbyterian Headquarters in Accra, and he laid its foundation stone.
+                </p>
+                <p>
+                    With his wife and friends of the mission in Switzerland, he was among the chapel's most generous
+                    supporters. On 3rd June 1990, in recognition of his devotion, the church was dedicated and named
+                    Peyer Memorial Congregation in his honour.
+                </p>
+            </div>
+            <blockquote class="mt-8 border-l-4 border-accent-600 bg-white rounded-r-2xl px-6 py-5 shadow-card">
+                <p class="text-xl italic text-ink-800">"Except the Lord build the house, they labour in vain that build it."</p>
+                <footer class="mt-2 text-sm font-semibold text-ink-500">Psalm 127:1</footer>
+            </blockquote>
         </div>
     </div>
 </section>
 
-<!-- Our Motto Section -->
-<section class="relative py-32 overflow-hidden">
-    <div class="absolute inset-0">
-        <img src="{{ asset('images/bantama/choir.jpg') }}" alt="The Church Choir" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 to-pcg-red-900/95"></div>
-    </div>
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-
-        <h2 class="text-4xl md:text-6xl font-bold mb-6 text-shadow-lg">Our Motto</h2>
-        <p class="text-3xl md:text-4xl font-bold mb-8 text-pcg-red-300 italic">"That They All May Be"</p>
-        <div class="w-24 h-1 bg-white mx-auto mb-8"></div>
-        <p class="text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-12">
-            Drawn from Jesus' prayer in John 17:21, our motto reflects our commitment to unity,
-            inclusivity, and working together for God's kingdom. We believe in breaking down barriers
-            and demonstrating Christ's love to all people.
+{{-- ── Motto ──────────────────────────────────────────────────────────── --}}
+<section class="hero-wash py-24 md:py-32 text-white"
+         style="background-image: linear-gradient(160deg, rgba(16,22,63,.92) 0%, rgba(8,11,34,.94) 55%, rgba(127,29,29,.85) 100%), url('{{ asset('images/bantama/easter_service.jpg') }}');">
+    <div class="site max-w-4xl text-center" data-aos="zoom-in-up">
+        <span class="eyebrow !text-accent-300">Our Motto</span>
+        <p class="mt-5 text-4xl md:text-6xl font-extrabold leading-tight">"That They All May Be One"</p>
+        <p class="mt-4 text-lg font-semibold text-white/70">John 17:21</p>
+        <p class="mt-8 text-lg md:text-xl text-white/85 leading-relaxed max-w-3xl mx-auto">
+            Drawn from Jesus' prayer for His church, the motto of the Presbyterian Church of Ghana calls us to unity:
+            every generation, every group and every member, one family in Christ.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 text-left">
-
     </div>
 </section>
 
-<!-- Looking to the Future Section -->
-<section class="py-20 bg-gradient-to-br from-gray-50 to-white">
+{{-- ── Ministers in charge ────────────────────────────────────────────── --}}
+@if ($shepherds->isNotEmpty())
+<section class="section-padding bg-white">
     <div class="site">
-        <div class="bg-gradient-to-br from-pcg-blue-900 to-pcg-red-900 rounded-3xl overflow-hidden shadow-2xl">
-            <div class="grid grid-cols-1 lg:grid-cols-2">
-                <div class="p-12 lg:p-16 text-white">
-                    <div class="decorative-line mb-8"></div>
-                    <h2 class="text-4xl md:text-5xl font-bold mb-6">Looking to the Future</h2>
-                    <div class="space-y-6 text-lg leading-relaxed">
-                        <p>
-                            As we look to the future, we remain committed to the vision that our founding fathers and
-                            Rev. Ernst Peyer planted in this community. We continue to be a beacon of hope, a center
-                            of worship, and a force for positive change in Bantama, Kumasi, and beyond.
-                        </p>
-                        <p>
-                            Our history inspires us, but our future excites us as we trust God to do
-                            even greater things through this congregation. We are expanding our ministries, reaching new
-                            generations, and deepening our impact in the community.
-                        </p>
-                        <p>
-                            We invite you to become part of our ongoing story. Together, we can continue to build on the strong
-                            foundation laid by our forebears and create a legacy of faith for future generations.
-                        </p>
-                    </div>
-                    <a href="{{ route('contact') }}" class="inline-block mt-8 bg-white text-pcg-blue-900 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition duration-300 shadow-lg">
-                        Join Our Journey
-                    </a>
-                </div>
-                <div class="relative h-64 lg:h-auto">
-                    <img src="{{ asset('images/bantama/yaf.jpg') }}" alt="Young Adult Fellowship" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/50 to-transparent"></div>
-                </div>
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12" data-aos="fade-up">
+            <div class="max-w-2xl">
+                <span class="eyebrow">Shepherds of the Flock</span>
+                <h2 class="section-title mt-3 !mb-2">Ministers Who Have Served</h2>
+                <p class="text-lg text-ink-500">The ministers in charge who have led Peyer Memorial since its first resident minister in 1968.</p>
             </div>
+            <a href="{{ route('about.ministers') }}" class="btn-outline shrink-0">All Past Leaders <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            @foreach ($shepherds as $minister)
+                <div class="flex items-center gap-4 rounded-2xl border border-ink-200/70 bg-page px-5 py-4 transition hover:border-accent-300 hover:bg-white hover:shadow-card"
+                     data-aos="fade-up" data-aos-delay="{{ ($loop->index % 4) * 70 }}">
+                    <span class="w-10 h-10 shrink-0 rounded-full bg-brand-600 text-white grid place-items-center text-sm font-extrabold tabular-nums">{{ $loop->iteration }}</span>
+                    <div class="min-w-0">
+                        <p class="font-bold text-ink-900 truncate">{{ $minister->name }}</p>
+                        <p class="text-sm text-ink-500 tabular-nums">{{ $minister->year }}{{ $minister->year_end && $minister->year_end != $minister->year ? '–' . $minister->year_end : '' }}</p>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 </section>
+@endif
 
+@include('partials.cta-band', [
+    'eyebrow' => 'Our Story Continues',
+    'title' => 'Become Part of the Story',
+    'text' => 'The faith of fifteen people at a morning devotion still gathers thousands every Sunday. Come and worship with us at Bantama.',
+    'primary' => ['Plan Your Visit', route('contact')],
+    'secondary' => ['Our Ministries', route('ministries.generational')],
+    'image' => 'images/bantama/hero_worship.jpg',
+])
 @endsection

@@ -8,27 +8,38 @@
    Peyer Memorial design system
    Structure follows the Metro Health site: Inter for text, Plus Jakarta Sans
    for headings, one button geometry with colour-only variants, one card, one
-   form control. Palette is the PCG crest: blue (brand) and red (accent).
+   form control. Navy leads, with restrained red accents and slate neutrals.
    ========================================================================= */
 
 @layer base {
   :root {
-    --pm-brand: #1f4396;
-    --pm-accent: #c8232a;
-    --pm-ink: #2c2c2c;
-    --pm-ring: 0 0 0 3px rgba(47, 86, 184, .30);
+    --pm-primary: #172554;
+    --pm-heading: #0F172A;
+    --pm-accent: #DC2626;
+    --pm-background: #F8FAFC;
+    --pm-surface: #FFFFFF;
+    --pm-secondary: #64748B;
+    --pm-border: #E2E8F0;
+    --pm-brand: var(--pm-primary);
+    --pm-ink: var(--pm-heading);
+    --pm-ring: 0 0 0 3px rgba(23, 37, 84, .22);
   }
 
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
   body {
     @apply font-sans text-ink-800 antialiased;
+    background-color: var(--pm-background);
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-extrabold;
+    color: var(--pm-heading);
     letter-spacing: -0.02em;
   }
+
+  /* On dark cards and photo banners (white text), headings follow the surrounding colour. */
+  .text-white :where(h1, h2, h3, h4, h5, h6) { color: inherit; }
 
   /* Default heading scale. Any explicit text-* utility on the element wins. */
   h1 { @apply text-5xl md:text-6xl lg:text-7xl; line-height: 1.1; }
@@ -223,13 +234,15 @@
 @keyframes cue-wheel { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
 
 /* Navigation over the home hero: transparent with white type until the page scrolls. */
+/* Logo lockup: solid lettering, stacked; white over photo headers. */
+.brand-lockup { display: inline-flex; flex-direction: column; white-space: nowrap; }
 .nav-clear .nav-item { color: #fff; }
-.nav-clear .nav-item:hover { color: #fecaca; }
-.nav-clear .nav-item.is-on { color: #fca5a5; }
-.nav-clear .nav-item::after { background-color: #fca5a5; }
-.nav-clear .brand-eyebrow { color: #fca5a5; }
-.nav-clear .brand-name { color: #fff; }
-.nav-clear .brand-sub { color: #fff; }
+.nav-clear .nav-item:hover { color: #FCA5A5; }
+.nav-clear .nav-item.is-on { color: #FCA5A5; }
+.nav-clear .nav-item::after { background-color: #FCA5A5; }
+.nav-clear .brand-eyebrow { color: #FCA5A5; }
+.nav-clear .brand-name, .nav-clear .brand-sub { color: #fff; }
+.nav-clear .brand-location { color: rgba(255,255,255,.75); }
 .nav-clear .brand-rule { background-color: rgba(255,255,255,.45); }
 .nav-clear .menu-btn { color: #fff; }
 .nav-clear .menu-btn:hover { background: rgba(255,255,255,.12); }

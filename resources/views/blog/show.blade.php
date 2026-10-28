@@ -6,7 +6,7 @@
 @include('partials.page-hero', [
     'title' => $post->title,
     'eyebrow' => 'News Update',
-    'image' => $post->image ? asset('storage/' . $post->image) : 'images/bantama/yaf.jpg',
+    'image' => $post->image ? asset('storage/' . $post->image) : 'images/bantama/harvest.jpg',
     'crumbs' => [['News Update', route('news-update')], [Str::limit($post->title, 40)]],
     'meta' => array_filter([$post->author ? ['fas fa-user', 'By ' . $post->author] : null, ['far fa-calendar', $post->published_at ? $post->published_at->format('M d, Y') : 'Recent']]),
 ])

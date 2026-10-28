@@ -8,7 +8,7 @@
     'title' => 'Generational Groups',
     'eyebrow' => 'Ministries',
     'subtitle' => "From Children's Service to the Men's and Women's Fellowships, a group for every stage of life.",
-    'image' => 'images/bantama/ypg.jpg',
+    'image' => 'images/bantama/jy_sunday.jpg',
     'crumbs' => [['Ministries', route('ministries.generational')], ['Generational Groups']],
 ])
 
@@ -38,7 +38,7 @@
     'text' => "No matter your age or stage of life, there's a ministry waiting for you. Join us and grow in faith with others who share your journey.",
     'primary' => ['Get Connected', route('contact')],
     'secondary' => ['Inter-Generational Groups', route('ministries.inter-generational')],
-    'image' => 'images/bantama/yaf.jpg',
+    'image' => 'images/bantama/children_worship.jpg',
 ])
 @endsection
 

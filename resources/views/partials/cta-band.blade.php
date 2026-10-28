@@ -11,7 +11,7 @@
     ])
 --}}
 <section class="hero-wash py-20 md:py-24 text-white"
-         style="background-image: linear-gradient(160deg, rgba(16,22,63,.93) 0%, rgba(8,11,34,.95) 55%, rgba(29,42,107,.90) 100%), url('{{ asset($image ?? 'images/bantama/mens_fellowship.jpg') }}');">
+         style="background-image: linear-gradient(160deg, rgba(16,22,63,.93) 0%, rgba(8,11,34,.95) 55%, rgba(29,42,107,.90) 100%), url('{{ asset($image ?? 'images/bantama/harvest.jpg') }}');">
     <div class="site max-w-3xl text-center" data-aos="zoom-in-up">
         @isset($eyebrow)
             <span class="eyebrow !text-accent-300">{{ $eyebrow }}</span>

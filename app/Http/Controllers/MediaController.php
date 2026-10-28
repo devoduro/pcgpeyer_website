@@ -36,7 +36,7 @@ class MediaController extends Controller
     public function videos(Request $request)
     {
         // Get all unique categories
-        $categories = \App\Models\Video::whereNotNull('category')
+        $categories = \App\Models\Video::published()->whereNotNull('category')
             ->distinct()
             ->pluck('category')
             ->sort()
@@ -52,6 +52,7 @@ class MediaController extends Controller
         
         // Get videos
         $videos = $query->orderBy('featured', 'desc')
+            ->orderByDesc('publish_date')
             ->orderBy('created_at', 'desc')
             ->paginate(12);
             

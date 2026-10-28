@@ -12,7 +12,7 @@
     'title' => 'Church Leadership',
     'eyebrow' => 'About Us',
     'subtitle' => "Serving God's people with Presbyterian faithfulness, through our ministers and the Session.",
-    'image' => 'images/bantama/session.jpg',
+    'image' => 'images/bantama/covenant_service.jpg',
     'crumbs' => [['About Us', route('about.history')], ['Church Leadership']],
 ])
 
