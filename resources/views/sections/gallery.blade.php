@@ -3,7 +3,7 @@
     <!-- Elegant Background Pattern -->
     <div class="absolute inset-0 opacity-[0.02]" ></div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="site relative z-10">
         <!-- Section Header -->
        
           <div class="text-center mb-16">
@@ -33,7 +33,7 @@
                                  alt="{{ $gallery->title }}" 
                                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out"
                                  loading="lazy"
-                                 onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&h=600&fit=crop'">
+                                 onerror="this.src='{{ asset('images/bantama/members_group.jpg') }}'">
                         @else
                             <div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                                 <i class="fas fa-images text-6xl text-gray-400"></i>

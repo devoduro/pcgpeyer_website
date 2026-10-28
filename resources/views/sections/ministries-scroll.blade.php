@@ -1,6 +1,6 @@
 <!-- Ministries Scrolling Section -->
 <section class="section-padding bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="text-center mb-16">
             <div class="decorative-line"></div>
             <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-4">Our Ministries</h2>
@@ -14,7 +14,7 @@
                 <!-- {{ $ministry->name }} -->
                 <div class="w-96 card overflow-hidden flex-shrink-0">
                     <div class="relative h-64">
-                        <img src="{{ asset('storage/' . $ministry->image) }}" alt="{{ $ministry->name }}" class="w-full h-full object-cover">
+                        <img src="{{ $ministry->image_url }}" alt="{{ $ministry->name }}" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
                           
                             <h3 class="text-2xl font-bold text-white">{{ $ministry->name }}</h3>

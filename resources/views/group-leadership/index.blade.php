@@ -4,24 +4,17 @@
 
 @section('content')
 <!-- Hero Header with Background Image -->
-<section class="relative pt-32 pb-24 overflow-hidden" data-aos="fade-down" data-aos-duration="1000">
-    <div class="absolute inset-0">
-        <img src="{{ asset('images/church_building.png') }}" alt="Group Leadership" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 via-pcg-blue-800/90 to-pcg-blue-900/95"></div>
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div class="icon-circle-lg bg-white/20 backdrop-blur-lg border-2 border-white/30 mx-auto mb-8 animate-bounce-slow">
-            <i class="fas fa-people-group text-3xl text-white"></i>
-        </div>
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow-lg" data-aos="fade-up" data-aos-delay="200">Group Leaders</h1>
-        <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="400">Meet our dedicated ministry leaders serving the congregation</p>
-        <div class="w-24 h-1 bg-pcg-red-600 mx-auto animate-expand" data-aos="zoom-in" data-aos-delay="600"></div>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => 'Group Leaders',
+    'eyebrow' => 'About Us',
+    'subtitle' => 'Meet the leaders of our fellowships, guilds and singing groups.',
+    'image' => 'images/bantama/mens_fellowship.jpg',
+    'crumbs' => [['About Us', route('about.history')], ['Group Leaders']],
+])
 
 <!-- Minister Leaders Grid -->
 <section class="py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         @if($ministers->count())
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($ministers as $minister)
@@ -86,9 +79,16 @@
                 @endforeach
             </div>
         @else
-            <div class="text-center py-16">
-                <i class="fas fa-user-tie text-6xl text-gray-300 mb-4"></i>
-                <p class="text-xl text-gray-600">No minister leaders available at this time.</p>
+            {{-- Until this year's group leaders are entered, show the groups themselves. --}}
+            <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+                <span class="eyebrow">Our Groups</span>
+                <h2 class="section-title mt-2">Fellowships &amp; Guilds</h2>
+                <p class="text-ink-500">This year's group leaders will be listed here soon. In the meantime, here is when and where each group meets. Everyone is welcome.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($groups as $ministry)
+                    @include('partials.ministry-card')
+                @endforeach
             </div>
         @endif
     </div>
@@ -96,7 +96,7 @@
 
 <!-- Back to About -->
 <section class="py-8 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <a href="{{ route('about.leadership') }}" class="inline-flex items-center gap-2 text-pcg-blue-600 hover:text-pcg-blue-800 font-semibold transition-colors">
             <i class="fas fa-arrow-left"></i> Back to Leadership
         </a>

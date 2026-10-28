@@ -4,27 +4,18 @@
 
 @section('content')
 <!-- Hero Header with Background Image -->
-<section class="relative pt-32 pb-24 overflow-hidden" data-aos="fade-down" data-aos-duration="1000">
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=1920&h=600&fit=crop" alt="Video Gallery" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 via-pcg-blue-800/90 to-pcg-blue-900/95"></div>
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div class="icon-circle-lg bg-white/20 backdrop-blur-lg border-2 border-white/30 mx-auto mb-8 animate-bounce-slow">
-            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-            </svg>
-        </div>
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow-lg" data-aos="fade-up" data-aos-delay="200">Video Gallery</h1>
-        <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="400">Watch Sermons, Events & Testimonies</p>
-        <div class="w-24 h-1 bg-pcg-blue-400 mx-auto animate-expand" data-aos="zoom-in" data-aos-delay="600"></div>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => 'Video Gallery',
+    'eyebrow' => 'Media',
+    'subtitle' => 'Watch sermons, events and testimonies from our congregation.',
+    'image' => 'images/bantama/choir.jpg',
+    'crumbs' => [['Media', route('media.photos')], ['Videos']],
+])
 
 <!-- Category Filter -->
 @if($categories->count() > 0)
 <section class="py-8 bg-gray-50 border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="flex flex-wrap items-center justify-center gap-3" data-aos="fade-up">
             <a href="{{ route('media.videos') }}" 
                class="px-6 py-3 rounded-full font-semibold transition duration-300 shadow-md {{ !request('category') ? 'bg-pcg-blue-600 text-white' : 'bg-white text-pcg-blue-900 hover:bg-pcg-blue-50' }}">
@@ -44,7 +35,7 @@
 
 <!-- Video Gallery Grid -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         @if($videos->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($videos as $index => $video)

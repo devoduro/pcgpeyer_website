@@ -46,6 +46,12 @@ class Ministry extends Model
     /**
      * Get the route key for model binding
      */
+    /** Public URL of the ministry photo, or a congregation photo when none has been uploaded. */
+    public function getImageUrlAttribute(): string
+    {
+        return $this->image ? asset('storage/' . $this->image) : asset('images/bantama/members_group.jpg');
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

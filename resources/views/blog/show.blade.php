@@ -3,18 +3,13 @@
 @section('title', $post->title . ' - PCG Peyer Memorial Congregation')
 
 @section('content')
-<section class="pt-32 pb-16 bg-gradient-to-r from-pcg-blue-900 to-pcg-red-700 text-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-sm mb-4">
-            <a href="{{ route('news-update') }}" class="text-gray-200 hover:text-white">← Back to News Update</a>
-        </div>
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ $post->title }}</h1>
-        <div class="flex items-center text-gray-200">
-            <span class="mr-4">By {{ $post->author }}</span>
-            <span>{{ $post->published_at ? $post->published_at->format('M d, Y') : 'Recent' }}</span>
-        </div>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => $post->title,
+    'eyebrow' => 'News Update',
+    'image' => $post->image ? asset('storage/' . $post->image) : 'images/bantama/yaf.jpg',
+    'crumbs' => [['News Update', route('news-update')], [Str::limit($post->title, 40)]],
+    'meta' => array_filter([$post->author ? ['fas fa-user', 'By ' . $post->author] : null, ['far fa-calendar', $post->published_at ? $post->published_at->format('M d, Y') : 'Recent']]),
+])
 
 <article class="py-20 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

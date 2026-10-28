@@ -16,7 +16,7 @@ class LeadershipController extends Controller
     /** GET /leadership: leaders grouped by service period, the current period first. */
     public function index(): JsonResponse
     {
-        $leaders = Leadership::where('active', true)->with(['titleRelation', 'yearRelation'])
+        $leaders = Leadership::where('active', true)->termRoster()->with(['titleRelation', 'yearRelation'])
             ->orderBy('display_order')->orderBy('name')->get();
 
         $periods = $leaders

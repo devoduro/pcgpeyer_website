@@ -1,7 +1,7 @@
 @if($announcements->count())
 <!-- Announcements Section -->
 <section class="section-padding bg-gradient-to-b from-pcg-blue-50 to-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="text-center mb-12" data-aos="fade-up">
             <div class="inline-block">
                 <span class="text-pcg-red-600 font-semibold text-sm uppercase tracking-wider mb-2 block">Stay Informed</span>

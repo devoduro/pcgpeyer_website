@@ -9,12 +9,15 @@ use App\Models\Sermon;
 use App\Models\Ministry;
 use App\Models\Gallery;
 use App\Models\Video;
+use App\Support\DevotionService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(DevotionService $devotions)
     {
+        $todaysDevotional = $devotions->todaysDevotional();
+
         $announcements = Announcement::active()->take(5)->get();
 
         // Get latest 4 posts for carousel display
@@ -49,6 +52,6 @@ class HomeController extends Controller
             ->take(6)
             ->get();
         
-        return view('home', compact('announcements', 'latestPosts', 'upcomingEvents', 'latestSermons', 'featuredMinistries', 'latestGalleries', 'latestVideos'));
+        return view('home', compact('todaysDevotional', 'announcements', 'latestPosts', 'upcomingEvents', 'latestSermons', 'featuredMinistries', 'latestGalleries', 'latestVideos'));
     }
 }

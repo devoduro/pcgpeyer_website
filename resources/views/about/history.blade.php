@@ -4,22 +4,17 @@
 
 @section('content')
 <!-- Hero Header with Background Image -->
-<section class="relative pt-32 pb-24 overflow-hidden">
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1920&h=600&fit=crop" alt="Church History" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 via-pcg-blue-900/90 to-pcg-red-900/95"></div>
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow-lg">Our Rich History</h1>
-        <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto">Peyer Memorial Congregation, Bantama - Kumasi</p>
-        <div class="w-24 h-1 bg-pcg-red-400 mx-auto"></div>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => 'Our Rich History',
+    'eyebrow' => 'Since 1957',
+    'subtitle' => 'From a Morning Devotion group in Bantama homes to a congregation of over five thousand members.',
+    'image' => 'images/bantama/mens_fellowship.jpg',
+    'crumbs' => [['About Us', route('about.history')], ['Brief History']],
+])
 
 <!-- Introduction Section with Image -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
                 <div class="decorative-line mb-8"></div>
@@ -46,8 +41,7 @@
             </div>
             <div class="relative">
                 <div class="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl group">
-                    <img src="{{ asset('storage/images/auditorious.jpg') }}" alt="Church Foundation" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/80 to-transparent"></div>
+                    <img src="{{ asset('images/bantama/anniversary.jpg') }}" alt="Peyer Memorial Congregation 60th anniversary emblem, 1957-2017" class="w-full h-full object-contain bg-white p-6 transform group-hover:scale-105 transition duration-700">
                     <div class="absolute bottom-8 left-8 right-8 text-white">
 
                     </div>
@@ -59,7 +53,7 @@
 
 <!-- Rev. Ernst Peyer Section -->
 <section class="py-20 bg-gradient-to-br from-pcg-blue-50 to-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="text-center mb-16">
             <div class="decorative-line"></div>
             <h2 class="text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-6">Rev. Ernst Peyer</h2>
@@ -69,11 +63,11 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1">
                 <div class="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
-                    <img src="{{ asset('images/church_building.png') }}" alt="Peyer Memorial Congregation Chapel" class="w-full h-full object-cover">
+                    <img src="{{ asset('images/bantama/choir.jpg') }}" alt="The Church Choir of Peyer Memorial Congregation" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                     <div class="absolute bottom-8 left-8 right-8 text-white">
-                        <p class="text-3xl font-bold text-shadow-lg">Peyer Memorial Chapel</p>
-                        <p class="text-xl text-shadow">Bantama, Kumasi</p>
+                        <p class="text-3xl font-bold text-shadow-lg">The Church Choir</p>
+                        <p class="text-xl text-shadow">Founded 1962, in the 60th anniversary year</p>
                     </div>
                 </div>
             </div>
@@ -110,7 +104,7 @@
 
 <!-- Growth & Development Section -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
                 <div class="decorative-line mb-8"></div>
@@ -137,28 +131,28 @@
                 <!-- Statistics -->
                 <div class="grid grid-cols-2 gap-6 mt-10">
                     <div class="bg-gradient-to-br from-pcg-red-500 to-pcg-red-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2">65+</p>
+                        <p class="text-4xl font-bold mb-2 tabular-nums" data-count-to="65" data-count-suffix="+">65+</p>
                         <p class="font-semibold">Years of Service</p>
                     </div>
                     <div class="bg-gradient-to-br from-pcg-blue-500 to-pcg-blue-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2">5,000+</p>
+                        <p class="text-4xl font-bold mb-2 tabular-nums" data-count-to="5000" data-count-suffix="+">5,000+</p>
                         <p class="font-semibold">Members</p>
                     </div>
                     <div class="bg-gradient-to-br from-pcg-red-500 to-pcg-red-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2">15+</p>
+                        <p class="text-4xl font-bold mb-2 tabular-nums" data-count-to="15" data-count-suffix="+">15+</p>
                         <p class="font-semibold">Ministries</p>
                     </div>
                     <div class="bg-gradient-to-br from-pcg-blue-500 to-pcg-blue-700 p-6 rounded-2xl shadow-lg text-center text-white">
-                        <p class="text-4xl font-bold mb-2">20+</p>
+                        <p class="text-4xl font-bold mb-2 tabular-nums" data-count-to="20" data-count-suffix="+">20+</p>
                         <p class="font-semibold">Pastors Served</p>
                     </div>
                 </div>
             </div>
-            <div class="relative h-[900px] rounded-3xl overflow-hidden shadow-2xl group">
-                <img src="{{ asset('storage/images/manse.png') }}" alt="Church Growth" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+            <div class="relative h-[420px] lg:h-[560px] rounded-3xl overflow-hidden shadow-2xl group">
+                <img src="{{ asset('images/bantama/session.jpg') }}" alt="The Session of Peyer Memorial Congregation" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
                 <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/70 to-transparent"></div>
                 <div class="absolute bottom-8 left-8 right-8 text-white">
-                    <p class="text-3xl font-bold text-shadow-lg">Church Manse</p>
+                    <p class="text-3xl font-bold text-shadow-lg">The Session</p>
 
                 </div>
             </div>
@@ -169,7 +163,7 @@
 <!-- Our Motto Section -->
 <section class="relative py-32 overflow-hidden">
     <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1920&h=800&fit=crop" alt="Unity" class="w-full h-full object-cover">
+        <img src="{{ asset('images/bantama/choir.jpg') }}" alt="The Church Choir" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 to-pcg-red-900/95"></div>
     </div>
     <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
@@ -189,7 +183,7 @@
 
 <!-- Looking to the Future Section -->
 <section class="py-20 bg-gradient-to-br from-gray-50 to-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="bg-gradient-to-br from-pcg-blue-900 to-pcg-red-900 rounded-3xl overflow-hidden shadow-2xl">
             <div class="grid grid-cols-1 lg:grid-cols-2">
                 <div class="p-12 lg:p-16 text-white">
@@ -216,7 +210,7 @@
                     </a>
                 </div>
                 <div class="relative h-64 lg:h-auto">
-                    <img src="{{ asset('storage/images/future.png') }}" alt="Future Vision" class="w-full h-full object-cover">
+                    <img src="{{ asset('images/bantama/yaf.jpg') }}" alt="Young Adult Fellowship" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/50 to-transparent"></div>
                 </div>
             </div>

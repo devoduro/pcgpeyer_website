@@ -88,6 +88,9 @@ class LeadershipController extends Controller
             'email' => ['nullable', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:20'],
             'year' => ['required', 'integer', 'min:1900', 'max:2100'],
+            'year_end' => ['nullable', 'integer', 'min:1900', 'max:2100', 'gte:year'],
+            'served_from' => ['nullable', 'date'],
+            'served_to' => ['nullable', 'date', 'after_or_equal:served_from'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'display_order' => ['nullable', 'integer', 'min:0'],
             'active' => ['nullable', 'boolean'],
@@ -99,6 +102,7 @@ class LeadershipController extends Controller
         }
 
         $validated['active'] = $request->has('active');
+        $validated['is_current'] = $request->has('is_current');
         $validated['display_order'] = $validated['display_order'] ?? 0;
         $validated['title_text'] = $validated['title_text'] ?? '';
 
@@ -131,6 +135,9 @@ class LeadershipController extends Controller
             'email' => ['nullable', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:20'],
             'year' => ['required', 'integer', 'min:1900', 'max:2100'],
+            'year_end' => ['nullable', 'integer', 'min:1900', 'max:2100', 'gte:year'],
+            'served_from' => ['nullable', 'date'],
+            'served_to' => ['nullable', 'date', 'after_or_equal:served_from'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'display_order' => ['nullable', 'integer', 'min:0'],
             'active' => ['nullable', 'boolean'],
@@ -145,6 +152,7 @@ class LeadershipController extends Controller
         }
 
         $validated['active'] = $request->has('active');
+        $validated['is_current'] = $request->has('is_current');
         $validated['display_order'] = $validated['display_order'] ?? $leadership->display_order;
         $validated['title_text'] = $validated['title_text'] ?? '';
 

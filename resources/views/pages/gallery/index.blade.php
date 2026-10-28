@@ -4,18 +4,17 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="pt-32 pb-16 bg-gradient-to-r from-pcg-blue-900 to-pcg-red-700 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-4" data-aos="fade-up">Photo Gallery</h1>
-        <p class="text-xl md:text-2xl text-gray-200" data-aos="fade-up" data-aos-delay="100">
-            Capturing moments of faith, fellowship, and community
-        </p>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => 'Photo Galleries',
+    'eyebrow' => 'Media',
+    'subtitle' => 'Albums from services, celebrations and the life of the congregation.',
+    'image' => 'images/bantama/womens_fellowship.jpg',
+    'crumbs' => [['Media', route('media.photos')], ['Galleries']],
+])
 
 <!-- Galleries Grid -->
 <section class="py-20 bg-gradient-to-b from-white to-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         @if($galleries->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($galleries as $gallery)

@@ -3,702 +3,362 @@
 @section('title', 'Home - PCG Peyer Memorial Congregation')
 
 @section('content')
-<!-- Hero Slider Section -->
-<section class="relative h-screen overflow-hidden">
-    <!-- Slider Container -->
-    <div class="hero-slider relative h-full">
-        <!-- Slide 1 -->
-        <div class="hero-slide active absolute inset-0">
-            <img src="images/sliders/slider1.jpg" alt="Church Building" class="w-full h-full object-cover kenburns">
-            <div class="absolute inset-0 hero-slide-overlay"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="text-center text-white px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-                    <div class="animate-fadeInUp">
-                        <p class="text-xl md:text-2xl mb-4 text-pcg-red-300 font-semibold tracking-wide uppercase">Welcome to</p>
-                        <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-tight text-shadow-lg">
-                            Peyer Memorial<br>
-                            <span class="text-pcg-red-400">Congregation</span>
-                        </h1>
-                        <p class="text-xl md:text-3xl mb-8 text-gray-100 font-light max-w-3xl mx-auto">
-                            Presbyterian Church of Ghana - Bantama, Kumasi
-                        </p>
-                        <div class="w-24 h-1 bg-pcg-red-400 mx-auto mb-8"></div>
-                        <p class="text-2xl md:text-3xl mb-10 italic text-white/90 font-serif">
-                            "That They All May Be"
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="{{ route('about.history') }}" class="btn-primary text-lg px-8 py-4">
-                                Learn About Us
-                            </a>
-                            <a href="{{ route('contact') }}" class="btn-outline text-lg px-8 py-4">
-                                Plan Your Visit
-                            </a>
+@php
+    /* [photo, eyebrow, line one, line two, copy, primary link, primary label] */
+    $slides = [
+        ['images/bantama/womens_fellowship.jpg', 'WELCOME HOME', 'Welcome to', 'Peyer Memorial Congregation',
+         'Presbyterian Church of Ghana, Bantama — Kumasi. A family of believers worshipping together since 1957.',
+         route('contact'), 'Plan Your Visit'],
+        ['images/bantama/mens_fellowship.jpg', 'SINCE 1957', 'From a Morning Devotion', 'to Over 5,000 Members',
+         'What began as a small prayer group in Bantama homes became a congregation, a district and a mother of many churches.',
+         route('about.history'), 'Our History'],
+        ['images/bantama/choir.jpg', 'WORSHIP WITH US', 'Sundays at', '7:00 & 9:30 AM',
+         'Two services every Sunday, with Children\'s Service running alongside. Come as you are; you will be welcome.',
+         route('contact'), 'Plan Your Visit'],
+        ['images/bantama/yaf.jpg', 'GROW IN FELLOWSHIP', 'A Place for', 'Every Generation',
+         'From the Boys\' and Girls\' Brigade to the YPG, YAF, Women\'s and Men\'s Fellowships, there is a group for you.',
+         route('ministries.generational'), 'Explore Ministries'],
+    ];
+
+    $meetings = [
+        ['YPG', 'Sundays, 5:30 PM'],
+        ['YAF', 'Sundays, after 2nd Service'],
+        ['Singing Band', 'Sundays, after 2nd Service'],
+        ["Men's Fellowship", 'Tuesdays, 7:00 PM'],
+        ["Women's Fellowship", 'Tuesdays, 4:30 PM'],
+        ['Church Choir', 'Tuesdays & Thursdays, 7:00 PM'],
+        ['BSPG', 'Wednesdays, 7:00 PM'],
+        ['Youth Choir', 'Wednesdays 7:00 PM & Saturdays 5:00 PM'],
+    ];
+
+    $mission = [
+        'Mobilizing the entire church for prayer',
+        'Improving church growth through evangelism and nurture',
+        'Attaining self-sufficiency through effective resource mobilization',
+        'Promoting socio-economic development through advocacy and effective delivery of social service',
+        'Upholding the Reformed Tradition',
+        'Cherishing partnership with the worldwide body of Christ',
+    ];
+
+    $values = [
+        'The Centrality of the Word of God', 'Discipline', 'Hard work', 'Integrity', 'Humility', 'Unity',
+        'Upholding Democratic Principles', 'Godly Leadership and Skills Development', 'Sound Moral Principles',
+    ];
+@endphp
+
+{{-- ── Hero slider ─────────────────────────────────────────────────────── --}}
+<section x-cloak class="hero-section relative -mt-20 h-screen min-h-[640px] max-h-[920px] overflow-hidden bg-navy-900"
+    x-data="{
+        i: 0,
+        n: {{ count($slides) }},
+        timer: null,
+        r: true,
+        ready: false,
+        touchX: 0,
+        go(k) { this.i = (k + this.n) % this.n; this.restart(); },
+        start() { this.timer = setInterval(() => { this.i = (this.i + 1) % this.n; }, 6000); },
+        stop() { clearInterval(this.timer); },
+        restart() { this.stop(); this.start(); }
+    }"
+    x-init="if (window.__pageReady) { ready = true } else { window.addEventListener('page-ready', () => ready = true, { once: true }) }; start()"
+    @mouseenter="stop()" @mouseleave="r = false; $nextTick(() => { r = true; start(); })"
+    @touchstart="touchX = $event.changedTouches[0].screenX"
+    @touchend="Math.abs($event.changedTouches[0].screenX - touchX) > 50 && go(i + ($event.changedTouches[0].screenX < touchX ? 1 : -1))"
+>
+    @foreach ($slides as $index => [$img, $eyebrow, $titleA, $titleB, $copy, $href, $label])
+        <div :class="i === {{ $index }} ? 'opacity-100 scale-100 z-[1]' : 'opacity-0 scale-[1.03] pointer-events-none z-0'"
+             class="absolute inset-0 overflow-hidden transition-[opacity,transform] duration-[1200ms] ease-out">
+            <div class="hero-photo absolute inset-0 bg-cover bg-center bg-no-repeat"
+                 :class="i === {{ $index }} && 'is-active'"
+                 style="background-image: url('{{ asset($img) }}');"></div>
+            <div aria-hidden="true" class="hero-scrim absolute inset-0"></div>
+
+            <div class="hero-body relative z-[2] h-full flex items-center">
+                <div class="site w-full">
+                    <div class="hero-copy" :class="i === {{ $index }} && ready && 'is-active'">
+                        <span class="hero-eyebrow">{{ $eyebrow }}</span>
+                        @if ($index === 0)
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5 leading-[1.1]">{{ $titleA }}<br><span class="text-accent-300">{{ $titleB }}</span></h1>
+                        @else
+                            <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5 leading-[1.1]">{{ $titleA }}<br><span class="text-accent-300">{{ $titleB }}</span></h2>
+                        @endif
+                        <p class="max-w-xl text-lg text-white/90 mb-8">{{ $copy }}</p>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="{{ $href }}" class="btn-accent btn-lg">{{ $label }}</a>
+                            <a href="{{ route('about.history') }}" class="btn-on-dark btn-lg">Who We Are</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    @endforeach
 
-        <!-- Slide 2 -->
-        <div class="hero-slide absolute inset-0 opacity-0">
-            <img src="images/sliders/slider2.png" alt="Church Manse" class="w-full h-full object-cover kenburns">
-            <div class="absolute inset-0 hero-slide-overlay"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="text-center text-white px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-                    <div class="animate-fadeInUp">
-                        
-                        <h2 class="text-5xl md:text-7xl font-bold mb-6 leading-tight text-shadow-lg">
-                            Our Church<br>
-                            <span class="text-pcg-red-400">Manse</span>
-                        </h2>
-                        <p class="text-xl md:text-3xl mb-10 text-gray-100 font-light max-w-3xl mx-auto">
-                            A home for our pastoral leadership, serving the spiritual needs of our congregation and community
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="{{ route('about.history') }}" class="btn-primary text-lg px-8 py-4">
-                                Learn More
-                            </a>
-                            <a href="{{ route('contact') }}" class="btn-outline text-lg px-8 py-4">
-                                Contact Us
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="hero-slide absolute inset-0 opacity-0">
-            <img src="images/sliders/slider3.jpg" alt="Community Fellowship" class="w-full h-full object-cover kenburns">
-            <div class="absolute inset-0 hero-slide-overlay"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="text-center text-white px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-                    <div class="animate-fadeInUp">
-                        
-                        <h2 class="text-5xl md:text-7xl font-bold mb-6 leading-tight text-shadow-lg">
-                            Grow in<br>
-                            <span class="text-pcg-red-400">Community & Faith</span>
-                        </h2>
-                        <p class="text-xl md:text-3xl mb-10 text-gray-100 font-light max-w-3xl mx-auto">
-                            Connect with a loving church family through our ministries, small groups, and fellowship events
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="{{ route('ministries.inter-generational') }}" class="btn-primary text-lg px-8 py-4">
-                                Explore Ministries
-                            </a>
-                            <a href="{{ route('contact') }}" class="btn-outline text-lg px-8 py-4">
-                                Get Connected
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slider Navigation Dots -->
-    <div class="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
-        <button class="slider-dot active w-3 h-3 rounded-full bg-white ring-2 ring-white/80 ring-offset-2 ring-offset-transparent transition-all duration-300" data-slide="0"></button>
-        <button class="slider-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 ring-2 ring-white/60 ring-offset-2 ring-offset-transparent transition-all duration-300" data-slide="1"></button>
-        <button class="slider-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 ring-2 ring-white/60 ring-offset-2 ring-offset-transparent transition-all duration-300" data-slide="2"></button>
-    </div>
-
-    <!-- Slider Arrow Navigation -->
-    <button class="slider-arrow slider-prev absolute left-8 top-1/2 transform -translate-y-1/2 z-20 w-14 h-14 rounded-full transition-all duration-300 flex items-center justify-center group">
-        <svg class="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
+    <button type="button" @click="go(i - 1)" aria-label="Previous slide"
+            class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[3] w-11 h-11 rounded-full bg-white/20 text-white backdrop-blur hover:bg-white/35 transition-colors">
+        <i class="fas fa-chevron-left"></i>
     </button>
-    <button class="slider-arrow slider-next absolute right-8 top-1/2 transform -translate-y-1/2 z-20 w-14 h-14 rounded-full transition-all duration-300 flex items-center justify-center group">
-        <svg class="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
+    <button type="button" @click="go(i + 1)" aria-label="Next slide"
+            class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[3] w-11 h-11 rounded-full bg-white/20 text-white backdrop-blur hover:bg-white/35 transition-colors">
+        <i class="fas fa-chevron-right"></i>
     </button>
 
-    <!-- Scroll Indicator -->
-    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
-        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-        </svg>
+    <a href="#welcome" aria-label="Scroll down" class="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-[3] flex-col items-center gap-2 text-white/70 text-[11px] font-semibold tracking-[.2em] uppercase hover:text-white transition-colors">
+        <span class="scroll-cue"></span>
+    </a>
+
+    <div class="absolute bottom-24 md:bottom-28 left-0 right-0 z-[3]">
+        <div class="site flex items-center gap-4">
+            <span class="hero-count" x-text="String(i + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0')"></span>
+            <div class="flex items-center gap-2">
+                @foreach ($slides as $index => $slide)
+                    <button type="button" @click="go({{ $index }})" :class="i === {{ $index }} && r ? 'is-active' : ''"
+                            class="hero-bar" aria-label="Go to slide {{ $index + 1 }}"></button>
+                @endforeach
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- Announcements -->
+{{-- ── Feature band overlapping the hero: worship times, group meetings, today's devotion ── --}}
+<section id="welcome" class="relative z-10 -mt-16 md:-mt-20 pb-6 scroll-mt-24">
+    <div class="site grid gap-5 md:grid-cols-3">
+        <div class="card card-hover p-6" data-aos="fade-up">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-11 h-11 rounded-[14px] bg-brand-50 text-brand-600 flex items-center justify-center"><i class="fas fa-church"></i></span>
+                <h3 class="text-lg font-extrabold text-ink-900">Sunday Worship</h3>
+            </div>
+            <dl class="space-y-2 text-sm">
+                <div class="flex justify-between gap-3"><dt class="text-ink-500">1st Service</dt><dd class="font-bold text-ink-800">7:00 – 9:00 AM</dd></div>
+                <div class="flex justify-between gap-3"><dt class="text-ink-500">2nd Service</dt><dd class="font-bold text-ink-800">9:30 AM – 12:00 PM</dd></div>
+                <div class="flex justify-between gap-3"><dt class="text-ink-500">Children's Service</dt><dd class="font-bold text-ink-800">During both services</dd></div>
+            </dl>
+        </div>
+
+        <div class="card card-hover p-6" data-aos="fade-up" data-aos-delay="120">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-11 h-11 rounded-[14px] bg-accent-50 text-accent-600 flex items-center justify-center"><i class="fas fa-people-group"></i></span>
+                <h3 class="text-lg font-extrabold text-ink-900">This Week</h3>
+            </div>
+            <dl class="space-y-2 text-sm">
+                <div class="flex justify-between gap-3"><dt class="text-ink-500">Men's &amp; Women's Fellowship</dt><dd class="font-bold text-ink-800">Tuesdays</dd></div>
+                <div class="flex justify-between gap-3"><dt class="text-ink-500">Bible Study &amp; Prayer</dt><dd class="font-bold text-ink-800">Wed, 7:00 PM</dd></div>
+                <div class="flex justify-between gap-3"><dt class="text-ink-500">YPG</dt><dd class="font-bold text-ink-800">Sun, 5:30 PM</dd></div>
+            </dl>
+            <a href="#group-meetings" class="inline-flex items-center gap-2 mt-4 text-sm font-bold text-brand-600 hover:text-accent-600">All group meetings <i class="fas fa-arrow-right text-[11px]"></i></a>
+        </div>
+
+        <div class="card card-hover p-6 bg-gradient-to-br from-brand-700 to-navy-900 border-0 text-white" data-aos="fade-up" data-aos-delay="240">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-11 h-11 rounded-[14px] bg-white/15 text-white flex items-center justify-center"><i class="fas fa-book-bible"></i></span>
+                <h3 class="text-lg font-extrabold">Today's Devotion</h3>
+            </div>
+            @if ($todaysDevotional)
+                <p class="font-display font-bold leading-snug mb-2">{{ $todaysDevotional->title }}</p>
+                <p class="text-sm text-white/80 italic clamp-3 mb-3">&ldquo;{{ $todaysDevotional->scripture_text }}&rdquo;</p>
+                <p class="text-xs font-bold uppercase tracking-wider text-accent-300">{{ $todaysDevotional->scripture_reference }}</p>
+            @else
+                <p class="text-sm text-white/80">A new devotion is posted every morning. Check back soon.</p>
+            @endif
+        </div>
+    </div>
+</section>
+
 @include('sections.announcements')
 
-<!-- Welcome Section -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16" data-aos="fade-up" data-aos-delay="100">
-            <div class="relative">
-                <div class="absolute inset-0 bg-gradient-to-br from-pcg-blue-600 to-pcg-red-600 rounded-2xl transform rotate-3"></div>
-                <img src="images/church_building.png" alt="Church Building" class="relative rounded-2xl shadow-2xl w-full h-96 object-cover">
-            </div>
-            <div>
-                <h3 class="text-3xl font-bold text-pcg-blue-900 mb-6">Who We Are</h3>
-                <p class="text-gray-700 text-lg mb-6 leading-relaxed">
-                    We are a warm and welcoming community of believers committed to growing in faith, serving others, 
-                    and sharing the love of Christ. Whether you're exploring faith for the first time or looking for 
-                    a church to call home, we invite you to join us and experience the love and fellowship of our congregation.
-                </p>
-                <p class="text-gray-700 text-lg mb-8 leading-relaxed">
-                    Peyer Memorial Congregation was established in 1958 and is named after Rev. Ernst Peyer, a Basel Mission 
-                    representative who supported the building of our chapel. We continue that legacy of faith, service, and community building.
-                </p>
-                <a href="{{ route('about.history') }}" class="btn-secondary">
-                    Our History
-                </a>
-            </div>
-        </div>
-
-        <!-- Image Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" data-aos="fade-up" data-aos-delay="150">
-            <div class="relative h-48 rounded-lg overflow-hidden group">
-                <img src="images/worship.png" alt="Worship" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                    <p class="text-white font-semibold">Worship</p>
+{{-- ── Who we are ── --}}
+<section class="section-padding bg-white">
+    <div class="site">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-14">
+            <div class="relative" data-aos="fade-right">
+                <div class="ratio-4x3 rounded-[22px] shadow-lift">
+                    <img src="{{ asset('images/bantama/session.jpg') }}" alt="The Session of Peyer Memorial Congregation" data-reveal loading="lazy">
+                </div>
+                <div class="hidden md:flex absolute -bottom-8 -right-6 card p-4 items-center gap-3 animate-float" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="{{ asset('images/bantama/anniversary.jpg') }}" alt="60th anniversary emblem" class="w-16 h-16 rounded-full object-cover">
+                    <span class="leading-tight">
+                        <span class="block font-display text-2xl font-extrabold text-brand-700">1957</span>
+                        <span class="block text-xs font-semibold text-ink-500">Founded at Bantama</span>
+                    </span>
                 </div>
             </div>
-            <div class="relative h-48 rounded-lg overflow-hidden group">
-                <img src="images/fellowship.png" alt="Fellowship" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                    <p class="text-white font-semibold">Fellowship</p>
-                </div>
-            </div>
-            <div class="relative h-48 rounded-lg overflow-hidden group">
-                <img src="images/prayer.png" alt="Prayer" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                    <p class="text-white font-semibold">Prayer</p>
-                </div>
-            </div>
-            <div class="relative h-48 rounded-lg overflow-hidden group">
-                <img src="images/community.png" alt="Community" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                    <p class="text-white font-semibold">Community</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Mission, Vision, Values - Enhanced PCG Section -->
-<section class="relative py-32 overflow-hidden bg-white" data-aos="fade-up">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Section Header -->
-        <div class="text-center mb-20">
-            <div class="decorative-line"></div>
-            <h2 class="text-5xl md:text-6xl font-bold text-pcg-blue-900 mb-6">Our Foundation</h2>
-            <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-                Guided by Presbyterian principles and committed to transforming lives through Christ
-            </p>
-        </div>
-
-        <!-- Mission Section with Image -->
-        <div class="mb-24">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="order-2 lg:order-1">
-                    <div class="relative">
-                        <div class="absolute -inset-4 bg-gradient-to-r from-pcg-red-500 to-pcg-red-600 rounded-3xl opacity-20 blur-2xl"></div>
-                        <div class="relative bg-white p-10 rounded-3xl shadow-2xl border-2 border-pcg-red-100">
-                            <div class="flex items-center mb-6">
-                             
-                                <h3 class="text-4xl font-bold text-pcg-blue-900">Our Mission</h3>
-                            </div>
-                            <div class="space-y-4 text-gray-700 text-lg leading-relaxed">
-                                <p class="font-semibold text-pcg-red-600 text-xl italic mb-4">
-                                    "To uphold the Centrality of the Word of God and through the enablement of the Holy Spirit, pursue a holistic ministry, so as to bring all of creation to glorify God"
-                                </p>
-                                <p class="font-semibold text-pcg-blue-900 mb-3">
-                                    Through:
-                                </p>
-                                <ul class="space-y-3 ml-6">
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-red-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Mobilizing the entire church for prayer</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-red-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Improving church growth through evangelism and nurture</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-red-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Attaining self-sufficiency through effective resource mobilization</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-red-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Promoting socio-economic development through advocacy and effective delivery of social service</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-red-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Upholding the Reformed Tradition</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-red-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Cherishing partnership with worldwide body of Christ</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="order-1 lg:order-2">
-                    <div class="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl group">
-                        <img src="images/mission.jpg" alt="Mission" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/80 to-transparent"></div>
-                        <div class="absolute bottom-8 left-8 right-8 text-white">
-                            <p class="text-3xl font-bold text-shadow-lg">Proclaiming Christ</p>
-                            <p class="text-xl text-shadow">Making disciples of all nations</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Core Values Section with Image -->
-        <div class="mb-24">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="order-1">
-                    <div class="relative h-[700px] rounded-3xl overflow-hidden shadow-2xl group">
-                        <img src="images/minister.jpg" alt="Core Values" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/80 to-transparent"></div>
-                        <div class="absolute bottom-8 left-8 right-8 text-white">
-                           <p class="text-3xl font-bold text-shadow-lg">Rev. George Agyei Kwabi</p>
-                            <p class="text-xl text-shadow">District Minister</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="order-2">
-                    <div class="relative">
-                        <div class="absolute -inset-4 bg-gradient-to-r from-pcg-blue-500 to-pcg-blue-600 rounded-3xl opacity-20 blur-2xl"></div>
-                        <div class="relative bg-white p-10 rounded-3xl shadow-2xl border-2 border-pcg-blue-100">
-                            <div class="flex items-center mb-6">
-                             
-                                <h3 class="text-4xl font-bold text-pcg-blue-900">Our Core Values</h3>
-                            </div>
-                            <div class="space-y-4 text-gray-700 text-lg leading-relaxed">
-                                <p class="font-semibold text-pcg-blue-600 text-xl mb-4">
-                                    To harness the wholeness of the Church, we are guided by the following unwavering principles…
-                                </p>
-                                <ul class="space-y-3 ml-6">
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>The Centrality of the Word of God</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Discipline</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Hardwork</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Integrity</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Humility</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Unity</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Upholding Democratic Principles</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Godly Leadership and Skills Development</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <svg class="w-6 h-6 text-pcg-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>Sound Moral Principle</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-      
-    </div>
-</section>
-
-<!-- Service Times - Enhanced with Background Image -->
-<section class="relative py-32 overflow-hidden">
-    <!-- Background Image with Overlay -->
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1920&h=1080&fit=crop" alt="Worship Background" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 via-pcg-blue-900/90 to-pcg-red-900/95"></div>
-        <div class="absolute inset-0 bg-black/30"></div>
-    </div>
-
-    <!-- Content -->
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header -->
-        <div class="text-center mb-16" data-aos="fade-down">
-            <div class="inline-block mb-6">
-            
-            </div>
-            <h2 class="text-5xl md:text-6xl font-bold text-white mb-6 text-shadow-lg">Join Us for Worship</h2>
-            <p class="text-2xl md:text-3xl text-white/90 mb-4 font-light">We would love to have you worship with us</p>
-            <div class="w-24 h-1 bg-pcg-red-400 mx-auto"></div>
-            <p class="text-lg text-white/80 mt-6 max-w-2xl mx-auto leading-relaxed">
-                Experience authentic worship, powerful teaching, and genuine fellowship in a welcoming environment where everyone belongs.
-            </p>
-        </div>
-
-        <!-- Service Times Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
-            <!-- Sunday Service -->
-            <div class="group" data-aos="fade-up" data-aos-delay="100">
-                <div class="relative bg-white/10 backdrop-blur-xl rounded-2xl p-10 border-2 border-white/20 hover:border-white/40 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl overflow-hidden">
-                    <!-- Featured Badge -->
-                    <div class="absolute top-4 right-4">
-                        <span class="bg-pcg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">MAIN SERVICE</span>
-                    </div>
-                    
-                    <div class="flex items-center justify-center mb-6">
-                        <div class="icon-circle-lg bg-pcg-red-500 text-white group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-3xl font-bold text-white text-center mb-4">Sunday Services</h3>
-                    
-                    <!-- 1st Service -->
-                    <div class="text-center mb-4 pb-4 border-b border-white/20">
-                        <p class="text-lg text-white/80 mb-2">1st Service</p>
-                        <div class="flex items-center justify-center gap-3">
-                            <p class="text-3xl font-bold text-pcg-red-300">7:00 AM</p>
-                            <p class="text-xl text-white/80">to</p>
-                            <p class="text-3xl font-bold text-pcg-red-300">9:00 AM</p>
-                        </div>
-                    </div>
-                    
-                    <!-- 2nd Service -->
-                    <div class="text-center mb-6">
-                        <p class="text-lg text-white/80 mb-2">2nd Service (Forenoon)</p>
-                        <div class="flex items-center justify-center gap-3">
-                            <p class="text-3xl font-bold text-pcg-red-300">9:30 AM</p>
-                            <p class="text-xl text-white/80">to</p>
-                            <p class="text-3xl font-bold text-pcg-red-300">12:00 PM</p>
-                        </div>
-                    </div>
-                    
-                    <p class="text-white/90 text-center text-lg leading-relaxed mb-6">
-                        Join us for worship, praise, and powerful preaching every Sunday morning. Experience the presence of God with us.
+            <div data-aos="fade-left">
+                <span class="eyebrow">Who We Are</span>
+                <h2 class="section-title mt-2">A Church Family in the Heart of Bantama</h2>
+                <div class="prose-body mb-8">
+                    <p>
+                        We are a warm and welcoming community of believers committed to growing in faith, serving others,
+                        and sharing the love of Christ. Whether you're exploring faith for the first time or looking for
+                        a church to call home, we invite you to join us.
                     </p>
-                    
-                    <!-- Service Highlights -->
-                    <div class="space-y-2 mb-6">
-                     
-                        <div class="flex items-center justify-center text-white/80 text-sm">
-                            <svg class="w-4 h-4 mr-2 text-pcg-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                            </svg>
-                            <span>Biblical Preaching</span>
-                        </div>
-                        <div class="flex items-center justify-center text-white/80 text-sm">
-                            <svg class="w-4 h-4 mr-2 text-pcg-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                            <span>Children's Ministry Available</span>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center justify-center text-white/70 text-sm pt-4 border-t border-white/10">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        </svg>
-                        <span>Church Auditorium, Bantama - Kumasi</span>
-                    </div>
+                    <p>
+                        Peyer Memorial Congregation began in 1957 as a Morning Devotion group and became the Bantama
+                        Presbyterian Church. In 1990 it was dedicated and named in honour of Rev. Ernst Peyer, a Basel
+                        Mission representative who supported the building of our chapel.
+                    </p>
                 </div>
-            </div>
-
-            <!-- Weekly Activities -->
-            <div class="group" data-aos="fade-up" data-aos-delay="200">
-                <div class="relative bg-white/10 backdrop-blur-xl rounded-2xl p-10 border-2 border-white/20 hover:border-white/40 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl overflow-hidden">
-                    <!-- Badge -->
-                    <div class="absolute top-4 right-4">
-                        <span class="bg-pcg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">WEEKLY</span>
-                    </div>
-                    
-                    <div class="flex items-center justify-center mb-6">
-                        <div class="icon-circle-lg bg-pcg-blue-500 text-white group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-3xl font-bold text-white text-center mb-6">Group Meetings</h3>
-
-                    <!-- Activities List -->
-                    <div class="space-y-3 text-white/90 text-sm">
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">YPG:</span>
-                            <span class="text-right">Sundays, 5:30pm</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">YAF:</span>
-                            <span class="text-right">Sundays, after 2nd Service</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Singing Band:</span>
-                            <span class="text-right">Sundays, after 2nd Service</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Men's Fellowship:</span>
-                            <span class="text-right">Tuesdays, 7:00pm</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Women's Fellowship:</span>
-                            <span class="text-right">Tuesdays, 4:30pm</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">Church Choir:</span>
-                            <span class="text-right">Tuesdays & Thursdays, 7:00pm</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-white/10 pb-2">
-                            <span class="font-semibold text-white">BSPG:</span>
-                            <span class="text-right">Wednesdays, 7:00pm</span>
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <span class="font-semibold text-white">Youth Choir:</span>
-                            <span class="text-right">Wednesdays 7:00pm & Saturdays 5:00pm</span>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center justify-center text-white/70 text-sm pt-6 mt-6 border-t border-white/10">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        <span>Join us for fellowship and spiritual growth</span>
-                    </div>
+                <div class="flex flex-wrap gap-3">
+                    <a href="{{ route('about.history') }}" class="btn-primary">Our History</a>
+                    <a href="{{ route('about.ministers') }}" class="btn-outline">Past Leaders</a>
                 </div>
             </div>
         </div>
 
-        <!-- What to Expect Section
-        <div class="max-w-6xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="300">
-            <h3 class="text-3xl font-bold text-white text-center mb-8">What to Expect When You Visit</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 text-center group">
-                    <div class="icon-circle-lg bg-gradient-to-br from-pcg-red-500 to-pcg-red-600 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-white font-bold mb-2 text-lg">Warm Welcome</h4>
-                    <p class="text-white/80 text-sm leading-relaxed">Friendly greeters will welcome you and help you feel at home from the moment you arrive</p>
-                </div>
-
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 text-center group">
-                    <div class="icon-circle-lg bg-gradient-to-br from-pcg-blue-500 to-pcg-blue-600 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-white font-bold mb-2 text-lg">Casual Dress</h4>
-                    <p class="text-white/80 text-sm leading-relaxed">Come as you are! We value your presence, not your attire. Dress comfortably</p>
-                </div>
-
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 text-center group">
-                    <div class="icon-circle-lg bg-gradient-to-br from-pcg-red-500 to-pcg-red-600 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-white font-bold mb-2 text-lg">Sound Teaching</h4>
-                    <p class="text-white/80 text-sm leading-relaxed">Biblical messages that are relevant, practical, and life-changing</p>
-                </div>
-
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 text-center group">
-                    <div class="icon-circle-lg bg-gradient-to-br from-pcg-blue-500 to-pcg-blue-600 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-white font-bold mb-2 text-lg">Free Parking</h4>
-                    <p class="text-white/80 text-sm leading-relaxed">Ample parking space available for all visitors and members</p>
-                </div>
-            </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            @foreach ([['choir', 'Worship', 'Church Choir'], ['womens_fellowship', 'Fellowship', "Women's Fellowship"], ['ypg', 'Youth', "Young People's Guild"], ['brigade_b', 'Children', "Boys' & Girls' Brigade"]] as [$photo, $label, $caption])
+                <figure class="group relative ratio-4x3 rounded-[18px] shadow-card hover:shadow-lift transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 120 }}">
+                    <img src="{{ asset('images/bantama/' . $photo . '.jpg') }}" alt="{{ $caption }}" class="transition-transform duration-700 ease-out group-hover:scale-110" data-reveal loading="lazy">
+                    <figcaption class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-transparent">
+                        <span class="text-white font-bold">{{ $label }}</span>
+                        <span class="text-white/70 text-xs">{{ $caption }}</span>
+                    </figcaption>
+                </figure>
+            @endforeach
         </div>
- -->
-        <!-- Call to Action -->
-        <div class="text-center" data-aos="zoom-in" data-aos-delay="400">
-            <a href="{{ route('contact') }}" class="inline-flex items-center bg-white text-pcg-blue-900 hover:bg-pcg-red-600 hover:text-white font-bold text-lg px-10 py-5 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl group">
-                <span>Plan Your Visit</span>
-                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                </svg>
-            </a>
-                   </div>
     </div>
 </section>
 
-<!-- Our Videos -->
+{{-- ── Our foundation: mission and core values ── --}}
+<section class="section-padding bg-ink-50">
+    <div class="site">
+        <div class="text-center max-w-3xl mx-auto mb-14" data-aos="fade-up">
+            <span class="eyebrow">Our Foundation</span>
+            <h2 class="section-title mt-2">Guided by the Word, Rooted in the Reformed Tradition</h2>
+            <p class="section-subtitle">As a congregation of the Presbyterian Church of Ghana, we share the Church's mission and values.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="card card-hover p-8 md:p-10" data-aos="fade-right">
+                <span class="badge badge-accent mb-4">Our Mission</span>
+                <p class="font-display text-xl font-bold text-ink-900 leading-snug mb-6">
+                    &ldquo;To uphold the Centrality of the Word of God and through the enablement of the Holy Spirit, pursue a holistic ministry, so as to bring all of creation to glorify God.&rdquo;
+                </p>
+                <p class="text-sm font-bold text-ink-500 uppercase tracking-wider mb-3">Through</p>
+                <ul class="space-y-3">
+                    @foreach ($mission as $item)
+                        <li class="flex items-start gap-3 text-ink-700"><i class="fas fa-circle-check text-accent-600 mt-1"></i><span>{{ $item }}</span></li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <div class="card card-hover overflow-hidden group" data-aos="fade-left" data-aos-delay="100">
+                <div class="ratio-16x9">
+                    <img src="{{ asset('images/bantama/brigade_a.jpg') }}" alt="Boys' and Girls' Brigade colour party" class="transition-transform duration-700 ease-out group-hover:scale-105" data-reveal loading="lazy">
+                </div>
+                <div class="p-8 md:p-10">
+                    <span class="badge badge-brand mb-4">Our Core Values</span>
+                    <p class="text-ink-600 mb-5">To harness the wholeness of the Church, we are guided by these principles:</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($values as $value)
+                            <span class="inline-flex items-center px-3.5 py-2 rounded-xl bg-brand-50 text-brand-700 text-sm font-semibold">{{ $value }}</span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ── Worship and group meetings ── --}}
+<section id="group-meetings" class="hero-wash section-padding text-white" style="background-image: linear-gradient(160deg, rgba(16,22,63,.92) 0%, rgba(8,11,34,.95) 55%, rgba(29,42,107,.90) 100%), url('{{ asset('images/bantama/choir.jpg') }}');">
+    <div class="site">
+        <div class="text-center max-w-3xl mx-auto mb-14" data-aos="fade-up">
+            <span class="eyebrow !text-accent-300">Join Us</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold mt-2 mb-4">Worship and Fellowship</h2>
+            <p class="text-lg text-white/80">We would love to have you worship with us, and to find your place in one of our groups.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
+            <div class="lg:col-span-2 rounded-[18px] bg-white/10 border border-white/20 backdrop-blur p-8 transition-transform duration-300 hover:-translate-y-1" data-aos="fade-right">
+                <span class="badge bg-accent-600 text-white mb-4">Main Services</span>
+                <h3 class="text-2xl font-extrabold mb-6">Sunday Services</h3>
+                <div class="space-y-5">
+                    <div><p class="text-white/70 text-sm">1st Service</p><p class="text-2xl font-display font-extrabold">7:00 – 9:00 AM</p></div>
+                    <div><p class="text-white/70 text-sm">2nd Service (Forenoon)</p><p class="text-2xl font-display font-extrabold">9:30 AM – 12:00 PM</p></div>
+                </div>
+                <p class="mt-6 pt-6 border-t border-white/15 text-sm text-white/75"><i class="fas fa-location-dot mr-2 text-accent-300"></i>Church Auditorium, Bantama - Kumasi</p>
+            </div>
+
+            <div class="lg:col-span-3 rounded-[18px] bg-white/10 border border-white/20 backdrop-blur p-8 transition-transform duration-300 hover:-translate-y-1" data-aos="fade-left" data-aos-delay="100">
+                <span class="badge bg-white/15 text-white mb-4">Weekly</span>
+                <h3 class="text-2xl font-extrabold mb-6">Group Meetings</h3>
+                <dl class="divide-y divide-white/10 text-sm">
+                    @foreach ($meetings as [$group, $time])
+                        <div class="flex justify-between gap-4 py-2.5">
+                            <dt class="font-semibold">{{ $group }}</dt>
+                            <dd class="text-white/80 text-right">{{ $time }}</dd>
+                        </div>
+                    @endforeach
+                </dl>
+            </div>
+        </div>
+
+        <div class="text-center mt-10" data-aos="fade-up">
+            <a href="{{ route('contact') }}" class="btn-accent btn-lg">Plan Your Visit <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
 @include('sections.videos')
-
-<!-- News Updates -->
 @include('sections.news')
-
-<!-- Photo Gallery -->
 @include('sections.gallery')
-
-<!-- Ministries Scrolling -->
 @include('sections.ministries-scroll')
 
- 
-<!-- Call to Action -->
-<section class="relative py-32 overflow-hidden" data-aos="fade-up">
-    <!-- Background Image with Overlay -->
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1920&h=800&fit=crop" alt="Join Our Church" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-br from-pcg-blue-900/95 via-pcg-blue-800/90 to-pcg-blue-900/95"></div>
-    </div>
-    
-    <!-- Animated Background Elements -->
-    <div class="absolute inset-0 opacity-20">
-        <div class="absolute top-10 left-10 w-72 h-72 bg-white rounded-full filter blur-3xl animate-pulse"></div>
-        <div class="absolute bottom-10 right-10 w-96 h-96 bg-pcg-blue-500 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
-    </div>
-    
-    <!-- Content -->
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <!-- Icon -->
-         
-        
-        <!-- Heading -->
-        <h2 class="text-5xl md:text-7xl font-bold text-white mb-6 text-shadow-lg" data-aos="fade-up" data-aos-delay="100">
-            Ready to Join Us?
-        </h2>
-        
-        <!-- Decorative Line -->
-        <div class="w-32 h-1 bg-pcg-blue-400 mx-auto mb-8 animate-expand" data-aos="zoom-in" data-aos-delay="200"></div>
-        
-        <!-- Description -->
-        <p class="text-xl md:text-2xl mb-12 text-white/95 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="300">
-            We would love to welcome you to our church family. Come experience the warmth of our fellowship, 
-            the depth of our worship, and the power of growing together in Christ.
+{{-- ── Call to action ── --}}
+<section class="hero-wash py-24 text-white" style="background-image: linear-gradient(160deg, rgba(16,22,63,.92) 0%, rgba(8,11,34,.95) 55%, rgba(29,42,107,.90) 100%), url('{{ asset('images/bantama/mens_fellowship.jpg') }}');">
+    <div class="site text-center max-w-3xl" data-aos="zoom-in-up">
+        <span class="eyebrow !text-accent-300">You Are Welcome Here</span>
+        <h2 class="text-4xl md:text-5xl font-extrabold mt-2 mb-5">Ready to Join Us?</h2>
+        <p class="text-lg text-white/85 mb-10">
+            Come experience the warmth of our fellowship, the depth of our worship, and the joy of growing together in Christ.
         </p>
-        
-        <!-- Feature Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="400">
-            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition duration-300">
-                <div class="icon-circle bg-white/20 text-white mb-4 mx-auto">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-white mb-2">Warm Community</h3>
-                <p class="text-white/80 text-sm">A welcoming family that cares</p>
-            </div>
-            
-            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition duration-300">
-                <div class="icon-circle bg-white/20 text-white mb-4 mx-auto">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-white mb-2">Biblical Teaching</h3>
-                <p class="text-white/80 text-sm">Grounded in God's Word</p>
-            </div>
-            
-            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition duration-300">
-                <div class="icon-circle bg-white/20 text-white mb-4 mx-auto">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-white mb-2">Active Service</h3>
-                <p class="text-white/80 text-sm">Making a difference together</p>
-            </div>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="{{ route('contact') }}" class="btn-accent btn-lg"><i class="fas fa-envelope"></i> Contact Us Today</a>
+            <a href="{{ route('about.history') }}" class="btn-on-dark btn-lg">Learn More About Us</a>
         </div>
-        
-        <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="zoom-in" data-aos-delay="500">
-            <a href="{{ route('contact') }}" class="inline-flex items-center justify-center bg-white text-pcg-blue-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 group">
-                <svg class="w-6 h-6 mr-2 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-                Contact Us Today
-            </a>
-            <a href="{{ route('about.history') }}" class="inline-flex items-center justify-center bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-pcg-blue-900 transition duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 group">
-                <svg class="w-6 h-6 mr-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Learn More About Us
-            </a>
-        </div>
-        
-        <!-- Additional Info -->
-        <div class="mt-12 pt-8 border-t border-white/20" data-aos="fade-up" data-aos-delay="600">
-            <p class="text-white/80 text-lg mb-4">Visit us this Sunday</p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 text-white">
-                <div class="flex items-center">
-                    <svg class="w-6 h-6 mr-2 text-pcg-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span class="font-semibold">1ST SERVICE(7:00 AM - 9:00 AM)</span>
-                </div>
-                <div class="hidden sm:block w-1 h-1 bg-white/40 rounded-full"></div>
-                <div class="flex items-center">
-                    <svg class="w-6 h-6 mr-2 text-pcg-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                     </svg>
-                    <span class="font-semibold">2ND SERVICE(9:30 AM - 12:00 PM)</span>
-                </div>
-            </div>
-        </div>
-        
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 text-white">
-                 
-                <div class="flex items-center">
-                    <svg class="w-6 h-6 mr-2 text-pcg-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    </svg>
-                    <span class="font-semibold">Bantama, Kumasi, Ghana</span>
-                </div>
-            </div>
-         
+        <p class="mt-10 text-white/70 text-sm"><i class="fas fa-location-dot mr-2 text-accent-300"></i>Bantama, Kumasi &middot; P.O. Box 1755 &middot; info@pcgpeyer.org</p>
     </div>
 </section>
+
+@push('styles')
+<style>
+    .hero-body { padding-top: 5rem; padding-bottom: 9rem; }
+    .hero-section:hover .hero-bar.is-active::after { animation-play-state: paused; }
+    .hero-photo { transform: scale(1.05); will-change: transform; }
+    .hero-photo.is-active { animation: hero-kenburns 12s ease-in-out infinite alternate; }
+    @keyframes hero-kenburns {
+        from { transform: scale(1.05) translate(0, 0); }
+        to   { transform: scale(1.16) translate(-1.5%, -1%); }
+    }
+    .hero-scrim {
+        background:
+            linear-gradient(90deg, rgba(8,11,34,.86) 0%, rgba(8,11,34,.62) 40%, rgba(8,11,34,.18) 75%, rgba(8,11,34,.05) 100%),
+            linear-gradient(0deg, rgba(8,11,34,.6) 0%, rgba(8,11,34,0) 40%);
+    }
+    /* Each line of the slide arrives in turn: eyebrow, headline, text, buttons. */
+    .hero-copy { text-shadow: 0 2px 18px rgba(0,0,0,.35); }
+    .hero-copy > * { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+    .hero-copy.is-active > * { opacity: 1; transform: none; transition: opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1); }
+    .hero-copy.is-active > :nth-child(1) { transition-delay: .2s; }
+    .hero-copy.is-active > :nth-child(2) { transition-delay: .38s; }
+    .hero-copy.is-active > :nth-child(3) { transition-delay: .56s; }
+    .hero-copy.is-active > :nth-child(4) { transition-delay: .74s; }
+    .hero-eyebrow {
+        display: inline-block; margin-bottom: 1.1rem; padding: .4rem .9rem;
+        font-size: .78rem; font-weight: 700; letter-spacing: .18em; color: #fff;
+        background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.28);
+        border-radius: 999px; backdrop-filter: blur(8px); text-shadow: none;
+    }
+    .hero-count { color: rgba(255,255,255,.85); font-size: .85rem; font-weight: 600; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+    .hero-bar { position: relative; width: 2rem; height: 4px; border-radius: 4px; background: rgba(255,255,255,.35); overflow: hidden; transition: background .3s; }
+    .hero-bar:hover { background: rgba(255,255,255,.6); }
+    .hero-bar::after { content: ''; position: absolute; inset: 0; background: #f26b6b; transform: scaleX(0); transform-origin: left; }
+    .hero-bar.is-active::after { animation: hero-fill 6s linear forwards; }
+    @keyframes hero-fill { to { transform: scaleX(1); } }
+    @media (prefers-reduced-motion: reduce) {
+        .hero-copy > * { opacity: 1; transform: none; transition: none; }
+        .hero-photo.is-active { animation: none; }
+        .hero-bar.is-active::after { animation: none; transform: scaleX(1); }
+    }
+</style>
+@endpush
 @endsection

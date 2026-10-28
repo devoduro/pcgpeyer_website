@@ -51,8 +51,9 @@ Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index
 Route::get('/gallery/{id}', [GalleryController::class, 'show'])->name('gallery.show');
 
 // Video routes
-Route::get('/videos', [\App\Http\Controllers\VideoController::class, 'index'])->name('videos');
-Route::get('/videos/{id}', [\App\Http\Controllers\VideoController::class, 'show'])->name('videos.show');
+// Older video links: the video pages live under Media.
+Route::get('/videos', fn () => redirect()->route('media.videos', [], 301))->name('videos');
+Route::get('/videos/{id}', fn () => redirect()->route('media.videos', [], 301))->name('videos.show');
 
 // Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');

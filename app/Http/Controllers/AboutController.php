@@ -24,7 +24,7 @@ class AboutController extends Controller
         $filterYear = $request->get('year');
         
         // Get all active leadership members with their year relationships
-        $query = Leadership::where('active', true)->with('yearRelation');
+        $query = Leadership::where('active', true)->termRoster()->with('yearRelation');
         
         // Apply year filter if provided
         if ($filterYear) {
@@ -47,7 +47,7 @@ class AboutController extends Controller
         });
         
         // Get all unique years and their ranges for the filter dropdown
-        $yearMappings = Leadership::where('active', true)
+        $yearMappings = Leadership::where('active', true)->termRoster()
             ->select('year')
             ->distinct()
             ->get()
@@ -91,11 +91,53 @@ class AboutController extends Controller
         // Past leaders = anyone not marked as currently serving
         $pastMinisters = $allLeaders->reject(fn ($l) => $l->is_current)->sortByDesc('year');
 
-        $activeCategory = $request->get('category');
+        $activeCategory = in_array($request->get('category'), $categories, true) ? $request->get('category') : null;
+        $search = trim((string) $request->get('q', ''));
+        $decade = $request->filled('decade') ? (int) $request->get('decade') : null;
+
+        // Decades offered in the "Served in" filter, from the earliest record to the latest.
+        $decades = $pastMinisters->isEmpty() ? collect() : collect(range(
+            intdiv($pastMinisters->min('year'), 10) * 10,
+            intdiv($pastMinisters->max(fn ($m) => $m->endYear), 10) * 10,
+            10
+        ))->reverse()->values();
+
+        // Search and decade apply before the category, so each tab can show how many match.
+        $matching = $pastMinisters
+            ->when($search !== '', function ($leaders) use ($search) {
+                // A four-digit search means "who was serving in that year".
+                if (preg_match('/^\d{4}$/', $search)) {
+                    return $leaders->filter(fn ($m) => $m->servedBetween((int) $search, (int) $search));
+                }
+
+                $needle = mb_strtolower($search);
+
+                return $leaders->filter(fn ($m) => str_contains(mb_strtolower($m->name . ' ' . $m->displayTitle . ' ' . $m->bio), $needle));
+            })
+            ->when($decade, fn ($leaders) => $leaders->filter(fn ($m) => $m->servedBetween($decade, $decade + 9)));
+
+        $categoryCounts = collect($categories)->mapWithKeys(fn ($c) => [$c => $matching->filter(fn ($m) => $bucketOf($m) === $c)->count()]);
 
         $filteredMinisters = $activeCategory
-            ? $pastMinisters->filter(fn ($m) => $bucketOf($m) === $activeCategory)
-            : $pastMinisters;
+            ? $matching->filter(fn ($m) => $bucketOf($m) === $activeCategory)
+            : $matching;
+
+        $filters = array_filter(['q' => $search, 'decade' => $decade]);
+
+        // Presbyter Sessions read best by term: one group per year or year range, newest first,
+        // with the Senior Presbyter ahead of the clerks within each term.
+        $termGroups = null;
+        if ($activeCategory === 'Presbyter Sessions') {
+            $rank = fn ($m) => match (true) {
+                str_contains(strtolower($m->displayTitle), 'senior') => 0,
+                str_contains(strtolower($m->displayTitle), 'assistant') => 2,
+                default => 1,
+            };
+
+            $termGroups = $filteredMinisters
+                ->sortBy(fn ($m) => [-$m->year, -($m->year_end ?? $m->year), $rank($m), $m->name])
+                ->groupBy(fn ($m) => $m->yearRange);
+        }
 
         $stats = [
             'earliest_year' => $pastMinisters->count() ? $pastMinisters->min('year') : null,
@@ -109,8 +151,15 @@ class AboutController extends Controller
             'currentMinister',
             'pastMinisters',
             'filteredMinisters',
+            'termGroups',
             'categories',
+            'categoryCounts',
             'activeCategory',
+            'search',
+            'decade',
+            'decades',
+            'filters',
+            'matching',
             'stats'
         ));
     }

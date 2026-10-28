@@ -56,18 +56,13 @@
         <div class="grid grid-cols-3 gap-6 mb-6">
             <div>
                 <label for="year" class="block text-sm font-semibold text-gray-700 mb-2">Year *</label>
-                <select id="year" name="year" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent @error('year') border-red-500 @enderror">
-                    <option value="">-- Select a Year --</option>
+                <input type="number" id="year" name="year" list="leadership-terms" min="1900" max="2100" required value="{{ old('year') }}" placeholder="e.g. 2024" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent @error('year') border-red-500 @enderror">
+                <datalist id="leadership-terms">
                     @foreach($years as $year)
-                        <option value="{{ $year->year }}" {{ old('year') == $year->year ? 'selected' : '' }}>
-                            {{ $year->yearRange }}
-                            @if($year->description)
-                                ({{ $year->description }})
-                            @endif
-                        </option>
+                        <option value="{{ $year->year }}">{{ $year->yearRange }}@if($year->description) ({{ $year->description }})@endif</option>
                     @endforeach
-                </select>
-                <p class="text-xs text-gray-500 mt-1"><a href="{{ route('dashboard.leadership.manage-years') }}" class="text-cyan-600 hover:underline">Manage years</a></p>
+                </datalist>
+                <p class="text-xs text-gray-500 mt-1">Start year. Pick a session term or type any year. <a href="{{ route('dashboard.leadership.manage-years') }}" class="text-cyan-600 hover:underline">Manage terms</a></p>
                 @error('year') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
 
@@ -84,6 +79,26 @@
                 <label for="display_order" class="block text-sm font-semibold text-gray-700 mb-2">Display Order</label>
                 <input type="number" id="display_order" name="display_order" value="{{ old('display_order', 0) }}" min="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent @error('display_order') border-red-500 @enderror">
                 <p class="text-xs text-gray-500 mt-1">Lower numbers appear first</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mb-6">
+            <div>
+                <label for="year_end" class="block text-sm font-semibold text-gray-700 mb-2">End Year</label>
+                <input type="number" id="year_end" name="year_end" min="1900" max="2100" value="{{ old('year_end') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent @error('year_end') border-red-500 @enderror">
+                <p class="text-xs text-gray-500 mt-1">For past leaders, when their service ended.</p>
+                @error('year_end') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label for="served_from" class="block text-sm font-semibold text-gray-700 mb-2">Served From (exact date)</label>
+                <input type="date" id="served_from" name="served_from" value="{{ old('served_from') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent @error('served_from') border-red-500 @enderror">
+                @error('served_from') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label for="served_to" class="block text-sm font-semibold text-gray-700 mb-2">Served To (exact date)</label>
+                <input type="date" id="served_to" name="served_to" value="{{ old('served_to') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent @error('served_to') border-red-500 @enderror">
+                <p class="text-xs text-gray-500 mt-1">Optional. Exact dates show as "Apr 1968 – Sep 1970".</p>
+                @error('served_to') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
         </div>
 

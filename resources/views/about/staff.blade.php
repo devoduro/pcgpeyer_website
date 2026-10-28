@@ -4,22 +4,17 @@
 
 @section('content')
 <!-- Hero Header with Background Image -->
-<section class="relative pt-32 pb-24 overflow-hidden" data-aos="fade-down" data-aos-duration="1000">
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1920&h=600&fit=crop" alt="Administrative Staff" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 via-pcg-blue-800/90 to-pcg-blue-900/95"></div>
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow-lg" data-aos="fade-up" data-aos-delay="200">Administrative Staff</h1>
-        <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="400">Meet the Team That Keeps Our Church Running Smoothly</p>
-        <div class="w-24 h-1 bg-pcg-blue-400 mx-auto animate-expand" data-aos="zoom-in" data-aos-delay="600"></div>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => 'Administrative Staff',
+    'eyebrow' => 'About Us',
+    'subtitle' => 'The team that keeps our church running smoothly.',
+    'image' => 'images/bantama/members_group.jpg',
+    'crumbs' => [['About Us', route('about.history')], ['Administrative Staff']],
+])
 
 <!-- Staff Content -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="text-center mb-16" data-aos="fade-up">
             <h2 class="text-4xl font-bold text-pcg-blue-900 mb-4">Our Dedicated Team</h2>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">Committed to serving our congregation with excellence and dedication</p>
@@ -31,7 +26,7 @@
             <div class="group" data-aos="fade-up" data-aos-delay="100">
                 <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                     <div class="relative h-72 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop" alt="Church Secretary" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-600 via-brand-800 to-navy-900 flex items-center justify-center"><i class="fas fa-file-signature text-6xl text-white/80 transition-transform duration-500 group-hover:scale-110"></i></div>
                         <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/90 via-pcg-blue-900/40 to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <h3 class="text-2xl font-bold text-white mb-1">Church Secretary</h3>
@@ -58,7 +53,7 @@
             <div class="group" data-aos="fade-up" data-aos-delay="200">
                 <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                     <div class="relative h-72 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&h=600&fit=crop" alt="Financial Secretary" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-600 via-brand-800 to-navy-900 flex items-center justify-center"><i class="fas fa-coins text-6xl text-white/80 transition-transform duration-500 group-hover:scale-110"></i></div>
                         <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/90 via-pcg-blue-900/40 to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <h3 class="text-2xl font-bold text-white mb-1">Financial Secretary</h3>
@@ -85,7 +80,7 @@
             <div class="group" data-aos="fade-up" data-aos-delay="300">
                 <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                     <div class="relative h-72 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop" alt="Church Organist" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-600 via-brand-800 to-navy-900 flex items-center justify-center"><i class="fas fa-music text-6xl text-white/80 transition-transform duration-500 group-hover:scale-110"></i></div>
                         <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/90 via-pcg-blue-900/40 to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <h3 class="text-2xl font-bold text-white mb-1">Church Organist</h3>
@@ -112,7 +107,7 @@
             <div class="group" data-aos="fade-up" data-aos-delay="100">
                 <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                     <div class="relative h-72 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&h=600&fit=crop" alt="Church Caretaker" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-600 via-brand-800 to-navy-900 flex items-center justify-center"><i class="fas fa-broom text-6xl text-white/80 transition-transform duration-500 group-hover:scale-110"></i></div>
                         <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/90 via-pcg-blue-900/40 to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <h3 class="text-2xl font-bold text-white mb-1">Church Caretaker</h3>
@@ -139,7 +134,7 @@
             <div class="group" data-aos="fade-up" data-aos-delay="200">
                 <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                     <div class="relative h-72 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop" alt="IT Coordinator" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-600 via-brand-800 to-navy-900 flex items-center justify-center"><i class="fas fa-laptop-code text-6xl text-white/80 transition-transform duration-500 group-hover:scale-110"></i></div>
                         <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/90 via-pcg-blue-900/40 to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <h3 class="text-2xl font-bold text-white mb-1">IT Coordinator</h3>
@@ -166,7 +161,7 @@
             <div class="group" data-aos="fade-up" data-aos-delay="300">
                 <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                     <div class="relative h-72 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop" alt="Youth Coordinator" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-600 via-brand-800 to-navy-900 flex items-center justify-center"><i class="fas fa-people-group text-6xl text-white/80 transition-transform duration-500 group-hover:scale-110"></i></div>
                         <div class="absolute inset-0 bg-gradient-to-t from-pcg-blue-900/90 via-pcg-blue-900/40 to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <h3 class="text-2xl font-bold text-white mb-1">Youth Coordinator</h3>

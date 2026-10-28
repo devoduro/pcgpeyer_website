@@ -8,20 +8,17 @@
 @endphp
 
 <!-- Hero -->
-<section class="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-pcg-blue-700 to-pcg-blue-900">
-    <div class="absolute inset-0 opacity-30">
-        <div class="absolute top-10 left-10 w-72 h-72 bg-white rounded-full filter blur-3xl"></div>
-        <div class="absolute bottom-10 right-10 w-96 h-96 bg-pcg-red-500 rounded-full filter blur-3xl"></div>
-    </div>
-    <div class="relative z-10 text-center text-white px-4" data-aos="fade-up">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Our Leaders</h1>
-        <p class="text-xl md:text-2xl text-white/90">Serving God's people with Presbyterian faithfulness</p>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => 'Church Leadership',
+    'eyebrow' => 'About Us',
+    'subtitle' => "Serving God's people with Presbyterian faithfulness, through our ministers and the Session.",
+    'image' => 'images/bantama/session.jpg',
+    'crumbs' => [['About Us', route('about.history')], ['Church Leadership']],
+])
 
 <!-- Presbyterian Leadership Structure -->
 <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="text-center mb-12" data-aos="fade-up">
             <h2 class="text-3xl font-bold text-gray-900 mb-4">Presbyterian Leadership Structure</h2>
             <div class="w-20 h-0.5 bg-pcg-blue-600 mx-auto mb-6"></div>
@@ -76,7 +73,7 @@
 
 <!-- Search & Year Filter -->
 <section class="py-8 bg-white border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="flex flex-col gap-4">
             <div class="w-full">
                 <div class="relative max-w-md mx-auto">
@@ -127,7 +124,7 @@
         <!-- Ministers -->
         @if($ministers->count())
             <section class="py-16 bg-white">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="site">
                     <div class="text-center mb-12" data-aos="fade-up">
                         <div class="inline-flex items-center gap-2 mb-3">
                             <h2 class="text-3xl font-bold text-gray-900">Ministers</h2>
@@ -190,7 +187,7 @@
         <!-- Presbyters & Officers -->
         @if($others->count())
             <section class="py-16 bg-gray-50">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="site">
                     <div class="text-center mb-12" data-aos="fade-up">
                         <h2 class="text-3xl font-bold text-gray-900 mb-2">Church Presbyters</h2>
                         <p class="text-gray-600">Elected lay leaders serving our congregation ({{ $year }})</p>
@@ -234,23 +231,22 @@
                 <p class="text-gray-700 text-lg font-semibold mb-2">No leadership members found for this term</p>
                 <a href="{{ route('about.leadership') }}" class="inline-block bg-pcg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-pcg-blue-700 transition">View All Terms</a>
             @else
-                <p class="text-gray-600 text-lg">Leadership information will be available soon.</p>
+                <p class="text-gray-600 text-lg mb-6">The current Session and ministers will be listed here soon.</p>
+                <a href="{{ route('about.ministers') }}" class="btn-primary">See Our Past Leaders</a>
             @endif
         </div>
     </section>
 @endif
 
 <!-- Contact Leadership CTA -->
-<section class="py-16 bg-pcg-blue-800 text-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
-        <h2 class="text-3xl font-bold mb-4">Contact Our Leadership Team</h2>
-        <p class="text-xl mb-8 text-white/90 max-w-2xl mx-auto">Our church leaders are available to serve, pray with you, and answer any questions you may have.</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="{{ route('contact') }}" class="inline-block bg-white text-pcg-blue-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200">Contact Form</a>
-            <a href="tel:+233557936254" class="inline-block bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-pcg-blue-800 transition-all duration-200">Call Church Office</a>
-        </div>
-    </div>
-</section>
+@include('partials.cta-band', [
+    'eyebrow' => 'We Are Here For You',
+    'title' => 'Contact Our Leadership Team',
+    'text' => 'Our ministers and presbyters are available to serve, pray with you, and answer any questions you may have.',
+    'primary' => ['Send Us a Message', route('contact')],
+    'secondary' => ['Past Leaders', route('about.ministers')],
+    'image' => 'images/bantama/session.jpg',
+])
 
 <script>
     // Search functionality

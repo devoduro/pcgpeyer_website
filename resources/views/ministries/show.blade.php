@@ -4,46 +4,35 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0">
-        <img src="{{ asset('storage/' . $ministry->image) }}" alt="{{ $ministry->name }}" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/90 to-pcg-red-900/90"></div>
-    </div>
-    <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto" data-aos="fade-up">
-        @if($ministry->ministry_category)
-            <span class="inline-block bg-white/20 backdrop-blur-lg px-4 py-2 rounded-full text-sm font-bold mb-4 border border-white/30">
-                {{ $ministry->ministry_category }}
-            </span>
-        @endif
-        <h1 class="text-5xl md:text-6xl font-bold mb-6">{{ $ministry->name }}</h1>
-        @if($ministry->age_range)
-            <p class="text-xl md:text-2xl mb-4 text-white/90">{{ $ministry->age_range }}</p>
-        @endif
-        <p class="text-xl md:text-2xl text-white/90">{{ $ministry->description }}</p>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => $ministry->name,
+    'eyebrow' => $ministry->ministry_category ?: 'Ministries',
+    'subtitle' => $ministry->description,
+    'image' => $ministry->image_url,
+    'crumbs' => [['Ministries', route('ministries.generational')], [$ministry->name]],
+    'meta' => array_values(array_filter([$ministry->age_range ? ['fas fa-users', $ministry->age_range] : null, $ministry->meeting_schedule ? ['far fa-clock', $ministry->meeting_schedule] : null, $ministry->location ? ['fas fa-location-dot', $ministry->location] : null])),
+])
 
 <!-- Ministry Details -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <!-- Main Content - 8 columns -->
             <div class="lg:col-span-8 order-2 lg:order-1" data-aos="fade-up">
                 <h2 class="text-3xl font-bold text-pcg-blue-900 mb-6">About This Ministry</h2>
                 
-                <!-- Description -->
-                @if($ministry->description)
-                    <div class="bg-gradient-to-r from-pcg-blue-50 to-pcg-red-50 p-6 rounded-xl mb-8 border-l-4 border-pcg-blue-600">
-                        <p class="text-lg text-gray-800 leading-relaxed font-medium">
-                            {{ $ministry->description }}
-                        </p>
-                    </div>
-                @endif
-
                 <!-- Full Content with Rich Text Support -->
                 @if($ministry->content)
-                    <div class="ministry-content prose prose-lg max-w-none">
-                        {!! $ministry->content !!}
+                    <div class="ministry-content prose-body">
+                        @if($ministry->content !== strip_tags($ministry->content))
+                            {{-- Formatted in the dashboard editor --}}
+                            {!! $ministry->content !!}
+                        @else
+                            {{-- Plain text: blank lines separate paragraphs --}}
+                            @foreach(preg_split('/\R{2,}/', trim($ministry->content)) as $paragraph)
+                                <p>{!! nl2br(e($paragraph)) !!}</p>
+                            @endforeach
+                        @endif
                     </div>
                 @else
                     <div class="prose prose-lg max-w-none">

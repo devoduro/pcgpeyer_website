@@ -1,269 +1,255 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Merriweather:wght@300;400;700;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================================
+   Peyer Memorial design system
+   Structure follows the Metro Health site: Inter for text, Plus Jakarta Sans
+   for headings, one button geometry with colour-only variants, one card, one
+   form control. Palette is the PCG crest: blue (brand) and red (accent).
+   ========================================================================= */
+
 @layer base {
-  body {
-    @apply font-sans text-gray-900 antialiased;
-    font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  :root {
+    --pm-brand: #1f4396;
+    --pm-accent: #c8232a;
+    --pm-ink: #2c2c2c;
+    --pm-ring: 0 0 0 3px rgba(47, 86, 184, .30);
   }
-  
+
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    @apply font-sans text-ink-800 antialiased;
+  }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
-    font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
+    @apply font-display font-extrabold;
     letter-spacing: -0.02em;
   }
-  
-  h1 {
-    @apply text-5xl md:text-6xl lg:text-7xl;
-    line-height: 1.1;
-  }
-  
-  h2 {
-    @apply text-4xl md:text-5xl;
-    line-height: 1.2;
-  }
-  
-  h3 {
-    @apply text-3xl md:text-4xl;
-    line-height: 1.3;
+
+  /* Default heading scale. Any explicit text-* utility on the element wins. */
+  h1 { @apply text-5xl md:text-6xl lg:text-7xl; line-height: 1.1; }
+  h2 { @apply text-4xl md:text-5xl; line-height: 1.2; }
+  h3 { @apply text-3xl md:text-4xl; line-height: 1.3; }
+
+  img { max-width: 100%; height: auto; }
+  [x-cloak] { display: none !important; }
+
+  /* One visible focus treatment for keyboard users across the whole site. */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: none;
+    box-shadow: var(--pm-ring);
+    border-radius: 10px;
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply text-white font-semibold py-3 px-7 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-0.5 shadow-lg;
-    background-image: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  /* ── Buttons ──────────────────────────────────────────────────────────
+     One height, one radius, one motion curve; variants change colour only.
+     Variants repeat the base geometry so a bare .btn-primary still works. */
+  .btn,
+  .btn-primary, .btn-secondary, .btn-outline, .btn-ghost,
+  .btn-accent, .btn-on-dark {
+    @apply inline-flex items-center justify-center gap-2 h-11 px-5 rounded-xl
+           border-[1.5px] border-transparent text-[14.5px] font-bold leading-none
+           whitespace-nowrap cursor-pointer transition-all duration-150;
   }
-  
-  .btn-secondary {
-    @apply text-white font-semibold py-3 px-7 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-0.5 shadow-lg;
-    background-image: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+
+  .btn:hover:not(:disabled), .btn-primary:hover:not(:disabled), .btn-accent:hover:not(:disabled),
+  .btn-secondary:hover:not(:disabled), .btn-outline:hover:not(:disabled), .btn-on-dark:hover:not(:disabled) { @apply -translate-y-0.5; }
+  .btn:active:not(:disabled),
+  .btn-primary:active, .btn-accent:active { @apply translate-y-px; }
+
+  /* A soft highlight sweeps across solid buttons on hover. */
+  .btn-primary, .btn-accent, .btn-secondary { @apply relative overflow-hidden; }
+  .btn-primary::after, .btn-accent::after, .btn-secondary::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0; left: -75%; width: 50%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.28), transparent);
+    transform: skewX(-20deg);
+    transition: left .6s ease;
+    pointer-events: none;
   }
-  
-  .btn-outline {
-    @apply border-2 border-pcg-blue-600 bg-pcg-blue-600 text-white hover:bg-pcg-blue-700 hover:text-white font-semibold py-3 px-7 rounded-full transition duration-300 ease-in-out;
-  }
-  
-  .section-title {
-    @apply text-4xl md:text-5xl font-bold text-pcg-blue-900 mb-4 tracking-tight;
-  }
-  
-  .section-subtitle {
-    @apply text-xl text-gray-600 mb-8;
-  }
-  
+  .btn-primary:hover::after, .btn-accent:hover::after, .btn-secondary:hover::after { left: 125%; }
+  .btn:disabled { @apply opacity-50 cursor-not-allowed translate-y-0; }
+
+  .btn-sm { @apply h-9 px-3.5 text-[13px] rounded-[10px]; }
+  .btn-lg { @apply h-[52px] px-7 text-base rounded-[14px]; }
+  .btn-block { @apply w-full; }
+
+  .btn-primary { @apply bg-brand-600 text-white shadow-brand; }
+  .btn-primary:hover:not(:disabled) { @apply bg-brand-700 text-white; }
+
+  .btn-accent { @apply bg-accent-600 text-white shadow-accent; }
+  .btn-accent:hover:not(:disabled) { @apply bg-accent-700 text-white; }
+
+  .btn-secondary { @apply bg-navy-700 text-white; }
+  .btn-secondary:hover:not(:disabled) { @apply bg-navy-800 text-white; }
+
+  /* On light surfaces an outline reads as secondary; on photography use .btn-on-dark. */
+  .btn-outline { @apply bg-white text-ink-800 border-ink-200; }
+  .btn-outline:hover:not(:disabled) { @apply border-brand-500 text-brand-700 bg-brand-50; }
+
+  .btn-ghost { @apply bg-transparent text-ink-500; }
+  .btn-ghost:hover:not(:disabled) { @apply bg-ink-100 text-ink-800; }
+
+  .btn-on-dark { @apply bg-white/10 text-white border-white/25 backdrop-blur; }
+  .btn-on-dark:hover:not(:disabled) { @apply bg-white/20 text-white; }
+
+  /* ── Surfaces ── */
   .card {
-    @apply bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl transform hover:-translate-y-1;
+    @apply bg-white border border-ink-200/70 rounded-[18px] shadow-card overflow-hidden;
   }
-  
-  .nav-link {
-    @apply text-gray-700 hover:text-pcg-red-600 font-medium transition duration-200;
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lift hover:-translate-y-1.5 hover:border-ink-300;
   }
-  
-  .dropdown-menu {
-    @apply absolute left-0 mt-2 w-56 origin-top-left bg-white divide-y divide-gray-100 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200;
+
+  /* ── Form controls ── */
+  .label { @apply block text-[13.5px] font-bold text-ink-700 mb-[7px]; }
+  .hint  { @apply text-[12.5px] text-ink-500 mt-1.5 leading-relaxed; }
+
+  .input {
+    @apply w-full h-[46px] px-3.5 text-[15px] text-ink-800 bg-white
+           border-[1.5px] border-ink-200 rounded-xl outline-none
+           transition-colors duration-150;
+    font-family: inherit;
   }
+  textarea.input { @apply h-auto py-3 leading-relaxed resize-y; }
+  select.input { @apply cursor-pointer pr-9; }
+  .input::placeholder { @apply text-ink-400; }
+  .input:focus { @apply border-brand-500; box-shadow: var(--pm-ring); }
+  .input.is-error { @apply border-red-600; box-shadow: 0 0 0 3px rgba(220, 38, 38, .15); }
+
+  /* ── Badges ── */
+  .badge {
+    @apply inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full
+           text-[11.5px] font-bold tracking-wide whitespace-nowrap;
+  }
+  .badge-brand  { @apply bg-brand-50 text-brand-700; }
+  .badge-accent { @apply bg-accent-50 text-accent-700; }
+  .badge-muted  { @apply bg-ink-100 text-ink-600; }
+
+  /* ── Layout helpers ── */
+  .site { @apply max-w-site mx-auto px-5; }
+  .eyebrow { @apply text-xs font-extrabold uppercase text-accent-600; letter-spacing: .12em; }
+  .section-title { @apply text-4xl md:text-5xl font-extrabold text-ink-900 mb-4 tracking-tight; }
+  .section-subtitle { @apply text-xl text-ink-500 mb-8; }
+  .section-padding { @apply py-20 md:py-28; }
+  .decorative-line { @apply w-14 h-1 rounded-full bg-accent-600 mx-auto mb-6; }
+
+  .clamp-2, .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .clamp-3, .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+  /* Media placeholders keep a ratio so cards never jump while images load. */
+  .ratio-16x9 { aspect-ratio: 16/9; @apply bg-ink-100 overflow-hidden; }
+  .ratio-4x3  { aspect-ratio: 4/3;  @apply bg-ink-100 overflow-hidden; }
+  .ratio-1x1  { aspect-ratio: 1/1;  @apply bg-ink-100 overflow-hidden; }
+  .ratio-16x9 > img, .ratio-4x3 > img, .ratio-1x1 > img { @apply w-full h-full object-cover block; }
+
+  /* ── Hero wash: navy over photography, with a faint crosshatch grain. ── */
+  .hero-wash { @apply relative bg-hero-wash bg-cover bg-center bg-no-repeat; }
+  .hero-wash::after {
+    content: '';
+    @apply absolute inset-0 z-[1] pointer-events-none opacity-20;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0, rgba(255,255,255,.18) 1px, transparent 1px, transparent 22px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,.18) 0, rgba(255,255,255,.18) 1px, transparent 1px, transparent 22px);
+  }
+  .hero-wash > * { @apply relative z-[2]; }
+
+  .prose-body { @apply text-[1.08rem] leading-[1.8] text-ink-600 space-y-4; }
+
+  .feature-box { @apply bg-white p-8 rounded-2xl shadow-card border border-ink-200/70 transition-all duration-300 hover:shadow-lift hover:-translate-y-1; }
+  .icon-circle { @apply w-16 h-16 rounded-full flex items-center justify-center; }
+  .icon-circle-lg { @apply w-24 h-24 rounded-full flex items-center justify-center; }
 }
 
-/* Custom animations */
+/* ============================================================================
+   Motion and legacy helpers still referenced by existing pages.
+   ========================================================================= */
+
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-/* Hero section overlay */
-.hero-overlay {
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(185, 28, 28, 0.8) 100%);
-}
-
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Section spacing */
-.section-padding {
-  @apply py-20 md:py-28 lg:py-32;
-}
-
-/* Text shadows for better readability */
-.text-shadow {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.text-shadow-lg {
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Gradient backgrounds */
-.gradient-primary {
-  background: linear-gradient(135deg, #1e3a8a 0%, #dc2626 100%);
-}
-
-.gradient-overlay {
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(185, 28, 28, 0.9) 100%);
-}
-
-/* Image overlays */
-.img-overlay {
-  position: relative;
-}
-
-.img-overlay::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
-}
-
-/* Decorative elements */
-.decorative-line {
-  @apply w-20 h-1 bg-pcg-red-600 mx-auto mb-6;
-}
-
-/* Stats counter styling */
-.stat-number {
-  @apply text-5xl md:text-6xl font-bold text-pcg-red-600;
-  font-family: 'Playfair Display', serif;
-}
-
-/* Quote styling */
-.quote-text {
-  @apply text-2xl md:text-3xl italic text-gray-700 leading-relaxed;
-  font-family: 'Playfair Display', serif;
-}
-
-/* Feature boxes */
-.feature-box {
-  @apply bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2;
-}
-
-/* Icon circles */
-.icon-circle {
-  @apply w-16 h-16 rounded-full flex items-center justify-center;
-}
-
-.icon-circle-lg {
-  @apply w-24 h-24 rounded-full flex items-center justify-center;
-}
-
-.nav-link {
-  position: relative;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  height: 2px;
-  width: 0;
-  background: #fbbf24;
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-.slider-dot.active {
-  transform: scale(1.2);
-}
+.animate-fadeInUp { animation: fadeInUp 0.6s ease-out; }
 
 @keyframes kenburns {
-  0% {
-    transform: scale(1.05) translate(0, 0);
+  0%   { transform: scale(1.05) translate(0, 0); }
+  50%  { transform: scale(1.12) translate(-10px, -10px); }
+  100% { transform: scale(1.05) translate(0, 0); }
+}
+.kenburns { animation: kenburns 12s ease-in-out infinite; }
+
+.text-shadow { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+.text-shadow-lg { text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+
+/* ============================================================================
+   Page load and reveal.
+   ========================================================================= */
+
+/* Section headings: the short accent rule under a heading draws itself in on reveal. */
+.aos-animate .decorative-line, .decorative-line.aos-animate { animation: line-grow .9s cubic-bezier(.22,1,.36,1) .25s both; }
+@keyframes line-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Inner page header: photo drifts slowly behind a navy wash with a faint crosshatch. */
+.page-hero__photo { transform: scale(1.06); animation: page-hero-drift 18s ease-in-out infinite alternate; }
+@keyframes page-hero-drift { from { transform: scale(1.06) translate(0, 0); } to { transform: scale(1.14) translate(-1.5%, -1%); } }
+.page-hero__grain {
+  opacity: .14; pointer-events: none;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.35) 0, rgba(255,255,255,.35) 1px, transparent 1px, transparent 22px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.35) 0, rgba(255,255,255,.35) 1px, transparent 1px, transparent 22px);
+}
+.hero-pill {
+  display: inline-block; margin-bottom: 1.1rem; padding: .4rem .95rem;
+  font-size: .74rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #fff;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.28); border-radius: 999px; backdrop-filter: blur(8px);
+}
+
+/* Small floating badges bob gently. */
+.animate-float { animation: float-y 5s ease-in-out infinite; }
+@keyframes float-y { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+
+/* "Scroll" cue under the hero: a mouse outline whose wheel drifts down. */
+.scroll-cue { width: 26px; height: 42px; border: 2px solid rgba(255,255,255,.75); border-radius: 14px; position: relative; }
+.scroll-cue::before {
+  content: ''; position: absolute; left: 50%; top: 8px; width: 4px; height: 8px; margin-left: -2px;
+  border-radius: 2px; background: #fff; animation: cue-wheel 1.6s ease-in-out infinite;
+}
+@keyframes cue-wheel { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
+
+/* Navigation over the home hero: transparent with white type until the page scrolls. */
+.nav-clear .nav-item { color: #fff; }
+.nav-clear .nav-item:hover { color: #fecaca; }
+.nav-clear .nav-item.is-on { color: #fca5a5; }
+.nav-clear .nav-item::after { background-color: #fca5a5; }
+.nav-clear .brand-eyebrow { color: #fca5a5; }
+.nav-clear .brand-name { color: #fff; }
+.nav-clear .brand-sub { color: #fff; }
+.nav-clear .brand-rule { background-color: rgba(255,255,255,.45); }
+.nav-clear .menu-btn { color: #fff; }
+.nav-clear .menu-btn:hover { background: rgba(255,255,255,.12); }
+
+/* Images fade in as they decode. Scoped to .js so nothing is hidden without JavaScript. */
+.js img[data-reveal] {
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity .7s ease, transform 1s cubic-bezier(.22, 1, .36, 1);
+}
+.js img[data-reveal].is-ready { opacity: 1; transform: none; }
+
+/* Honour the system setting. AOS is disabled separately in the layout. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
   }
-  50% {
-    transform: scale(1.12) translate(-10px, -10px);
-  }
-  100% {
-    transform: scale(1.05) translate(0, 0);
-  }
-}
-
-.kenburns {
-  animation: kenburns 12s ease-in-out infinite;
-}
-
-/* Glassmorphism navigation (inspired by hopepresby.org) */
-.glass-nav {
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.85) 0%, rgba(30, 64, 175, 0.75) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  transition: box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.glass-nav.is-scrolled {
-  box-shadow: 0 8px 32px 0 rgba(30, 58, 138, 0.25);
-  background: linear-gradient(135deg, rgba(23, 46, 110, 0.95) 0%, rgba(24, 51, 140, 0.92) 100%);
-}
-
-.glass-logo {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-/* Gold accent CTA (inspired by hopepresby.org "Member Portal" button) */
-.btn-gold {
-  @apply inline-flex items-center gap-2 text-pcg-blue-900 font-semibold py-2.5 px-5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg;
-  background: linear-gradient(135deg, #fde68a 0%, #fbbf24 100%);
-}
-
-.btn-gold:hover {
-  background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%);
-}
-
-/* Hero slider — softer glass-style overlay & controls */
-.hero-slide-overlay {
-  background: linear-gradient(120deg, rgba(15, 30, 80, 0.88) 0%, rgba(30, 58, 138, 0.65) 45%, rgba(185, 28, 28, 0.55) 100%);
-}
-
-.slider-arrow {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.slider-arrow:hover {
-  background: rgba(255, 255, 255, 0.22);
-}
-
-.slider-dot {
-  backdrop-filter: blur(4px);
-}
-
-/* Mobile dropdown arrow transition */
-.dropdown-button svg {
-  transition: transform 0.3s ease;
-}
-
-/* Mobile dropdown menu styling */
-.mobile-dropdown-menu {
-  @apply block;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
-}
-
-.mobile-dropdown-menu:not(.hidden) {
-  max-height: 500px;
-  transition: max-height 0.5s ease-in;
+  .js img[data-reveal] { opacity: 1; transform: none; }
+  .page-hero__photo { animation: none; }
 }

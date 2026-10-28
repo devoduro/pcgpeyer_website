@@ -4,119 +4,112 @@
 
 @section('content')
 <!-- Hero Header with Background Image -->
-<section class="relative pt-32 pb-24 overflow-hidden" data-aos="fade-down" data-aos-duration="1000">
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&h=600&fit=crop" alt="Contact Us" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 via-pcg-blue-800/90 to-pcg-blue-900/95"></div>
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div class="icon-circle-lg bg-white/20 backdrop-blur-lg border-2 border-white/30 mx-auto mb-8 animate-bounce-slow">
-            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-        </div>
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow-lg" data-aos="fade-up" data-aos-delay="200">Contact Us</h1>
-        <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="400">We'd Love to Hear From You</p>
-        <div class="w-24 h-1 bg-pcg-blue-400 mx-auto animate-expand" data-aos="zoom-in" data-aos-delay="600"></div>
+@include('partials.page-hero', [
+    'title' => 'Contact Us',
+    'eyebrow' => "We'd Love to Hear From You",
+    'subtitle' => 'Questions, prayer requests or planning a visit? Reach out and we will get back to you.',
+    'image' => 'images/bantama/womens_fellowship.jpg',
+    'crumbs' => [['Contact Us']],
+])
+
+{{-- Quick contact facts --}}
+<section class="relative z-10 -mt-12 pb-4">
+    <div class="site grid gap-5 md:grid-cols-3">
+        @foreach ([
+            ['fas fa-location-dot', 'Visit Us', 'Peyer Memorial Congregation, Bantama, Kumasi', 'P.O. Box 1755, Kumasi, Ghana', null],
+            ['fas fa-envelope', 'Email Us', 'info@pcgpeyer.org', 'We reply as soon as we can', 'mailto:info@pcgpeyer.org'],
+            ['fas fa-church', 'Sunday Worship', '1st Service 7:00 – 9:00 AM', '2nd Service 9:30 AM – 12:00 PM', null],
+        ] as [$icon, $label, $line1, $line2, $href])
+            <div class="card card-hover p-6 flex gap-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 120 }}">
+                <span class="w-12 h-12 shrink-0 rounded-[14px] {{ $loop->odd ? 'bg-brand-50 text-brand-600' : 'bg-accent-50 text-accent-600' }} flex items-center justify-center text-lg"><i class="{{ $icon }}"></i></span>
+                <div>
+                    <p class="text-xs font-extrabold uppercase tracking-[.12em] text-ink-400 mb-1">{{ $label }}</p>
+                    @if ($href)
+                        <a href="{{ $href }}" class="font-bold text-ink-900 hover:text-accent-600 transition-colors">{{ $line1 }}</a>
+                    @else
+                        <p class="font-bold text-ink-900">{{ $line1 }}</p>
+                    @endif
+                    <p class="text-sm text-ink-500 mt-0.5">{{ $line2 }}</p>
+                </div>
+            </div>
+        @endforeach
     </div>
 </section>
 
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-                <h2 class="text-3xl font-bold text-pcg-blue-900 mb-6">Get In Touch</h2>
-                
-                @if(session('success'))
-                <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-400 rounded-xl px-6 py-4 mb-6 shadow-lg animate-fade-in">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4 animate-bounce">
-                            <i class="fas fa-check text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-green-800 text-lg">Message Sent Successfully!</p>
-                            <p class="text-green-700">{{ session('success') }}</p>
-                        </div>
+<section class="section-padding !pt-14 bg-white">
+    <div class="site grid grid-cols-1 lg:grid-cols-5 gap-8">
+        {{-- Message form --}}
+        <div class="lg:col-span-3 card p-6 md:p-10" data-aos="fade-right">
+            <span class="eyebrow">Get In Touch</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-ink-900 mt-2 mb-2">Send Us a Message</h2>
+            <p class="text-ink-500 mb-8">Questions, prayer requests, or planning your first visit: we would love to hear from you.</p>
+
+            @if(session('success'))
+                <div class="flex items-start gap-4 rounded-xl border border-green-200 bg-green-50 px-5 py-4 mb-8" role="status">
+                    <span class="w-10 h-10 shrink-0 rounded-full bg-green-600 text-white flex items-center justify-center"><i class="fas fa-check"></i></span>
+                    <div>
+                        <p class="font-bold text-green-800">Message sent</p>
+                        <p class="text-sm text-green-700">{{ session('success') }}</p>
                     </div>
                 </div>
-                @endif
+            @endif
 
-                <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6">
-                    @csrf
+            <form action="{{ route('contact.submit') }}" method="POST" class="grid gap-5 md:grid-cols-2">
+                @csrf
+                <div>
+                    <label for="c-name" class="label">Name *</label>
+                    <input id="c-name" type="text" name="name" value="{{ old('name') }}" required class="input @error('name') is-error @enderror" autocomplete="name">
+                    @error('name')<p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label for="c-email" class="label">Email *</label>
+                    <input id="c-email" type="email" name="email" value="{{ old('email') }}" required class="input @error('email') is-error @enderror" autocomplete="email">
+                    @error('email')<p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label for="c-phone" class="label">Phone</label>
+                    <input id="c-phone" type="tel" name="phone" value="{{ old('phone') }}" class="input @error('phone') is-error @enderror" autocomplete="tel">
+                    @error('phone')<p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label for="c-subject" class="label">Subject *</label>
+                    <input id="c-subject" type="text" name="subject" value="{{ old('subject') }}" required class="input @error('subject') is-error @enderror">
+                    @error('subject')<p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>@enderror
+                </div>
+                <div class="md:col-span-2">
+                    <label for="c-message" class="label">Message *</label>
+                    <textarea id="c-message" name="message" rows="6" required class="input @error('message') is-error @enderror">{{ old('message') }}</textarea>
+                    @error('message')<p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>@enderror
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="btn-accent btn-lg w-full md:w-auto"><i class="fas fa-paper-plane"></i> Send Message</button>
+                </div>
+            </form>
+        </div>
+
+        {{-- Map and connect --}}
+        <div class="lg:col-span-2 flex flex-col gap-6" data-aos="fade-left">
+            <div class="card overflow-hidden">
+                <div class="aspect-[4/3] bg-ink-100">
+                    <iframe title="Map: Peyer Memorial Presbyterian Church, Bantama, Kumasi" class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps?q=Peyer+Memorial+Presbyterian+Church,+Bantama,+Kumasi,+Ghana&amp;output=embed"></iframe>
+                </div>
+                <div class="p-5 flex items-center justify-between gap-3">
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Name *</label>
-                        <input type="text" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pcg-blue-600 focus:border-transparent">
-                        @error('name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+                        <p class="font-bold text-ink-900">Bantama, Kumasi</p>
+                        <p class="text-sm text-ink-500">Church Auditorium</p>
                     </div>
-
-                    <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Email *</label>
-                        <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pcg-blue-600 focus:border-transparent">
-                        @error('email')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Phone</label>
-                        <input type="tel" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pcg-blue-600 focus:border-transparent">
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Subject *</label>
-                        <input type="text" name="subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pcg-blue-600 focus:border-transparent">
-                        @error('subject')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Message *</label>
-                        <textarea name="message" required rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pcg-blue-600 focus:border-transparent"></textarea>
-                        @error('message')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
-                    </div>
-
-                    <button type="submit" class="btn-primary w-full">Send Message</button>
-                </form>
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Peyer+Memorial+Presbyterian+Church+Bantama+Kumasi" target="_blank" rel="noopener" class="btn-outline btn-sm"><i class="fas fa-diamond-turn-right"></i> Directions</a>
+                </div>
             </div>
 
-            <div>
-                <h2 class="text-3xl font-bold text-pcg-blue-900 mb-6">Contact Information</h2>
-                
-                <div class="space-y-6 mb-8">
-                    <div class="flex items-start">
-                        <div class="w-12 h-12 bg-pcg-blue-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                            <svg class="w-6 h-6 text-pcg-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-pcg-blue-900 mb-1">Address</h3>
-                            <p class="text-gray-600">P.O. Box 1755, Bantama - Kumasi<br>Ghana</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center">
-                        <div class="icon-circle bg-pcg-blue-100 mr-4">
-                            <svg class="w-6 h-6 text-pcg-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-pcg-blue-900 mb-1">Email</h3>
-                            <p class="text-gray-600">info@pcgpeyer.org</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card p-6 bg-pcg-blue-50">
-                    <h3 class="font-bold text-pcg-blue-900 mb-4 text-xl">Service Times</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <p class="font-semibold text-pcg-blue-900">1st Sunday Service</p>
-                            <p class="text-gray-600">7:00 AM - 9:00 AM</p>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-pcg-blue-900">2nd Sunday Service</p>
-                            <p class="text-gray-600"> 9:30 AM - 12:00 PM</p>
-                        </div>
-                    </div>
+            <div class="card p-6 bg-gradient-to-br from-brand-700 to-navy-900 border-0 text-white">
+                <p class="text-xs font-extrabold uppercase tracking-[.12em] text-accent-300 mb-2">Stay Connected</p>
+                <p class="text-white/85 mb-5">Follow Bantama Presby for service streams, announcements and photos.</p>
+                <div class="flex gap-2.5">
+                    @foreach ([['fab fa-facebook-f', 'Facebook', 'https://web.facebook.com/BantamaPresby/'], ['fab fa-instagram', 'Instagram', 'https://www.instagram.com/bantamapresby'], ['fab fa-youtube', 'YouTube', 'https://www.youtube.com/@bantamapresby'], ['fab fa-x-twitter', 'X', 'https://x.com/BantamaPresby']] as [$icon, $label, $url])
+                        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $label }}" class="w-11 h-11 rounded-full bg-white/10 hover:bg-accent-600 flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5"><i class="{{ $icon }}"></i></a>
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -4,35 +4,17 @@
 
 @section('content')
 <!-- Hero Header with Background Image -->
-<section class="relative pt-32 pb-24 overflow-hidden" data-aos="fade-down" data-aos-duration="1000">
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1920&h=600&fit=crop" alt="News Update" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-pcg-blue-900/95 via-pcg-blue-800/90 to-pcg-blue-900/95"></div>
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-       
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow-lg" data-aos="fade-up" data-aos-delay="200">News Update</h1>
-        <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="400">News, Updates & Inspirational Content</p>
-        <div class="w-24 h-1 bg-pcg-blue-400 mx-auto animate-expand" data-aos="zoom-in" data-aos-delay="600"></div>
-    </div>
-</section>
-
-<!-- Blog Categories -->
-<section class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up">
-            <button class="px-6 py-3 bg-pcg-blue-600 text-white rounded-full font-semibold hover:bg-pcg-blue-700 transition duration-300 shadow-lg">All Posts</button>
-            <button class="px-6 py-3 bg-white text-pcg-blue-900 rounded-full font-semibold hover:bg-pcg-blue-50 transition duration-300 shadow-md">Sermons</button>
-            <button class="px-6 py-3 bg-white text-pcg-blue-900 rounded-full font-semibold hover:bg-pcg-blue-50 transition duration-300 shadow-md">Events</button>
-            <button class="px-6 py-3 bg-white text-pcg-blue-900 rounded-full font-semibold hover:bg-pcg-blue-50 transition duration-300 shadow-md">Testimonies</button>
-            <button class="px-6 py-3 bg-white text-pcg-blue-900 rounded-full font-semibold hover:bg-pcg-blue-50 transition duration-300 shadow-md">Ministry Updates</button>
-        </div>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => 'News Update',
+    'eyebrow' => 'Latest from Bantama',
+    'subtitle' => 'News, updates and inspiration from the life of our congregation.',
+    'image' => 'images/bantama/yaf.jpg',
+    'crumbs' => [['News Update']],
+])
 
 <!-- Featured Post -->
 <section class="py-12 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         @if($posts->isNotEmpty())
         @php $featuredPost = $posts->first(); @endphp
         <article class="group cursor-pointer" data-aos="fade-up">
@@ -40,9 +22,9 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
                     <div class="relative h-96 lg:h-auto overflow-hidden">
                         @if($featuredPost->image)
-                            <img src="{{ asset('storage/' . $featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1200&h=800&fit=crop'">
+                            <img src="{{ asset('storage/' . $featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='{{ asset('images/bantama/womens_fellowship.jpg') }}'">
                         @else
-                            <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1200&h=800&fit=crop" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="{{ asset('images/bantama/womens_fellowship.jpg') }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         @endif
                         <div class="absolute top-6 left-6">
                             <span class="bg-pcg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">Featured Post</span>
@@ -70,9 +52,10 @@
     </div>
 </section>
 
+@if($posts->count() > 1)
 <!-- Recent Posts -->
 <section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         <div class="text-center mb-12" data-aos="fade-up">
             <h2 class="text-4xl font-bold text-pcg-blue-900 mb-4">Recent Posts</h2>
             <div class="w-24 h-1 bg-pcg-blue-600 mx-auto"></div>
@@ -81,12 +64,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @php
             $blogImages = [
-                'photo-1516450360452-9312f5e85d2d',
-                'photo-1438232992991-995b7058bbb3',
-                'photo-1529156069898-49953e39b3ac',
-                'photo-1511632765486-a01980e01a18',
-                'photo-1519741497674-611481863552',
-                'photo-1464207687429-7505649dae38',
+                asset('images/bantama/womens_fellowship.jpg'),
+                asset('images/bantama/choir.jpg'),
+                asset('images/bantama/yaf.jpg'),
+                asset('images/bantama/ypg.jpg'),
+                asset('images/bantama/mens_fellowship.jpg'),
+                asset('images/bantama/brigade_b.jpg'),
             ];
             $imageIndex = 0;
             @endphp
@@ -97,9 +80,9 @@
                     <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden h-full flex flex-col">
                         <div class="relative h-56 overflow-hidden">
                             @if($post->image)
-                                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://images.unsplash.com/{{ $blogImages[$imageIndex % count($blogImages)] }}?w=800&h=600&fit=crop'">
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='{{ $blogImages[$imageIndex % count($blogImages)] }}'">
                             @else
-                                <img src="https://images.unsplash.com/{{ $blogImages[$imageIndex % count($blogImages)] }}?w=800&h=600&fit=crop" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <img src="{{ $blogImages[$imageIndex % count($blogImages)] }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                             <div class="absolute bottom-4 left-4">
@@ -141,6 +124,7 @@
         @endif
     </div>
 </section>
+@endif
 @endsection
 
 @push('styles')

@@ -4,41 +4,18 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="pt-32 pb-16 bg-gradient-to-r from-pcg-blue-900 to-pcg-red-700 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mb-4">
-            <a href="{{ route('gallery.index') }}" class="text-gray-200 hover:text-white inline-flex items-center">
-                <i class="fas fa-arrow-left mr-2"></i> Back to All Galleries
-            </a>
-        </div>
-        <h1 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up">{{ $gallery->title }}</h1>
-        @if($gallery->description)
-            <p class="text-xl text-gray-200 max-w-3xl" data-aos="fade-up" data-aos-delay="100">
-                {{ $gallery->description }}
-            </p>
-        @endif
-        <div class="flex items-center gap-6 mt-6 text-gray-200" data-aos="fade-up" data-aos-delay="200">
-            <span>
-                <i class="fas fa-images mr-2"></i>
-                {{ $gallery->images->count() }} {{ Str::plural('Photo', $gallery->images->count()) }}
-            </span>
-            <span>
-                <i class="far fa-calendar mr-2"></i>
-                {{ $gallery->created_at->format('M d, Y') }}
-            </span>
-            @if($gallery->creator)
-                <span>
-                    <i class="fas fa-user mr-2"></i>
-                    {{ $gallery->creator->name }}
-                </span>
-            @endif
-        </div>
-    </div>
-</section>
+@include('partials.page-hero', [
+    'title' => $gallery->title,
+    'eyebrow' => 'Photo Gallery',
+    'subtitle' => $gallery->description,
+    'image' => $gallery->thumbnail_path ? asset('storage/' . $gallery->thumbnail_path) : 'images/bantama/womens_fellowship.jpg',
+    'crumbs' => [['Galleries', route('gallery.index')], [Str::limit($gallery->title, 40)]],
+    'meta' => [['fas fa-images', $gallery->images->count() . ' ' . Str::plural('photo', $gallery->images->count())], ['far fa-calendar', $gallery->created_at->format('M d, Y')]],
+])
 
 <!-- Gallery Images -->
 <section class="py-20 bg-gradient-to-b from-white to-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="site">
         @if($gallery->images->count() > 0)
             <!-- Masonry Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

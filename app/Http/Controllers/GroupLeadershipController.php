@@ -18,17 +18,17 @@ class GroupLeadershipController extends Controller
             ->orderBy('name', 'asc')
             ->get();
         
-        return view('group-leadership.index', compact('ministers'));
+        // Shown instead when no group has a leader recorded yet.
+        $groups = $ministers->isEmpty() ? Ministry::active()->orderBy('name')->get() : collect();
+
+        return view('group-leadership.index', compact('ministers', 'groups'));
     }
 
     /**
-     * Show the specified ministry leader
+     * A group's own page is its ministry page, which already shows the leader and meeting details.
      */
-    public function show(Ministry $ministry)
+    public function show(string $groupLeadership)
     {
-        if (!$ministry->active) {
-            abort(404);
-        }
-        return view('group-leadership.show', compact('ministry'));
+        return redirect()->route('ministries.show', $groupLeadership, 301);
     }
 }

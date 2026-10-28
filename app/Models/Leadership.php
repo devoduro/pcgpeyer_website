@@ -21,6 +21,9 @@ class Leadership extends Model
         'email',
         'phone',
         'year',
+        'year_end',
+        'served_from',
+        'served_to',
         'display_order',
         'active',
         'is_current',
@@ -28,6 +31,9 @@ class Leadership extends Model
 
     protected $casts = [
         'year' => 'integer',
+        'year_end' => 'integer',
+        'served_from' => 'date',
+        'served_to' => 'date',
         'active' => 'boolean',
         'is_current' => 'boolean',
         'created_at' => 'datetime',
@@ -51,11 +57,34 @@ class Leadership extends Model
     }
 
     /**
-     * Get formatted year range for this leadership member
+     * Get formatted period for this leadership member: their own tenure when recorded
+     * ("Apr 1968 – Sep 1970", "1978–1996"), otherwise the session term they belong to.
      */
     public function getYearRangeAttribute()
     {
+        if ($this->served_from) {
+            $to = $this->served_to ? $this->served_to->format('M Y') : ($this->is_current ? 'Present' : null);
+
+            return $this->served_from->format('M Y') . ($to ? ' – ' . $to : '');
+        }
+
+        if ($this->year_end) {
+            return $this->year_end === $this->year ? (string) $this->year : $this->year . '–' . $this->year_end;
+        }
+
         return $this->yearRelation?->yearRange ?? (string) $this->year;
+    }
+
+    /** Last year of service: the recorded end, else the start year (single-year or open records). */
+    public function getEndYearAttribute(): int
+    {
+        return $this->year_end ?? $this->served_to?->year ?? $this->year;
+    }
+
+    /** Whether this leader was serving at any point between two years (inclusive). */
+    public function servedBetween(int $from, int $to): bool
+    {
+        return $this->year <= $to && $this->endYear >= $from;
     }
 
     /**
@@ -71,6 +100,22 @@ class Leadership extends Model
      */
     public function getServiceDurationAttribute()
     {
+        if ($this->served_from && $this->served_to) {
+            $diff = $this->served_from->diff($this->served_to);
+            $parts = array_filter([
+                $diff->y ? $diff->y . ' ' . \Illuminate\Support\Str::plural('year', $diff->y) : null,
+                $diff->m ? $diff->m . ' ' . \Illuminate\Support\Str::plural('month', $diff->m) : null,
+            ]);
+
+            return $parts ? implode(', ', $parts) : null;
+        }
+
+        if ($this->year_end) {
+            $years = $this->year_end - $this->year;
+
+            return $years > 0 ? $years . ' ' . \Illuminate\Support\Str::plural('year', $years) : null;
+        }
+
         $range = $this->yearRelation;
 
         if (!$range || !$range->year_end) {
@@ -92,7 +137,7 @@ class Leadership extends Model
     public static function ministerCategory(?string $title): ?string
     {
         $t = strtolower($title ?? '');
-        if (str_contains($t, 'associate')) {
+        if (str_contains($t, 'associate') || str_contains($t, 'second minister')) {
             return 'Associate Ministers';
         }
         if (str_contains($t, 'minister')) {
@@ -106,6 +151,18 @@ class Leadership extends Model
         }
 
         return null;
+    }
+
+    /**
+     * Leaders listed by session term on the Church Leadership page: anyone currently serving, plus
+     * term-based records. Past leaders with their own tenure dates appear only under Past Leaders.
+     */
+    public function scopeTermRoster($query)
+    {
+        return $query->where(function ($q) {
+            $q->where('is_current', true)
+              ->orWhere(fn ($q) => $q->whereNull('year_end')->whereNull('served_from'));
+        });
     }
 
     public function scopeActive($query)

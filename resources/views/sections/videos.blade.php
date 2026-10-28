@@ -6,7 +6,7 @@
         <div class="absolute bottom-20 right-10 w-96 h-96 bg-pcg-blue-600 rounded-full filter blur-3xl"></div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="site relative z-10">
         <!-- Section Header -->
         <div class="text-center mb-16" data-aos="fade-up">
             <div class="inline-block">
