@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             MinistrySeeder::class,
             EventSeeder::class,
             MediaGallerySeeder::class,
+            BantamaContentSeeder::class,
         ]);
         
         $this->command->newLine();
