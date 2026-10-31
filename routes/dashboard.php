@@ -17,12 +17,10 @@ use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\LeadershipController;
 use App\Http\Controllers\Dashboard\GroupLeadershipController;
+use App\Http\Controllers\Dashboard\GroupLeaderController;
 
-// Authentication Routes
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-});
+// Sign-in now lives at /login (routes/web.php); keep old bookmarks working
+Route::get('/login', fn () => redirect()->route('login', [], 301));
 
 Route::middleware('dashboard.auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -125,6 +123,9 @@ Route::middleware('dashboard.auth')->group(function () {
         // Group Leadership Management
         Route::resource('group-leadership', GroupLeadershipController::class);
         Route::patch('group-leadership/{groupLeadership}/toggle-active', [GroupLeadershipController::class, 'toggleActive'])->name('group-leadership.toggle-active');
+
+        // Executives of each fellowship and guild, shown on the public Group Leaders page
+        Route::resource('group-leaders', GroupLeaderController::class)->only(['index', 'store', 'update', 'destroy']);
     });
 
     // User Management (Admin Only)

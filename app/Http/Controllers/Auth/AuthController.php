@@ -7,7 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -29,19 +31,29 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
-            $user = Auth::user();
-            
-            if (!$user->isActive()) {
-                Auth::logout();
-                return back()->withErrors(['email' => 'Your account is inactive.']);
-            }
-
-            $request->session()->regenerate();
-            return redirect()->intended(route('dashboard.index'))->with('success', 'Welcome to Dashboard!');
+        // Five tries per minute for each email and address pair
+        $throttleKey = Str::lower($credentials['email']) . '|' . $request->ip();
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            return back()->onlyInput('email')
+                ->withErrors(['email' => "Too many sign-in attempts. Please try again in {$seconds} seconds."]);
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials.']);
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
+            $user = Auth::user();
+
+            if (!$user->isActive()) {
+                Auth::logout();
+                return back()->onlyInput('email')->withErrors(['email' => 'Your account is inactive.']);
+            }
+
+            RateLimiter::clear($throttleKey);
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard.index'))->with('success', 'Welcome back, ' . $user->name . '!');
+        }
+
+        RateLimiter::hit($throttleKey, 60);
+        return back()->onlyInput('email')->withErrors(['email' => 'That email and password do not match an account.']);
     }
 
     /**
@@ -52,7 +64,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect(route('home'))->with('success', 'Logged out successfully.');
+        return redirect(route('login'))->with('success', 'You have been signed out.');
     }
 
     /**

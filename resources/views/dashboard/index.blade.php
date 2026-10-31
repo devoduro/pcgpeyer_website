@@ -1,460 +1,254 @@
 @extends('dashboard.layouts.app')
 
 @section('title', 'Dashboard')
-@section('page-title', 'Dashboard Home')
+@section('page-title', 'Dashboard')
+@section('hide-page-header', true)
+
+@php
+    $user = auth()->user();
+    $hour = now()->hour;
+    $greeting = $hour < 12 ? 'Good morning' : ($hour < 17 ? 'Good afternoon' : 'Good evening');
+
+    // Things someone should look at, most pressing first. Only editors can act on them.
+    $attention = $user->isEditor() ? array_values(array_filter([
+        $stats['contact_messages'] ? ['fa-envelope', $stats['contact_messages'] . ' new ' . Str::plural('message', $stats['contact_messages']), 'From the contact form', route('dashboard.contact.index')] : null,
+        $stats['prayer_requests'] ? ['fa-hands', $stats['prayer_requests'] . ' open prayer ' . Str::plural('request', $stats['prayer_requests']), 'Not yet marked as prayed for', route('dashboard.prayer-requests.index')] : null,
+        ! $todaysDevotional ? ['fa-book-bible', 'No devotion for today', 'App users get a morning devotion each day', route('dashboard.devotionals.create', ['date' => today()->toDateString()])] : null,
+        $stats['unnamed_group_leaders'] ? ['fa-user-tag', $stats['unnamed_group_leaders'] . ' group ' . Str::plural('leader', $stats['unnamed_group_leaders']) . ' hidden', 'Add their names to show them on the site', route('dashboard.group-leaders.index')] : null,
+        ! $stats['upcoming_events'] ? ['fa-calendar-plus', 'No upcoming events', 'The website events page is empty', route('dashboard.events.create')] : null,
+    ])) : [];
+
+    $tiles = [
+        ['Sermons', $stats['sermons'], 'fa-bible', 'dashboard.sermons.index'],
+        ['News posts', $stats['posts'], 'fa-newspaper', 'dashboard.blog.index'],
+        ['Upcoming events', $stats['upcoming_events'], 'fa-calendar-days', 'dashboard.events.index'],
+        ['Ministries', $stats['ministries'], 'fa-hands-praying', 'dashboard.ministries.index'],
+        ['Group leaders', $stats['group_leaders'], 'fa-people-group', 'dashboard.group-leaders.index'],
+        ['App users', $stats['app_users'], 'fa-mobile-screen', null],
+    ];
+
+    $actions = [
+        ['New sermon', 'fa-bible', 'dashboard.sermons.create'],
+        ['News post', 'fa-newspaper', 'dashboard.blog.create'],
+        ['Event', 'fa-calendar-plus', 'dashboard.events.create'],
+        ['Devotion', 'fa-book-bible', 'dashboard.devotionals.create'],
+        ['Announcement', 'fa-bullhorn', 'dashboard.announcements.create'],
+        ['Photo album', 'fa-images', 'dashboard.galleries.create'],
+    ];
+@endphp
 
 @section('content')
 <div class="space-y-6">
-    <!-- Premium Welcome Header -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 rounded-3xl shadow-2xl transform hover:scale-[1.01] transition-transform duration-500">
-        <div class="absolute inset-0 bg-black/10"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-        
-        <!-- Decorative Elements with Animation -->
-        <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-48 -mt-48 animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full -ml-32 -mb-32 animate-pulse" style="animation-delay: 1s;"></div>
-        <div class="absolute top-1/2 left-1/2 w-32 h-32 bg-white/5 rounded-full -ml-16 -mt-16 animate-ping" style="animation-duration: 3s;"></div>
-        
-        <div class="relative px-8 py-10">
-            <div class="flex items-center justify-between flex-wrap gap-6">
-                <div class="space-y-2">
-                    <div class="flex items-center gap-3">
-                        <div class="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center border border-white/30">
-                            <i class="fas fa-crown text-white text-2xl"></i>
-                        </div>
-                        <div>
-                            <h1 class="text-4xl font-bold text-white tracking-tight">
-                                Welcome back, {{ auth()->user()->name }}
-                            </h1>
-                            <p class="text-white/80 text-lg mt-1">
-                                <i class="fas fa-shield-check mr-2"></i>{{ ucfirst(auth()->user()->role) }} Access
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex gap-4">
-                    <div class="bg-white/10 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105">
-                        <p class="text-white/70 text-sm font-medium mb-1"><i class="fas fa-calendar-day mr-2"></i>Today</p>
-                        <p class="text-white text-xl font-bold">{{ now()->format('M d, Y') }}</p>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105">
-                        <p class="text-white/70 text-sm font-medium mb-1"><i class="fas fa-clock mr-2"></i>Time</p>
-                        <p class="text-white text-xl font-bold" id="current-time">{{ now()->format('h:i A') }}</p>
-                    </div>
-                </div>
+    <!-- Greeting -->
+    <section class="relative overflow-hidden rounded-2xl bg-primary-900 text-white">
+        <img src="{{ asset('images/bantama/hero_church.jpg') }}" alt="" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-600/95 via-primary-800/90 to-primary-900/70"></div>
+        <div class="relative px-6 py-8 md:px-10 md:py-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+                <p class="text-sm font-semibold text-red-300">{{ now()->format('l, j F Y') }}</p>
+                <h1 class="font-display text-3xl md:text-4xl font-extrabold mt-1">{{ $greeting }}, {{ Str::before($user->name, ' ') ?: $user->name }}</h1>
+                <p class="mt-2 text-white/75">
+                    @if($attention)
+                        {{ count($attention) }} {{ Str::plural('thing', count($attention)) }} could use your attention today.
+                    @else
+                        Everything is up to date. Thank you for serving.
+                    @endif
+                </p>
             </div>
-        </div>
-    </div>
-
-    <!-- Main Dashboard Grid -->
-    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-        <!-- Left Section - Content & Management -->
-        <div class="xl:col-span-9 space-y-6">
-            <!-- Content & Church Management Combined -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Content Management -->
-                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 px-6 py-5 border-b border-gray-100">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg animate-pulse" style="animation-duration: 2s;">
-                                    <i class="fas fa-edit text-white"></i>
-                                </div>
-                                <div>
-                                    <h2 class="text-lg font-bold text-gray-900">Content</h2>
-                                    <p class="text-xs text-gray-600">Manage your content</p>
-                                </div>
-                            </div>
-                            <div class="px-3 py-1 bg-blue-100 rounded-full">
-                                <span class="text-xs font-bold text-blue-600">{{ $stats['posts'] + $stats['sermons'] + ($stats['videos'] ?? 0) + $stats['gallery_items'] }} Total</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6">
-                        <div class="grid grid-cols-2 gap-3">
-                            <!-- Blog Posts -->
-                            <a href="{{ route('dashboard.blog.index') }}" class="group relative bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-xl p-4 border-2 border-blue-200/50 hover:border-blue-400 hover:shadow-lg transition-all duration-300">
-                                <div class="absolute top-2 right-2 w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-newspaper text-blue-600 text-lg"></i>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Blog</p>
-                                    <p class="text-2xl font-bold text-gray-900">{{ $stats['posts'] }}</p>
-                                    <p class="text-xs text-blue-600 font-medium">View all</p>
-                                </div>
-                            </a>
-
-                            <!-- Sermons -->
-                            <a href="{{ route('dashboard.sermons.index') }}" class="group relative bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-xl p-4 border-2 border-purple-200/50 hover:border-purple-400 hover:shadow-lg transition-all duration-300">
-                                <div class="absolute top-2 right-2 w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-microphone text-purple-600 text-lg"></i>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-xs font-semibold text-purple-600 uppercase tracking-wide">Sermons</p>
-                                    <p class="text-2xl font-bold text-gray-900">{{ $stats['sermons'] }}</p>
-                                    <p class="text-xs text-purple-600 font-medium">View all</p>
-                                </div>
-                            </a>
-
-                            <!-- Videos -->
-                            <a href="{{ route('dashboard.videos.index') }}" class="group relative bg-gradient-to-br from-indigo-50 to-indigo-100/50 rounded-xl p-4 border-2 border-indigo-200/50 hover:border-indigo-400 hover:shadow-lg transition-all duration-300">
-                                <div class="absolute top-2 right-2 w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-video text-indigo-600 text-lg"></i>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-xs font-semibold text-indigo-600 uppercase tracking-wide">Videos</p>
-                                    <p class="text-2xl font-bold text-gray-900">{{ $stats['videos'] ?? 0 }}</p>
-                                    <p class="text-xs text-indigo-600 font-medium">View all</p>
-                                </div>
-                            </a>
-
-                            <!-- Gallery -->
-                            <a href="{{ route('dashboard.galleries.index') }}" class="group relative bg-gradient-to-br from-yellow-50 to-yellow-100/50 rounded-xl p-4 border-2 border-yellow-200/50 hover:border-yellow-400 hover:shadow-lg transition-all duration-300">
-                                <div class="absolute top-2 right-2 w-10 h-10 bg-yellow-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-images text-yellow-600 text-lg"></i>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-xs font-semibold text-yellow-600 uppercase tracking-wide">Gallery</p>
-                                    <p class="text-2xl font-bold text-gray-900">{{ $stats['gallery_items'] }}</p>
-                                    <p class="text-xs text-yellow-600 font-medium">View all</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Church Management -->
-                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="bg-gradient-to-r from-red-50 to-pink-50 px-6 py-5 border-b border-gray-100">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg animate-pulse" style="animation-duration: 2s; animation-delay: 0.5s;">
-                                    <i class="fas fa-church text-white"></i>
-                                </div>
-                                <div>
-                                    <h2 class="text-lg font-bold text-gray-900">Church</h2>
-                                    <p class="text-xs text-gray-600">Manage church programs</p>
-                                </div>
-                            </div>
-                            <div class="px-3 py-1 bg-red-100 rounded-full">
-                                <span class="text-xs font-bold text-red-600">{{ $stats['ministries'] + $stats['leadership'] }} Active</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6">
-                        <div class="grid grid-cols-2 gap-3">
-                            <!-- Ministries -->
-                            <a href="{{ route('dashboard.ministries.index') }}" class="group relative bg-gradient-to-br from-red-50 to-red-100/50 rounded-xl p-4 border-2 border-red-200/50 hover:border-red-400 hover:shadow-lg transition-all duration-300">
-                                <div class="absolute top-2 right-2 w-10 h-10 bg-red-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-hands-praying text-red-600 text-lg"></i>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-xs font-semibold text-red-600 uppercase tracking-wide">Ministries</p>
-                                    <p class="text-2xl font-bold text-gray-900">{{ $stats['ministries'] }}</p>
-                                    <p class="text-xs text-red-600 font-medium">Manage</p>
-                                </div>
-                            </a>
-
-                            <!-- Leadership -->
-                            <a href="{{ route('dashboard.leadership.index') }}" class="group relative bg-gradient-to-br from-cyan-50 to-cyan-100/50 rounded-xl p-4 border-2 border-cyan-200/50 hover:border-cyan-400 hover:shadow-lg transition-all duration-300">
-                                <div class="absolute top-2 right-2 w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-user-tie text-cyan-600 text-lg"></i>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-xs font-semibold text-cyan-600 uppercase tracking-wide">Leadership</p>
-                                    <p class="text-2xl font-bold text-gray-900">{{ $stats['leadership'] }}</p>
-                                    <p class="text-xs text-cyan-600 font-medium">Manage</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Messages & System Management -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Contact Messages -->
-                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 px-6 py-5 border-b border-gray-100">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg relative">
-                                    <i class="fas fa-envelope text-white"></i>
-                                    @if($stats['contact_messages'] > 0)
-                                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold animate-bounce">{{ $stats['contact_messages'] }}</span>
-                                    @endif
-                                </div>
-                                <div>
-                                    <h2 class="text-lg font-bold text-gray-900">Messages</h2>
-                                    <p class="text-xs text-gray-600">Connect with congregation</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6">
-                        <a href="{{ route('dashboard.contact.index') }}" class="group relative bg-gradient-to-br from-indigo-50 to-indigo-100/50 rounded-xl p-6 border-2 border-indigo-200/50 hover:border-indigo-400 hover:shadow-lg transition-all duration-300 flex items-center justify-between">
-                            <div class="space-y-1">
-                                <p class="text-sm font-semibold text-indigo-600 uppercase tracking-wide">New Messages</p>
-                                <p class="text-3xl font-bold text-gray-900">{{ $stats['contact_messages'] }}</p>
-                                <p class="text-xs text-indigo-600 font-medium">View messages</p>
-                            </div>
-                            <div class="w-16 h-16 bg-indigo-500/10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <i class="fas fa-envelope text-indigo-600 text-2xl"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- System Management -->
-                @if(auth()->user()->isAdmin())
-                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="bg-gradient-to-r from-gray-50 to-slate-50 px-6 py-5 border-b border-gray-100">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-xl flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-cog text-white animate-spin" style="animation-duration: 3s;"></i>
-                                </div>
-                                <div>
-                                    <h2 class="text-lg font-bold text-gray-900">System</h2>
-                                    <p class="text-xs text-gray-600">Administrator</p>
-                                </div>
-                            </div>
-                            <div class="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full">
-                                <span class="text-xs font-bold text-white">ADMIN</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6">
-                        <a href="{{ route('dashboard.users.index') }}" class="group relative bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-xl p-6 border-2 border-gray-200/50 hover:border-gray-400 hover:shadow-lg transition-all duration-300 flex items-center justify-between">
-                            <div class="space-y-1">
-                                <p class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Active Users</p>
-                                <p class="text-3xl font-bold text-gray-900">{{ $stats['active_users'] }}</p>
-                                <p class="text-xs text-gray-600 font-medium">Manage users</p>
-                            </div>
-                            <div class="w-16 h-16 bg-gray-500/10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <i class="fas fa-users text-gray-600 text-2xl"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('home') }}" target="_blank" class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-white/10 border border-white/25 hover:bg-white/20 font-semibold text-sm transition">
+                    <i class="fas fa-arrow-up-right-from-square text-xs"></i> View website
+                </a>
+                @if($user->isEditor())
+                <a href="{{ route('dashboard.sermons.create') }}" class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-red-600 hover:bg-red-700 font-semibold text-sm shadow-accent transition">
+                    <i class="fas fa-plus text-xs"></i> Add a sermon
+                </a>
                 @endif
             </div>
+        </div>
+    </section>
 
-        <!-- Right Section - Quick Actions -->
-        <div class="xl:col-span-3 space-y-6">
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden sticky top-6">
-                <div class="bg-gradient-to-r from-amber-50 to-yellow-50 px-6 py-5 border-b border-gray-100">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-bolt text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900">Quick Actions</h3>
-                            <p class="text-sm text-gray-600">Create new content</p>
-                        </div>
-                    </div>
+    <!-- Numbers -->
+    <section class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
+        @foreach($tiles as [$label, $value, $icon, $route])
+            @php $link = $route && $user->isEditor() ? route($route) : null; @endphp
+            <{{ $link ? 'a' : 'div' }} @if($link) href="{{ $link }}" @endif
+                class="group bg-white rounded-2xl border border-gray-200 p-5 shadow-card {{ $link ? 'hover:border-primary-300 hover:shadow-lift transition' : '' }}">
+                <div class="flex items-center justify-between">
+                    <span class="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center"><i class="fas {{ $icon }}"></i></span>
+                    @if($link)<i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-red-600 transition"></i>@endif
                 </div>
-                
-                <div class="p-6 space-y-3">
-                    <a href="{{ route('dashboard.blog.create') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-blue-100/30 rounded-xl border-2 border-blue-200/50 hover:border-blue-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-plus text-white"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">New Blog Post</p>
-                            <p class="text-xs text-gray-600">Create article</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-blue-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
+                <p class="mt-4 text-3xl font-bold text-gray-900 tabular-nums">{{ number_format($value) }}</p>
+                <p class="text-sm text-gray-500">{{ $label }}</p>
+            </{{ $link ? 'a' : 'div' }}>
+        @endforeach
+    </section>
 
-                    <a href="{{ route('dashboard.sermons.create') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-purple-100/30 rounded-xl border-2 border-purple-200/50 hover:border-purple-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-plus text-white"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">New Sermon</p>
-                            <p class="text-xs text-gray-600">Add message</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-purple-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+        <!-- Main column -->
+        <div class="xl:col-span-2 space-y-6">
+            @if($attention)
+            <section class="bg-white rounded-2xl border border-gray-200 shadow-card">
+                <header class="px-6 py-4 border-b border-gray-100">
+                    <h2 class="font-bold text-gray-900">Needs attention</h2>
+                </header>
+                <ul class="divide-y divide-gray-100">
+                    @foreach($attention as [$icon, $title, $note, $url])
+                        <li>
+                            <a href="{{ $url }}" class="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition group">
+                                <span class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0"><i class="fas {{ $icon }}"></i></span>
+                                <span class="flex-1 min-w-0">
+                                    <span class="block font-semibold text-gray-900">{{ $title }}</span>
+                                    <span class="block text-sm text-gray-500">{{ $note }}</span>
+                                </span>
+                                <i class="fas fa-chevron-right text-xs text-gray-300 group-hover:text-primary-600 transition"></i>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </section>
+            @endif
 
-                    <a href="{{ route('dashboard.events.create') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-green-100/30 rounded-xl border-2 border-green-200/50 hover:border-green-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-plus text-white"></i>
+            <!-- Upcoming events -->
+            <section class="bg-white rounded-2xl border border-gray-200 shadow-card">
+                <header class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                    <h2 class="font-bold text-gray-900">Upcoming events</h2>
+                    @if($user->isEditor())
+                        <a href="{{ route('dashboard.events.index') }}" class="text-sm font-semibold text-primary-600 hover:text-red-600">All events</a>
+                    @endif
+                </header>
+                @forelse($upcomingEvents as $event)
+                    <div class="flex items-center gap-4 px-6 py-4 {{ $loop->last ? '' : 'border-b border-gray-100' }}">
+                        <div class="w-14 shrink-0 rounded-xl bg-primary-50 text-center py-2">
+                            <p class="text-[11px] font-bold uppercase text-red-600">{{ $event->start_date->format('M') }}</p>
+                            <p class="text-xl font-bold text-primary-600 leading-none">{{ $event->start_date->format('j') }}</p>
                         </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">New Event</p>
-                            <p class="text-xs text-gray-600">Schedule event</p>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-gray-900 truncate">{{ $event->title }}</p>
+                            <p class="text-sm text-gray-500 truncate">
+                                {{ $event->start_date->format('D, g:i A') }}@if($event->location) · {{ $event->location }}@endif
+                            </p>
                         </div>
-                        <i class="fas fa-chevron-right text-green-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
+                        @unless($event->published)
+                            <span class="badge badge-warning">Draft</span>
+                        @endunless
+                        @if($user->isEditor())
+                            <a href="{{ route('dashboard.events.edit', $event) }}" class="text-gray-400 hover:text-primary-600 p-2" title="Edit"><i class="fas fa-pen text-sm"></i></a>
+                        @endif
+                    </div>
+                @empty
+                    <div class="px-6 py-10 text-center">
+                        <i class="fas fa-calendar text-3xl text-gray-300"></i>
+                        <p class="mt-3 text-gray-500">No upcoming events scheduled.</p>
+                        @if($user->isEditor())
+                            <a href="{{ route('dashboard.events.create') }}" class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-red-600"><i class="fas fa-plus text-xs"></i> Add an event</a>
+                        @endif
+                    </div>
+                @endforelse
+            </section>
 
-                    <a href="{{ route('dashboard.ministries.create') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-red-50 to-red-100/30 rounded-xl border-2 border-red-200/50 hover:border-red-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-plus text-white"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">New Ministry</p>
-                            <p class="text-xs text-gray-600">Add ministry</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-red-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
+            @if($user->isEditor())
+            <!-- Inbox -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <section class="bg-white rounded-2xl border border-gray-200 shadow-card">
+                    <header class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                        <h2 class="font-bold text-gray-900">Latest messages</h2>
+                        <a href="{{ route('dashboard.contact.index') }}" class="text-sm font-semibold text-primary-600 hover:text-red-600">Inbox</a>
+                    </header>
+                    @forelse($recentMessages as $message)
+                        <a href="{{ route('dashboard.contact.show', $message) }}" class="block px-6 py-3.5 hover:bg-gray-50 transition {{ $loop->last ? '' : 'border-b border-gray-100' }}">
+                            <div class="flex items-center gap-2">
+                                @if($message->status === 'new')<span class="w-2 h-2 rounded-full bg-red-600 shrink-0" title="New"></span>@endif
+                                <p class="font-semibold text-gray-900 truncate flex-1">{{ $message->name }}</p>
+                                <span class="text-xs text-gray-400 shrink-0">{{ $message->created_at->diffForHumans(null, true) }}</span>
+                            </div>
+                            <p class="text-sm text-gray-500 truncate">{{ $message->subject ?: Str::limit($message->message, 60) }}</p>
+                        </a>
+                    @empty
+                        <p class="px-6 py-8 text-center text-sm text-gray-500">No messages yet.</p>
+                    @endforelse
+                </section>
 
-                    <a href="{{ route('dashboard.leadership.create') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-cyan-50 to-cyan-100/30 rounded-xl border-2 border-cyan-200/50 hover:border-cyan-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-cyan-500 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-plus text-white"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">New Leader</p>
-                            <p class="text-xs text-gray-600">Add member</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-cyan-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
+                <section class="bg-white rounded-2xl border border-gray-200 shadow-card">
+                    <header class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                        <h2 class="font-bold text-gray-900">Open prayer requests</h2>
+                        <a href="{{ route('dashboard.prayer-requests.index') }}" class="text-sm font-semibold text-primary-600 hover:text-red-600">All</a>
+                    </header>
+                    @forelse($recentPrayers as $prayer)
+                        <a href="{{ route('dashboard.prayer-requests.show', $prayer) }}" class="block px-6 py-3.5 hover:bg-gray-50 transition {{ $loop->last ? '' : 'border-b border-gray-100' }}">
+                            <div class="flex items-center gap-2">
+                                <p class="font-semibold text-gray-900 truncate flex-1">{{ $prayer->is_private ? 'Private request' : ($prayer->name ?: 'Anonymous') }}</p>
+                                <span class="text-xs text-gray-400 shrink-0">{{ $prayer->created_at->diffForHumans(null, true) }}</span>
+                            </div>
+                            <p class="text-sm text-gray-500 truncate">{{ $prayer->category ? Str::headline($prayer->category) . ' · ' : '' }}{{ Str::limit($prayer->request, 60) }}</p>
+                        </a>
+                    @empty
+                        <p class="px-6 py-8 text-center text-sm text-gray-500">No open prayer requests.</p>
+                    @endforelse
+                </section>
+            </div>
+            @endif
+        </div>
 
-                    <a href="{{ route('dashboard.leadership.manage-years') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-cyan-50 to-cyan-100/30 rounded-xl border-2 border-cyan-200/50 hover:border-cyan-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-cyan-500/60 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-calendar text-white text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">Manage Years</p>
-                            <p class="text-xs text-gray-600">Edit leadership years</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-cyan-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
+        <!-- Side column -->
+        <aside class="space-y-6">
+            @if($user->isEditor())
+            <section class="bg-white rounded-2xl border border-gray-200 shadow-card p-6">
+                <h2 class="font-bold text-gray-900 mb-4">Create</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    @foreach($actions as [$label, $icon, $route])
+                        <a href="{{ route($route) }}" class="group flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-200 py-4 px-2 text-center hover:border-primary-300 hover:bg-primary-50 transition">
+                            <i class="fas {{ $icon }} text-lg text-primary-600 group-hover:text-red-600 transition"></i>
+                            <span class="text-sm font-semibold text-gray-700">{{ $label }}</span>
+                        </a>
+                    @endforeach
+                </div>
+            </section>
+            @endif
 
-                    <a href="{{ route('dashboard.leadership.manage-titles') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-cyan-50 to-cyan-100/30 rounded-xl border-2 border-cyan-200/50 hover:border-cyan-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-cyan-500/60 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-briefcase text-white text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">Manage Titles</p>
-                            <p class="text-xs text-gray-600">Edit leadership titles</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-cyan-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-
-                    <a href="{{ route('dashboard.galleries.create') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-yellow-50 to-yellow-100/30 rounded-xl border-2 border-yellow-200/50 hover:border-yellow-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-yellow-500 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-plus text-white"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">New Gallery</p>
-                            <p class="text-xs text-gray-600">Create album</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-yellow-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-
-                    @if(auth()->user()->isAdmin())
-                    <a href="{{ route('dashboard.users.create') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-gray-50 to-gray-100/30 rounded-xl border-2 border-gray-200/50 hover:border-gray-400 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 bg-gray-600 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <i class="fas fa-plus text-white"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900">New User</p>
-                            <p class="text-xs text-gray-600">Add admin</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-gray-600 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
+            <!-- Today's devotion -->
+            <section class="bg-white rounded-2xl border border-gray-200 shadow-card p-6">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="font-bold text-gray-900">Today's devotion</h2>
+                    @if($todaysDevotional)
+                        <span class="badge {{ $todaysDevotional->published ? 'badge-success' : 'badge-warning' }}">{{ $todaysDevotional->published ? 'Published' : 'Draft' }}</span>
                     @endif
                 </div>
-            </div>
+                @if($todaysDevotional)
+                    <p class="text-lg font-semibold text-gray-900 leading-snug">{{ $todaysDevotional->title }}</p>
+                    @if($todaysDevotional->scripture_reference)
+                        <p class="text-sm text-red-600 font-semibold mt-1">{{ $todaysDevotional->scripture_reference }}</p>
+                    @endif
+                    @if($user->isEditor())
+                        <a href="{{ route('dashboard.devotionals.edit', $todaysDevotional) }}" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-red-600">Edit devotion <i class="fas fa-arrow-right text-xs"></i></a>
+                    @endif
+                @else
+                    <p class="text-sm text-gray-500">Nothing is scheduled for today.</p>
+                    @if($user->isEditor())
+                        <a href="{{ route('dashboard.devotionals.create', ['date' => today()->toDateString()]) }}" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-red-600"><i class="fas fa-plus text-xs"></i> Write today's devotion</a>
+                    @endif
+                @endif
+            </section>
 
-            <!-- Help Card -->
-            <div class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl p-6 text-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden">
-                <!-- Animated Background -->
-                <div class="absolute inset-0 bg-white/5 animate-pulse" style="animation-duration: 3s;"></div>
-                
-                <div class="relative z-10">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-white/20 backdrop-blur-xl rounded-xl flex items-center justify-center border border-white/30 animate-bounce" style="animation-duration: 2s;">
-                            <i class="fas fa-info-circle text-white"></i>
+            <!-- Library -->
+            <section class="bg-white rounded-2xl border border-gray-200 shadow-card p-6">
+                <h2 class="font-bold text-gray-900 mb-4">Library</h2>
+                <dl class="space-y-3 text-sm">
+                    @foreach([['Videos', $stats['videos'], 'fa-video'], ['Gallery items', $stats['gallery_items'], 'fa-images'], ['All events', $stats['events'], 'fa-calendar'], ['Church leaders', $stats['leadership'], 'fa-user-tie']] as [$label, $value, $icon])
+                        <div class="flex items-center justify-between">
+                            <dt class="flex items-center gap-3 text-gray-600"><i class="fas {{ $icon }} w-4 text-center text-gray-400"></i>{{ $label }}</dt>
+                            <dd class="font-bold text-gray-900 tabular-nums">{{ number_format($value) }}</dd>
                         </div>
-                        <h3 class="text-xl font-bold">Need Help?</h3>
-                    </div>
-                    <p class="text-white/90 text-sm leading-relaxed mb-4">
-                        All your content management tools are available in the left sidebar. Navigate through sections to manage your church's digital presence.
-                    </p>
-                    <div class="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300">
-                        <p class="text-white/70 text-xs font-medium mb-1"><i class="fas fa-user-shield mr-2"></i>Your Role</p>
-                        <p class="text-white text-lg font-bold">{{ ucfirst(auth()->user()->role) }}</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Statistics Summary Card -->
-            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300">
-                <div class="bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-4 border-b border-gray-100">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-chart-line text-white"></i>
+                    @endforeach
+                    @if($user->isAdmin())
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <dt class="flex items-center gap-3 text-gray-600"><i class="fas fa-users-cog w-4 text-center text-gray-400"></i>Dashboard users</dt>
+                            <dd><a href="{{ route('dashboard.users.index') }}" class="font-bold text-primary-600 hover:text-red-600 tabular-nums">{{ $stats['active_users'] }}</a></dd>
                         </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-gray-900">Overview</h3>
-                            <p class="text-xs text-gray-600">Quick stats</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-6 space-y-4">
-                    <div class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-blue-100/30 rounded-lg">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-newspaper text-white text-xs"></i>
-                            </div>
-                            <span class="text-sm font-semibold text-gray-700">Total Posts</span>
-                        </div>
-                        <span class="text-lg font-bold text-blue-600">{{ $stats['posts'] }}</span>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-purple-100/30 rounded-lg">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-microphone text-white text-xs"></i>
-                            </div>
-                            <span class="text-sm font-semibold text-gray-700">Sermons</span>
-                        </div>
-                        <span class="text-lg font-bold text-purple-600">{{ $stats['sermons'] }}</span>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-gradient-to-r from-red-50 to-red-100/30 rounded-lg">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-hands-praying text-white text-xs"></i>
-                            </div>
-                            <span class="text-sm font-semibold text-gray-700">Ministries</span>
-                        </div>
-                        <span class="text-lg font-bold text-red-600">{{ $stats['ministries'] }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    @endif
+                </dl>
+            </section>
+        </aside>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    // Live Clock Update
-    function updateTime() {
-        const now = new Date();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        const displayHours = hours % 12 || 12;
-        const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-        
-        const timeElement = document.getElementById('current-time');
-        if (timeElement) {
-            timeElement.textContent = displayHours + ':' + displayMinutes + ' ' + ampm;
-        }
-    }
-    
-    // Update time every second
-    setInterval(updateTime, 1000);
-    updateTime(); // Initial call
-</script>
-@endpush
-
 @endsection

@@ -58,10 +58,14 @@ class LeadershipController extends Controller
         ]);
     }
 
-    /** GET /group-leadership: ministries and groups that have a leader. */
+    /** GET /group-leadership: ministries and groups that have a leader or executives. */
     public function groups(): JsonResponse
     {
-        $groups = Ministry::active()->whereNotNull('leader')->orderBy('name')->get();
+        $activeLeaders = fn ($q) => $q->active();
+        $groups = Ministry::active()
+            ->where(fn ($q) => $q->whereNotNull('leader')->orWhereHas('leaders', $activeLeaders))
+            ->with(['leaders' => $activeLeaders])
+            ->orderBy('name')->get();
 
         return response()->json([
             'groups' => $groups->map(fn ($m) => [
@@ -74,6 +78,12 @@ class LeadershipController extends Controller
                 'leader_phone' => $m->leader_phone,
                 'contact_email' => $m->contact_email,
                 'leader_picture_url' => $this->url($m->leader_picture),
+                'leaders' => $m->leaders->map(fn ($l) => [
+                    'id' => $l->id,
+                    'name' => $l->name,
+                    'position' => $l->position,
+                    'image_url' => $this->url($l->photo),
+                ])->all(),
                 'image_url' => $this->url($m->image),
                 'meeting_schedule' => $m->meeting_schedule,
                 'location' => $m->location,

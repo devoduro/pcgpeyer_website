@@ -12,7 +12,45 @@
     'crumbs' => [['About Us', route('about.history')], ['Group Leaders']],
 ])
 
+@if($teams->count())
+    <!-- Jump to a group -->
+    <nav class="bg-white border-b border-ink-200/70">
+        <div class="site py-5 flex flex-wrap justify-center gap-2">
+            @foreach($teams as $team)
+                <a href="#{{ $team->slug }}" class="badge badge-brand h-9 px-4 text-sm hover:bg-brand-100 transition-colors">{{ $team->name }}</a>
+            @endforeach
+        </div>
+    </nav>
+
+    <!-- Each group's executives -->
+    @foreach($teams as $team)
+        <section id="{{ $team->slug }}" class="py-16 md:py-20 scroll-mt-24 {{ $loop->odd ? 'bg-white' : 'bg-gray-50' }}">
+            <div class="site">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10" data-aos="fade-up">
+                    <div>
+                        <span class="eyebrow">{{ $team->ministry_category ?: 'Group' }}</span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-ink-900 tracking-tight mt-2">{{ $team->name }}</h2>
+                        @if($team->meeting_schedule)
+                            <p class="text-ink-500 mt-2"><i class="far fa-clock text-accent-600 mr-1.5"></i>{{ $team->meeting_schedule }}</p>
+                        @endif
+                    </div>
+                    <a href="{{ route('ministries.show', $team) }}" class="inline-flex items-center gap-2 font-bold text-brand-600 hover:text-accent-600 transition-colors shrink-0">
+                        About the group <i class="fas fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    @foreach($team->leaders as $leader)
+                        @include('partials.group-leader-card')
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endforeach
+@endif
+
 <!-- Minister Leaders Grid -->
+@if($ministers->count() || $teams->isEmpty())
 <section class="py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
     <div class="site">
         @if($ministers->count())
@@ -93,6 +131,7 @@
         @endif
     </div>
 </section>
+@endif
 
 <!-- Back to About -->
 <section class="py-8 bg-gray-50 border-t border-gray-200">

@@ -162,6 +162,23 @@
         </div>
     </div>
 </section>
+
+@if($ministry->leaders->count())
+<!-- Group Leaders -->
+<section class="py-16 md:py-20 bg-gray-50">
+    <div class="site">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <span class="eyebrow">Leadership</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-ink-900 tracking-tight mt-2">{{ $ministry->name }} Leaders</h2>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            @foreach($ministry->leaders as $leader)
+                @include('partials.group-leader-card')
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 @endsection
 
 @push('styles')

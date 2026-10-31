@@ -158,7 +158,8 @@
   .ratio-16x9 { aspect-ratio: 16/9; @apply bg-ink-100 overflow-hidden; }
   .ratio-4x3  { aspect-ratio: 4/3;  @apply bg-ink-100 overflow-hidden; }
   .ratio-1x1  { aspect-ratio: 1/1;  @apply bg-ink-100 overflow-hidden; }
-  .ratio-16x9 > img, .ratio-4x3 > img, .ratio-1x1 > img { @apply w-full h-full object-cover block; }
+  .ratio-3x4  { aspect-ratio: 3/4;  @apply bg-ink-100 overflow-hidden; }
+  .ratio-16x9 > img, .ratio-4x3 > img, .ratio-1x1 > img, .ratio-3x4 > img { @apply w-full h-full object-cover block; }
 
   /* ── Hero wash: navy over photography, with a faint crosshatch grain. ── */
   .hero-wash { @apply relative bg-hero-wash bg-cover bg-center bg-no-repeat; }

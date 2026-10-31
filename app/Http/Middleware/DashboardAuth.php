@@ -17,12 +17,12 @@ class DashboardAuth
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect(route('dashboard.login'))->with('error', 'Please log in first.');
+            return redirect(route('login'))->with('error', 'Please log in first.');
         }
 
         if (!Auth::user()->isActive()) {
             Auth::logout();
-            return redirect(route('dashboard.login'))->with('error', 'Your account is inactive.');
+            return redirect(route('login'))->with('error', 'Your account is inactive.');
         }
 
         return $next($request);

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppUser;
 use App\Models\BlogPost;
 use App\Models\ContactSubmission;
+use App\Models\Devotional;
 use App\Models\Event;
+use App\Models\GroupLeader;
 use App\Models\Leadership;
 use App\Models\MediaGallery;
 use App\Models\Ministry;
@@ -32,9 +35,18 @@ class DashboardController extends Controller
             'prayer_requests' => PrayerRequest::where('is_answered', false)->count(),
             'contact_messages' => ContactSubmission::where('status', 'new')->count(),
             'active_users' => \App\Models\User::where('is_active', true)->count(),
+            'group_leaders' => GroupLeader::active()->count(),
+            'unnamed_group_leaders' => GroupLeader::where('active', false)->count(),
+            'upcoming_events' => Event::upcoming()->count(),
+            'app_users' => AppUser::count(),
         ];
 
-        return view('dashboard.index', compact('stats'));
+        $upcomingEvents = Event::upcoming()->orderBy('start_date')->take(5)->get();
+        $recentMessages = ContactSubmission::latest()->take(4)->get();
+        $recentPrayers = PrayerRequest::unanswered()->latest()->take(4)->get();
+        $todaysDevotional = Devotional::whereDate('publish_date', today())->first();
+
+        return view('dashboard.index', compact('stats', 'upcomingEvents', 'recentMessages', 'recentPrayers', 'todaysDevotional'));
     }
 
     /**

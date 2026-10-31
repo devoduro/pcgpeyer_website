@@ -10,6 +10,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GroupLeadershipController;
 use App\Http\Controllers\LegalController;
+use App\Http\Controllers\Auth\AuthController;
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -62,6 +63,12 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 // News Update
 Route::get('/news-update', [BlogController::class, 'index'])->name('news-update');
 Route::get('/news-update/{slug}', [BlogController::class, 'show'])->name('news-update.show');
+
+// Dashboard sign-in (formerly /dashboard/login, which now redirects here)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+});
 
 // Dashboard Routes
 Route::prefix('dashboard')->name('dashboard.')->group(function () {

@@ -80,8 +80,9 @@ class MinistryController extends Controller
         // Get single ministry by slug
         $ministry = Ministry::where('slug', $slug)
             ->where('active', true)
+            ->with(['leaders' => fn ($q) => $q->active()])
             ->firstOrFail();
-            
+
         return view('ministries.show', compact('ministry'));
     }
 }

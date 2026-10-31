@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ministry extends Model
 {
@@ -43,15 +44,21 @@ class Ministry extends Model
         return $query->where('active', true);
     }
 
-    /**
-     * Get the route key for model binding
-     */
+    /** The group's executives, in the order they are listed on the site. */
+    public function leaders(): HasMany
+    {
+        return $this->hasMany(GroupLeader::class)->ordered();
+    }
+
     /** Public URL of the ministry photo, or a congregation photo when none has been uploaded. */
     public function getImageUrlAttribute(): string
     {
         return $this->image ? asset('storage/' . $this->image) : asset('images/bantama/covenant_service.jpg');
     }
 
+    /**
+     * Get the route key for model binding
+     */
     public function getRouteKeyName()
     {
         return 'slug';

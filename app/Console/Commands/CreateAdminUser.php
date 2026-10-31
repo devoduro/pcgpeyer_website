@@ -85,7 +85,7 @@ class CreateAdminUser extends Command
                 ]
             );
             $this->newLine();
-            $this->info('The user can now login at: ' . url('/dashboard/login'));
+            $this->info('The user can now login at: ' . route('login'));
 
             return 0;
         } catch (\Exception $e) {

@@ -9,6 +9,13 @@
     <link rel="icon" type="image/png" href="{{ asset('images/loader.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/loader.png') }}">
 
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -44,7 +51,7 @@
                 'md:w-64': !sidebarCollapsed,
                 'sidebar-collapsed': sidebarCollapsed,
             }"
-            class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 shadow-lg transform transition-all duration-300 ease-in-out md:translate-x-0 md:static md:shadow-none md:min-h-screen flex-shrink-0 overflow-y-auto"
+            class="fixed inset-y-0 left-0 z-50 w-64 bg-primary-900 shadow-lg transform transition-all duration-300 ease-in-out md:translate-x-0 md:sticky md:top-0 md:h-screen md:shadow-none flex-shrink-0 overflow-y-auto overflow-x-hidden"
         >
             <!-- Collapse toggle (desktop only) -->
             <button
@@ -56,72 +63,73 @@
             </button>
 
             <!-- Logo -->
-            <div class="flex items-center justify-center h-16 px-4 border-b border-gray-200 overflow-hidden">
-                <h1 class="text-xl font-bold gradient-text whitespace-nowrap flex items-center gap-2" x-show="!sidebarCollapsed" x-cloak>
-                    <i class="fas fa-church text-primary-600"></i> PCG Admin
-                </h1>
-                <div class="w-9 h-9 rounded-lg gradient-bg flex items-center justify-center text-white font-bold text-sm flex-shrink-0" x-show="sidebarCollapsed" x-cloak>PCG</div>
-            </div>
+            <a href="{{ route('dashboard.index') }}" class="flex items-center gap-3 h-16 px-5 border-b border-white/10 overflow-hidden" :class="sidebarCollapsed ? 'md:justify-center md:px-2' : ''">
+                <img src="{{ asset('images/pcg_logo.png') }}" alt="PCG crest" class="h-9 w-auto shrink-0">
+                <span class="leading-tight whitespace-nowrap" x-show="!sidebarCollapsed" x-cloak>
+                    <span class="block font-display text-[15px] font-extrabold text-white">Peyer Memorial</span>
+                    <span class="block text-[11px] font-semibold uppercase tracking-[.12em] text-red-300">Dashboard</span>
+                </span>
+            </a>
 
             <!-- Navigation -->
-            <nav class="p-4 space-y-1">
-                <a href="{{ route('dashboard.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.index') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+            <nav id="dash-nav" class="p-4 space-y-1">
+                <a href="{{ route('dashboard.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.index') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-chart-line w-5"></i>
                     <span>Dashboard</span>
                 </a>
 
                 @if(auth()->user()->isEditor())
-                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-gray-400" x-show="!sidebarCollapsed" x-cloak>Content</p>
+                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-white/40" x-show="!sidebarCollapsed" x-cloak>Content</p>
 
-                <a href="{{ route('dashboard.blog.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.blog.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.blog.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.blog.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-newspaper w-5"></i>
                     <span>News / Blog</span>
                 </a>
 
-                <a href="{{ route('dashboard.sermons.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.sermons.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.sermons.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.sermons.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-bible w-5"></i>
                     <span>Sermons</span>
                 </a>
 
-                <a href="{{ route('dashboard.ministries.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.ministries.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.ministries.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.ministries.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-hands-praying w-5"></i>
                     <span>Ministries</span>
                 </a>
 
-                <a href="{{ route('dashboard.events.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.events.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.events.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.events.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-calendar-days w-5"></i>
                     <span>Events</span>
                 </a>
 
-                <a href="{{ route('dashboard.devotionals.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.devotionals.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.devotionals.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.devotionals.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-book-bible w-5"></i>
                     <span>Devotionals</span>
                 </a>
 
-                <a href="{{ route('dashboard.hymns.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.hymns.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.hymns.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.hymns.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-music w-5"></i>
                     <span>Hymns</span>
                 </a>
 
-                <a href="{{ route('dashboard.announcements.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.announcements.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.announcements.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.announcements.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-bullhorn w-5"></i>
                     <span>Announcements</span>
                 </a>
 
-                <a href="{{ route('dashboard.galleries.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.galleries.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.galleries.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.galleries.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-images w-5"></i>
                     <span>Gallery</span>
                 </a>
 
-                <a href="{{ route('dashboard.videos.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.videos.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.videos.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.videos.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-video w-5"></i>
                     <span>Videos</span>
                 </a>
 
-                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-gray-400" x-show="!sidebarCollapsed" x-cloak>Leadership</p>
+                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-white/40" x-show="!sidebarCollapsed" x-cloak>Leadership</p>
 
-                <div x-data="{ open: {{ request()->routeIs('dashboard.leadership.*') || request()->routeIs('dashboard.group-leadership.*') ? 'true' : 'false' }} }">
-                    <button @click="open = !open" class="w-full flex items-center justify-between gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.leadership.*') || request()->routeIs('dashboard.group-leadership.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <div x-data="{ open: {{ request()->routeIs('dashboard.leadership.*') || request()->routeIs('dashboard.group-leaders.*') ? 'true' : 'false' }} }">
+                    <button @click="open = !open" class="w-full flex items-center justify-between gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.leadership.*') || request()->routeIs('dashboard.group-leaders.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                         <span class="flex items-center gap-3">
                             <i class="fas fa-user-tie w-5"></i>
                             <span>Leadership</span>
@@ -129,66 +137,66 @@
                         <i class="fas fa-chevron-down text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                     </button>
                     <div x-show="open" x-transition class="pl-8 space-y-1">
-                        <a href="{{ route('dashboard.leadership.index') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.leadership.index') || request()->routeIs('dashboard.leadership.create') || request()->routeIs('dashboard.leadership.edit') ? 'text-primary-600 font-medium' : '' }}">
+                        <a href="{{ route('dashboard.leadership.index') }}" class="block px-4 py-2 text-sm text-white/70 hover:text-white rounded-lg {{ request()->routeIs('dashboard.leadership.index') || request()->routeIs('dashboard.leadership.create') || request()->routeIs('dashboard.leadership.edit') ? 'text-white font-semibold' : '' }}">
                             Leadership Members
                         </a>
-                        <a href="{{ route('dashboard.group-leadership.index') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.group-leadership.*') ? 'text-primary-600 font-medium' : '' }}">
+                        <a href="{{ route('dashboard.group-leaders.index') }}" class="block px-4 py-2 text-sm text-white/70 hover:text-white rounded-lg {{ request()->routeIs('dashboard.group-leaders.*') ? 'text-white font-semibold' : '' }}">
                             Group Leaders
                         </a>
-                        <a href="{{ route('dashboard.leadership.manage-years') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.leadership.manage-years') ? 'text-primary-600 font-medium' : '' }}">
+                        <a href="{{ route('dashboard.leadership.manage-years') }}" class="block px-4 py-2 text-sm text-white/70 hover:text-white rounded-lg {{ request()->routeIs('dashboard.leadership.manage-years') ? 'text-white font-semibold' : '' }}">
                             Manage Years
                         </a>
-                        <a href="{{ route('dashboard.leadership.manage-titles') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.leadership.manage-titles') ? 'text-primary-600 font-medium' : '' }}">
+                        <a href="{{ route('dashboard.leadership.manage-titles') }}" class="block px-4 py-2 text-sm text-white/70 hover:text-white rounded-lg {{ request()->routeIs('dashboard.leadership.manage-titles') ? 'text-white font-semibold' : '' }}">
                             Manage Titles
                         </a>
                     </div>
                 </div>
 
-                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-gray-400" x-show="!sidebarCollapsed" x-cloak>Communications</p>
+                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-white/40" x-show="!sidebarCollapsed" x-cloak>Communications</p>
 
-                <a href="{{ route('dashboard.prayer-requests.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.prayer-requests.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.prayer-requests.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.prayer-requests.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-hands w-5"></i>
                     <span>Prayer Requests</span>
                     @php $unansweredPrayers = \App\Models\PrayerRequest::unanswered()->count(); @endphp
                     @if($unansweredPrayers > 0)
-                        <span class="ml-auto bg-primary-600 text-white text-xs font-bold px-2 py-0.5 rounded-full" x-show="!sidebarCollapsed" x-cloak>{{ $unansweredPrayers }}</span>
+                        <span class="ml-auto bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full" x-show="!sidebarCollapsed" x-cloak>{{ $unansweredPrayers }}</span>
                     @endif
                 </a>
 
-                <a href="{{ route('dashboard.contact.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.contact.*') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.contact.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.contact.*') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-envelope w-5"></i>
                     <span>Contact Submissions</span>
                     @php $newContacts = \App\Models\ContactSubmission::unread()->count(); @endphp
                     @if($newContacts > 0)
-                        <span class="ml-auto bg-primary-600 text-white text-xs font-bold px-2 py-0.5 rounded-full" x-show="!sidebarCollapsed" x-cloak>{{ $newContacts }}</span>
+                        <span class="ml-auto bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full" x-show="!sidebarCollapsed" x-cloak>{{ $newContacts }}</span>
                     @endif
                 </a>
                 @endif
 
                 @if(auth()->user()->isAdmin())
-                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-gray-400" x-show="!sidebarCollapsed" x-cloak>Administration</p>
+                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-white/40" x-show="!sidebarCollapsed" x-cloak>Administration</p>
 
-                <a href="{{ route('dashboard.users.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.users.index') || request()->routeIs('dashboard.users.create') || request()->routeIs('dashboard.users.edit') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.users.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.users.index') || request()->routeIs('dashboard.users.create') || request()->routeIs('dashboard.users.edit') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-users-cog w-5"></i>
                     <span>Users</span>
                 </a>
 
-                <a href="{{ route('dashboard.users.logs') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.users.logs') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.users.logs') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.users.logs') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-history w-5"></i>
                     <span>Activity Logs</span>
                 </a>
                 @endif
 
-                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-gray-400" x-show="!sidebarCollapsed" x-cloak>Account</p>
+                <p class="px-4 mt-6 mb-2 text-xs font-bold uppercase tracking-wider text-white/40" x-show="!sidebarCollapsed" x-cloak>Account</p>
 
-                <a href="{{ route('dashboard.profile') }}" class="flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 rounded-lg {{ request()->routeIs('dashboard.profile') ? 'bg-primary-50 text-primary-600 font-medium' : '' }}">
+                <a href="{{ route('dashboard.profile') }}" class="flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-white/10 hover:text-white rounded-lg {{ request()->routeIs('dashboard.profile') ? 'bg-white/10 text-white font-semibold' : '' }}">
                     <i class="fas fa-user w-5"></i>
                     <span>Profile</span>
                 </a>
 
                 <form method="POST" action="{{ route('dashboard.logout') }}">
                     @csrf
-                    <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 transition-all duration-200 hover:bg-red-50 hover:text-red-600 rounded-lg">
+                    <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-white/70 transition-all duration-200 hover:bg-red-600/20 hover:text-red-200 rounded-lg">
                         <i class="fas fa-sign-out-alt w-5"></i>
                         <span>Logout</span>
                     </button>
@@ -214,22 +222,55 @@
                         @yield('page-title', 'Dashboard')
                     </div>
 
-                    <!-- Search -->
-                    <div class="hidden md:flex md:flex-1 md:max-w-md">
+                    <!-- Jump to a dashboard section (searches the sidebar links) -->
+                    <div class="hidden md:flex md:flex-1 md:max-w-md"
+                         x-data="{
+                            q: '', i: 0, open: false, pages: [],
+                            init() {
+                                this.pages = [...document.querySelectorAll('#dash-nav a[href]')]
+                                    .map(a => ({ label: a.textContent.trim().replace(/\s+\d+$/, ''), href: a.href }))
+                                    .filter((p, n, all) => p.label && all.findIndex(o => o.href === p.href) === n);
+                            },
+                            get matches() {
+                                const q = this.q.trim().toLowerCase();
+                                return q ? this.pages.filter(p => p.label.toLowerCase().includes(q)).slice(0, 8) : [];
+                            },
+                            go() { const m = this.matches[this.i]; if (m) window.location = m.href; }
+                         }"
+                         @keydown.window.ctrl.k.prevent="$refs.jump.focus()"
+                         @click.away="open = false">
                         <div class="relative w-full">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <i class="fas fa-search text-gray-400"></i>
                             </div>
                             <input
-                                type="text"
-                                class="w-full py-2 pl-10 pr-4 text-sm text-gray-700 bg-gray-100 border-0 rounded-lg focus:bg-white focus:ring-2 focus:ring-primary-500 focus:outline-none"
-                                placeholder="Search..."
+                                x-ref="jump" x-model="q" type="text" autocomplete="off"
+                                @focus="open = true" @input="open = true; i = 0"
+                                @keydown.arrow-down.prevent="i = Math.min(i + 1, matches.length - 1)"
+                                @keydown.arrow-up.prevent="i = Math.max(i - 1, 0)"
+                                @keydown.enter.prevent="go()" @keydown.escape="open = false; $el.blur()"
+                                class="w-full py-2 pl-10 pr-16 text-sm text-gray-700 bg-gray-100 border-0 rounded-lg focus:bg-white focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                                placeholder="Jump to… (sermons, events, users)"
                             >
+                            <kbd class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-gray-400 border border-gray-300 rounded px-1.5 py-0.5">Ctrl K</kbd>
+                            <div x-show="open && q" x-cloak x-transition.opacity class="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lift overflow-hidden z-40">
+                                <template x-for="(m, n) in matches" :key="m.href">
+                                    <a :href="m.href" @mouseenter="i = n" class="flex items-center justify-between px-4 py-2.5 text-sm" :class="n === i ? 'bg-primary-50 text-primary-600' : 'text-gray-700'">
+                                        <span x-text="m.label"></span>
+                                        <i class="fas fa-arrow-turn-down rotate-90 text-xs text-gray-400" x-show="n === i"></i>
+                                    </a>
+                                </template>
+                                <p x-show="!matches.length" class="px-4 py-3 text-sm text-gray-500">No section called “<span x-text="q"></span>”.</p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Right Navigation -->
                     <div class="flex items-center space-x-4">
+                        <a href="{{ route('home') }}" target="_blank" class="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-primary-600" title="Open the public website in a new tab">
+                            <i class="fas fa-arrow-up-right-from-square text-xs"></i> <span class="hidden lg:inline">View site</span>
+                        </a>
+
                         <!-- Notifications -->
                         @if(auth()->user()->isEditor())
                         <div x-data="{ open: false }" class="relative">
@@ -284,7 +325,10 @@
                                 <div class="w-8 h-8 overflow-hidden rounded-full gradient-bg flex items-center justify-center text-white font-bold text-sm">
                                     {{ substr(auth()->user()->name, 0, 1) }}
                                 </div>
-                                <span class="hidden md:block text-sm font-medium text-gray-700">{{ auth()->user()->name }}</span>
+                                <span class="hidden md:block text-left leading-tight">
+                                    <span class="block text-sm font-semibold text-gray-800">{{ auth()->user()->name }}</span>
+                                    <span class="block text-xs text-gray-500">{{ ucfirst(auth()->user()->role) }}</span>
+                                </span>
                                 <i class="hidden md:block fas fa-chevron-down text-xs text-gray-400"></i>
                             </button>
 
@@ -352,10 +396,12 @@
                 </div>
                 @endif
 
-                <!-- Page Header -->
-                <div class="mb-2">
-                    <h1 class="text-2xl font-bold text-gray-800">@yield('page-title', 'Dashboard')</h1>
+                <!-- Page Header (a page with its own heading sets hide-page-header) -->
+                @unless(View::hasSection('hide-page-header'))
+                <div class="mb-6">
+                    <h1 class="font-display text-2xl md:text-[28px] font-extrabold text-gray-900 tracking-tight">@yield('page-title', 'Dashboard')</h1>
                 </div>
+                @endunless
 
                 <!-- Content -->
                 @yield('content')
@@ -376,5 +422,6 @@
     </div>
 
     @yield('scripts')
+    @stack('scripts')
 </body>
 </html>
